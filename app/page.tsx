@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { MediaImage } from "@/components/media";
 import { getFeaturedPosts, getFeaturedProjects } from "@/lib/content";
 import { heroSliderImages } from "@/lib/hero-slider-images";
 
@@ -8,8 +8,9 @@ export default async function HomePage() {
     getFeaturedPosts(),
     getFeaturedProjects()
   ]);
-  const firstRow = heroSliderImages.slice(0, 6);
-  const secondRow = heroSliderImages.slice(5);
+  const midpoint = Math.ceil(heroSliderImages.length / 2);
+  const firstRow = heroSliderImages.slice(0, midpoint);
+  const secondRow = heroSliderImages.slice(midpoint);
 
   return (
     <>
@@ -40,10 +41,8 @@ export default async function HomePage() {
               <div className="hero-marquee__track">
                 {[...firstRow, ...firstRow].map((src, index) => (
                   <figure className="hero-shot" key={`row-one-${index}`}>
-                    <Image
-                      src={src}
-                      alt=""
-                      fill
+                    <MediaImage
+                      asset={{ url: src, alt: "" }}
                       sizes="(max-width: 900px) 180px, 240px"
                       priority={index < 2}
                     />
@@ -55,10 +54,8 @@ export default async function HomePage() {
               <div className="hero-marquee__track">
                 {[...secondRow, ...secondRow].map((src, index) => (
                   <figure className="hero-shot hero-shot--small" key={`row-two-${index}`}>
-                    <Image
-                      src={src}
-                      alt=""
-                      fill
+                    <MediaImage
+                      asset={{ url: src, alt: "" }}
                       sizes="(max-width: 900px) 150px, 198px"
                     />
                   </figure>
@@ -84,6 +81,20 @@ export default async function HomePage() {
             {posts.length > 0 ? (
               posts.map((post) => (
                 <article key={post.slug} className="entry-card">
+                  {post.coverImage ? (
+                    <figure className="entry-card__media">
+                      <MediaImage
+                        asset={post.coverImage}
+                        sizes="(max-width: 900px) 100vw, 50vw"
+                        transformation={[
+                          {
+                            width: 760,
+                            quality: 82
+                          }
+                        ]}
+                      />
+                    </figure>
+                  ) : null}
                   <p className="entry-card__meta">
                     {post.publishedAt} · {post.readingTime}
                   </p>
@@ -121,6 +132,20 @@ export default async function HomePage() {
             {projects.length > 0 ? (
               projects.map((project) => (
                 <article key={project.slug} className="project-card">
+                  {project.coverImage ? (
+                    <figure className="project-card__media">
+                      <MediaImage
+                        asset={project.coverImage}
+                        sizes="(max-width: 900px) 100vw, 33vw"
+                        transformation={[
+                          {
+                            width: 720,
+                            quality: 82
+                          }
+                        ]}
+                      />
+                    </figure>
+                  ) : null}
                   <p className="project-card__status">{project.status}</p>
                   <h3>
                     <Link href={`/projects/${project.slug}`}>{project.title}</Link>

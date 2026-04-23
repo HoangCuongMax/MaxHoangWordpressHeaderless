@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MediaGallery, MediaImage, MediaVideo } from "@/components/media";
 import { getPostBySlug } from "@/lib/content";
 
 type BlogPostPageProps = {
@@ -54,6 +55,30 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <p>{post.readingTime}</p>
           </aside>
         </div>
+
+        {post.coverImage ? (
+          <figure className="article-cover">
+            <MediaImage
+              asset={post.coverImage}
+              priority
+              sizes="(max-width: 900px) 100vw, 1140px"
+              transformation={[
+                {
+                  width: 1400,
+                  quality: 84
+                }
+              ]}
+            />
+          </figure>
+        ) : null}
+
+        {post.videoUrl ? (
+          <div className="article-video">
+            <MediaVideo src={post.videoUrl} />
+          </div>
+        ) : null}
+
+        <MediaGallery items={post.gallery} title={post.title} />
 
         <article
           className="article__inner prose"

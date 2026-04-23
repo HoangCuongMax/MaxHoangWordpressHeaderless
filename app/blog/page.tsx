@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MediaImage } from "@/components/media";
 import { getPosts } from "@/lib/content";
 
 export const metadata = {
@@ -22,7 +23,26 @@ export default async function BlogIndexPage() {
 
         {featuredPost ? (
           <>
-            <article className="feature-panel">
+            <article
+              className={`feature-panel ${
+                featuredPost.coverImage ? "feature-panel--with-media" : ""
+              }`}
+            >
+              {featuredPost.coverImage ? (
+                <figure className="feature-panel__media">
+                  <MediaImage
+                    asset={featuredPost.coverImage}
+                    priority
+                    sizes="(max-width: 900px) 100vw, 28vw"
+                    transformation={[
+                      {
+                        width: 900,
+                        quality: 84
+                      }
+                    ]}
+                  />
+                </figure>
+              ) : null}
               <div className="feature-panel__meta">
                 <p className="archive-item__meta">
                   {featuredPost.publishedAt} · {featuredPost.readingTime}
@@ -43,6 +63,20 @@ export default async function BlogIndexPage() {
             <div className="archive-list archive-list--cards">
               {archivePosts.map((post) => (
                 <article key={post.slug} className="archive-card">
+                  {post.coverImage ? (
+                    <figure className="archive-card__media">
+                      <MediaImage
+                        asset={post.coverImage}
+                        sizes="(max-width: 900px) 100vw, 50vw"
+                        transformation={[
+                          {
+                            width: 780,
+                            quality: 82
+                          }
+                        ]}
+                      />
+                    </figure>
+                  ) : null}
                   <p className="archive-item__meta">
                     {post.publishedAt} · {post.readingTime}
                   </p>

@@ -491,6 +491,52 @@ main {
   box-shadow: var(--shadow);
 }
 
+.feature-panel--with-media {
+  grid-template-columns: minmax(220px, 0.7fr) 170px minmax(0, 1fr);
+}
+
+.feature-panel__media,
+.archive-card__media,
+.entry-card__media,
+.project-card__media,
+.article-cover,
+.media-gallery__item {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+}
+
+.feature-panel__media,
+.archive-card__media,
+.entry-card__media,
+.project-card__media {
+  aspect-ratio: 16 / 10;
+}
+
+.feature-panel__media {
+  min-height: 100%;
+}
+
+.archive-card__media,
+.project-card__media {
+  margin-bottom: 1.1rem;
+}
+
+.entry-card__media {
+  margin-bottom: 1rem;
+}
+
+.feature-panel__media img,
+.archive-card__media img,
+.entry-card__media img,
+.project-card__media img,
+.article-cover img,
+.media-gallery__item img {
+  object-fit: cover;
+}
+
 .feature-panel__meta {
   display: grid;
   align-content: start;
@@ -919,6 +965,47 @@ main {
   border-bottom: 1px solid var(--line);
 }
 
+.article-cover,
+.article-video,
+.media-section {
+  margin-top: 2rem;
+}
+
+.article-cover {
+  aspect-ratio: 16 / 9;
+}
+
+.article-video video {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  border-radius: var(--radius);
+  background: #000000;
+}
+
+.media-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.media-gallery__item {
+  aspect-ratio: 4 / 3;
+}
+
+.media-gallery__item figcaption {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: var(--radius);
+  background: rgba(17, 24, 21, 0.72);
+  color: #ffffff;
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
 .article__inner {
   max-width: 820px;
 }
@@ -1027,6 +1114,7 @@ main {
   .section-heading,
   .hero__inner,
   .feature-panel,
+  .feature-panel--with-media,
   .article-hero,
   .archive-list--cards,
   .projects-grid,
@@ -1038,6 +1126,10 @@ main {
   .signature-builder,
   .signature-preview {
     grid-template-columns: 1fr;
+  }
+
+  .feature-panel__media {
+    min-height: auto;
   }
 
   .hero {
@@ -1138,6 +1230,10 @@ main {
   .archive-card h2,
   .project-card--grid h2 {
     font-size: 1.55rem;
+  }
+
+  .media-gallery {
+    grid-template-columns: 1fr;
   }
 
   .hero-shot {

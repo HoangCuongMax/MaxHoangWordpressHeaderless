@@ -1,13 +1,9 @@
 export const heroSliderImages = [
-  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=900&q=80"
+  "https://ik.imagekit.io/maxhoang/Hero%20Slider/Screenshot%202025-12-07%20at%2022.08.07.png?updatedAt=1776938413241",
+  "https://ik.imagekit.io/maxhoang/Hero%20Slider/IMG_5029%20copy.jpg?updatedAt=1776938413167",
+  "https://ik.imagekit.io/maxhoang/Hero%20Slider/IMG_5029%20copy.jpg?updatedAt=1776938413167",
+  "https://ik.imagekit.io/maxhoang/Hero%20Slider/55a06f67b488e41623b63cd11e5eaccf.JPEG?updatedAt=1776938411602",
+  "https://ik.imagekit.io/maxhoang/Hero%20Slider/IMG_5476.jpg?updatedAt=1776938411485",
+  "https://ik.imagekit.io/maxhoang/Hero%20Slider/IMG_5476.jpg?updatedAt=1776938411485",
+  "https://ik.imagekit.io/maxhoang/Hero%20Slider/IMG_5372%20copy.jpg?updatedAt=1776938251265"
 ];

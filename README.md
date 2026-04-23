@@ -16,6 +16,7 @@ Custom personal website built with Next.js and Notion-backed content for blog po
 - Next.js App Router
 - TypeScript
 - Notion API data sources
+- ImageKit for website media delivery
 
 ## Run locally
 
@@ -37,6 +38,7 @@ cp .env.example .env.local
 NOTION_API_KEY=secret_your_notion_integration_token
 NOTION_BLOG_DATA_SOURCE_ID=your_blog_data_source_id
 NOTION_PROJECTS_DATA_SOURCE_ID=your_projects_data_source_id
+NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_imagekit_id
 ```
 
 Current Notion data sources:
@@ -66,6 +68,10 @@ Create two Notion data sources: one for blog posts and one for projects. The cod
 - `Published`: date or checkbox
 - `Status` or `Publish Status`: select/status, where draft/private/hidden values are not shown
 - `Featured`: checkbox for homepage priority
+- `Cover Image`: ImageKit URL or path for the cover image
+- `Gallery`: one ImageKit URL or path per line
+- `Video URL`: ImageKit video URL or path
+- `Media Alt Text`: accessible text for the cover image and gallery
 
 ### Projects
 
@@ -76,8 +82,33 @@ Create two Notion data sources: one for blog posts and one for projects. The cod
 - `Tags`, `Stack`, or `Technologies`: multi-select or comma-separated text
 - `Published`: date or checkbox
 - `Featured`: checkbox for homepage priority
+- `Cover Image`: ImageKit URL or path for the cover image
+- `Gallery`: one ImageKit URL or path per line
+- `Video URL`: ImageKit video URL or path
+- `Media Alt Text`: accessible text for the cover image and gallery
 
 Page body blocks are rendered into article HTML for detail pages. Supported blocks include paragraphs, headings, lists, quotes, callouts, code blocks, dividers, images, embeds, bookmarks, and link previews.
+
+## ImageKit media workflow
+
+Use ImageKit as the public media storage layer and Notion as the editor.
+
+1. Upload photos and videos in the ImageKit media library.
+2. Copy either the full ImageKit URL or the path under your URL endpoint.
+3. Paste the value into `Cover Image`, `Gallery`, or `Video URL` in Notion.
+4. The website renders the media with ImageKit transformations and responsive loading.
+
+If you store relative paths such as `/blog/my-cover.jpg`, set
+`NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT` in `.env.local` and in your deployment
+environment. Full ImageKit URLs work without the endpoint, but the endpoint keeps
+Notion fields shorter.
+
+This project is configured for the ImageKit endpoint
+`https://ik.imagekit.io/maxhoang`.
+
+The route `/api/imagekit-auth` is ready for a future upload UI. It requires
+`IMAGEKIT_PUBLIC_KEY` and `IMAGEKIT_PRIVATE_KEY`, and those keys should only be
+stored in local or deployment secrets.
 
 ## Hosting
 

@@ -1,8 +1,9 @@
-import { Post, Project } from "@/lib/types";
+import { MediaAsset, Post, Project } from "@/lib/types";
 
 const NOTION_API_BASE = "https://api.notion.com/v1";
 const DEFAULT_NOTION_VERSION = "2026-03-11";
 const DEFAULT_REVALIDATE_SECONDS = 300;
+const DEFAULT_IMAGEKIT_URL_ENDPOINT = "https://ik.imagekit.io/maxhoang";
 
 type ContentSource = "blog" | "projects";
 
@@ -31,6 +32,7 @@ type NotionPage = {
   object?: string;
   created_time?: string;
   last_edited_time?: string;
+  cover?: unknown;
   properties?: Record<string, NotionProperty>;
 };
 
@@ -99,6 +101,13 @@ function getRevalidateSeconds() {
   return Number.isFinite(value) && value > 0
     ? value
     : DEFAULT_REVALIDATE_SECONDS;
+}
+
+function getImageKitUrlEndpoint() {
+  return (
+    process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT?.trim() ||
+    DEFAULT_IMAGEKIT_URL_ENDPOINT
+  ).replace(/\/$/, "");
 }
 
 function getDataSourceConfig(source: ContentSource): DataSourceConfig {
@@ -308,6 +317,50 @@ function isSafeUrl(value: string) {
   }
 }
 
+function getRenderableMediaUrl(value: string, transformation?: string) {
+  const urlEndpoint = getImageKitUrlEndpoint();
+  const trimmedValue = value.trim();
+  const transform = transformation?.trim();
+  let mediaUrl = trimmedValue;
+
+  if (!mediaUrl) {
+    return undefined;
+  }
+
+  if (!isSafeUrl(mediaUrl)) {
+    return undefined;
+  }
+
+  if (mediaUrl.startsWith("/") && urlEndpoint) {
+    mediaUrl = `${urlEndpoint}${mediaUrl}`;
+  }
+
+  if (!isSafeUrl(mediaUrl)) {
+    return undefined;
+  }
+
+  const shouldTransform =
+    Boolean(transform) &&
+    (mediaUrl.includes("ik.imagekit.io") ||
+      Boolean(urlEndpoint && mediaUrl.startsWith(urlEndpoint)));
+
+  if (!shouldTransform) {
+    return mediaUrl;
+  }
+
+  try {
+    const url = new URL(mediaUrl);
+
+    if (transform && !url.searchParams.has("tr")) {
+      url.searchParams.set("tr", transform);
+    }
+
+    return url.toString();
+  } catch {
+    return mediaUrl;
+  }
+}
+
 function richTextPlain(richText: NotionRichText[]) {
   return richText
     .map((part) => part.plain_text ?? part.text?.content ?? "")
@@ -361,6 +414,45 @@ function getFileUrl(value: unknown) {
   return undefined;
 }
 
+function splitMediaUrls(value: string | undefined) {
+  return value
+    ? value
+        .split(/\r?\n|;\s*/)
+        .map((item) => item.trim())
+        .filter(Boolean)
+    : [];
+}
+
+function propertyMediaUrls(property: NotionProperty | undefined) {
+  if (!property?.type) {
+    return [];
+  }
+
+  if (property.type === "files") {
+    return asArray<unknown>(property.files)
+      .map(getFileUrl)
+      .filter((url): url is string => Boolean(url));
+  }
+
+  return splitMediaUrls(propertyText(property));
+}
+
+function toMediaAsset(
+  url: string | undefined,
+  alt: string,
+  caption?: string
+): MediaAsset | undefined {
+  if (!url || !getRenderableMediaUrl(url)) {
+    return undefined;
+  }
+
+  return {
+    url,
+    alt,
+    ...(caption ? { caption } : {})
+  };
+}
+
 function renderListItem(block: RenderableBlock) {
   const body = richTextToHtml(getBlockRichText(block));
   const children = block.children?.length ? blocksToHtml(block.children) : "";
@@ -402,12 +494,17 @@ function renderBlock(block: RenderableBlock) {
       const caption = richTextToHtml(
         asArray<NotionRichText>(data?.caption)
       );
+      const imageUrl = src
+        ? getRenderableMediaUrl(src, "w-1200,q-82")
+        : undefined;
 
-      if (!src || !isSafeUrl(src)) {
+      if (!imageUrl) {
         return "";
       }
 
-      return `<figure><img src="${escapeAttribute(src)}" alt="${escapeAttribute(
+      return `<figure><img src="${escapeAttribute(
+        imageUrl
+      )}" alt="${escapeAttribute(
         richTextPlain(asArray<NotionRichText>(data?.caption))
       )}" />${caption ? `<figcaption>${caption}</figcaption>` : ""}</figure>`;
     }
@@ -599,6 +696,63 @@ function getExcerpt(page: NotionPage, contentHtml: string) {
   );
 }
 
+function getMediaAltText(page: NotionPage, title: string) {
+  return (
+    propertyText(
+      getPropertyByName(page.properties, [
+        "Media Alt Text",
+        "Alt Text",
+        "Image Alt Text"
+      ])
+    ) ?? `${title} media`
+  );
+}
+
+function getCoverImage(page: NotionPage, title: string) {
+  const alt = getMediaAltText(page, title);
+  const coverProperty = getPropertyByName(page.properties, [
+    "Cover Image",
+    "Cover Image URL",
+    "Hero Image",
+    "Hero Image URL",
+    "Image",
+    "Image URL",
+    "Thumbnail",
+    "Thumbnail URL"
+  ]);
+  const [propertyCover] = propertyMediaUrls(coverProperty);
+  const pageCover = getFileUrl(page.cover);
+
+  return toMediaAsset(propertyCover ?? pageCover, alt);
+}
+
+function getGallery(page: NotionPage, title: string) {
+  const alt = getMediaAltText(page, title);
+  const galleryProperty = getPropertyByName(page.properties, [
+    "Gallery",
+    "Gallery URLs",
+    "Media Gallery",
+    "Images",
+    "Image Gallery"
+  ]);
+
+  return propertyMediaUrls(galleryProperty)
+    .map((url, index) => toMediaAsset(url, `${alt} ${index + 1}`))
+    .filter((asset): asset is MediaAsset => Boolean(asset));
+}
+
+function getVideoUrl(page: NotionPage) {
+  const videoProperty = getPropertyByName(page.properties, [
+    "Video URL",
+    "Video",
+    "Demo Video",
+    "Media Video"
+  ]);
+  const [videoUrl] = propertyMediaUrls(videoProperty);
+
+  return videoUrl && getRenderableMediaUrl(videoUrl) ? videoUrl : undefined;
+}
+
 function getDateValue(page: NotionPage) {
   return (
     propertyDate(
@@ -676,6 +830,9 @@ async function mapPost(page: NotionPage): Promise<Sortable<Post>> {
     contentHtml,
     publishedAt: formatDate(sortDate),
     readingTime: getReadingTime(contentHtml),
+    coverImage: getCoverImage(page, title),
+    gallery: getGallery(page, title),
+    videoUrl: getVideoUrl(page),
     featured: propertyCheckbox(
       getPropertyByName(page.properties, ["Featured", "Homepage", "Pinned"])
     ),
@@ -710,6 +867,9 @@ async function mapProject(page: NotionPage): Promise<Sortable<Project>> {
       ])
     ),
     publishedAt: formatDate(sortDate),
+    coverImage: getCoverImage(page, title),
+    gallery: getGallery(page, title),
+    videoUrl: getVideoUrl(page),
     featured: propertyCheckbox(
       getPropertyByName(page.properties, ["Featured", "Homepage", "Pinned"])
     ),

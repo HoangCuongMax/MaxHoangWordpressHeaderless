@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MediaGallery, MediaImage, MediaVideo } from "@/components/media";
 import { getProjectBySlug } from "@/lib/content";
 
 type ProjectPageProps = {
@@ -63,6 +64,30 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             ) : null}
           </aside>
         </div>
+
+        {project.coverImage ? (
+          <figure className="article-cover">
+            <MediaImage
+              asset={project.coverImage}
+              priority
+              sizes="(max-width: 900px) 100vw, 1140px"
+              transformation={[
+                {
+                  width: 1400,
+                  quality: 84
+                }
+              ]}
+            />
+          </figure>
+        ) : null}
+
+        {project.videoUrl ? (
+          <div className="article-video">
+            <MediaVideo src={project.videoUrl} />
+          </div>
+        ) : null}
+
+        <MediaGallery items={project.gallery} title={project.title} />
 
         <article
           className="article__inner prose"
