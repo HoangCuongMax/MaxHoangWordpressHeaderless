@@ -11,17 +11,17 @@
     "wp:reset": "wp-now start --path ./wordpress/wp-content --port 8881 --skip-browser --blueprint ./wordpress/blueprint.json --reset"
   },
   "dependencies": {
-    "next": "15.3.1",
+    "next": "^15.3.6",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "@wp-now/wp-now": "0.1.74",
     "@types/node": "22.15.3",
     "@types/react": "19.1.2",
     "@types/react-dom": "19.1.2",
+    "@wp-now/wp-now": "0.1.74",
     "eslint": "9.24.0",
-    "eslint-config-next": "15.3.1",
+    "eslint-config-next": "^15.3.6",
     "typescript": "5.8.3"
   }
 }
