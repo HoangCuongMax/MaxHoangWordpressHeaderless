@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getFeaturedPosts, getFeaturedProjects } from "@/lib/content";
 import { heroSliderImages } from "@/lib/hero-slider-images";
 
@@ -39,7 +40,13 @@ export default async function HomePage() {
               <div className="hero-marquee__track">
                 {[...firstRow, ...firstRow].map((src, index) => (
                   <figure className="hero-shot" key={`row-one-${index}`}>
-                    <img src={src} alt="" loading="eager" />
+                    <Image
+                      src={src}
+                      alt=""
+                      fill
+                      sizes="(max-width: 900px) 180px, 240px"
+                      priority={index < 2}
+                    />
                   </figure>
                 ))}
               </div>
@@ -48,7 +55,12 @@ export default async function HomePage() {
               <div className="hero-marquee__track">
                 {[...secondRow, ...secondRow].map((src, index) => (
                   <figure className="hero-shot hero-shot--small" key={`row-two-${index}`}>
-                    <img src={src} alt="" loading="lazy" />
+                    <Image
+                      src={src}
+                      alt=""
+                      fill
+                      sizes="(max-width: 900px) 150px, 198px"
+                    />
                   </figure>
                 ))}
               </div>

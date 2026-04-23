@@ -34,7 +34,7 @@ export function SiteHeader() {
             rel="noreferrer"
           >
             <span className="button__badge">in</span>
-            <span>Connect on LinkedIn</span>
+            <span>LinkedIn</span>
           </a>
         </nav>
       </div>

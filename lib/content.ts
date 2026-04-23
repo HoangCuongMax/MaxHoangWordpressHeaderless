@@ -37,5 +37,11 @@ export async function getProjectBySlug(
 
 export async function getFeaturedProjects(): Promise<Project[]> {
   const projects = await getProjects();
-  return projects.slice(0, 3);
+  const featuredProjects = projects.filter(
+    (project) => project.featured ?? true
+  );
+  return (featuredProjects.length > 0 ? featuredProjects : projects).slice(
+    0,
+    3
+  );
 }
