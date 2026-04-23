@@ -1,4 +1,4 @@
-# MaxHoangWordpress
+# MaxHoangWordpressHeaderless
 
 Custom personal website built with Next.js and a headless WordPress backend.
 
