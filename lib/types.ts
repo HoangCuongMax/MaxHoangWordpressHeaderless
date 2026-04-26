@@ -4,6 +4,23 @@ export type MediaAsset = {
   caption?: string;
 };
 
+export type TableOfContentsItem = {
+  id: string;
+  text: string;
+  level: 2 | 3;
+};
+
+export type RelatedContentItem = {
+  slug: string;
+  href: string;
+  title: string;
+  summary: string;
+  kindLabel: string;
+  meta: string;
+  tags: string[];
+  coverImage?: MediaAsset;
+};
+
 export type Post = {
   slug: string;
   title: string;
@@ -11,6 +28,8 @@ export type Post = {
   contentHtml: string;
   publishedAt: string;
   readingTime: string;
+  tags: string[];
+  tableOfContents: TableOfContentsItem[];
   coverImage?: MediaAsset;
   gallery: MediaAsset[];
   videoUrl?: string;
@@ -25,6 +44,7 @@ export type Project = {
   status: string;
   tags: string[];
   publishedAt?: string;
+  tableOfContents: TableOfContentsItem[];
   coverImage?: MediaAsset;
   gallery: MediaAsset[];
   videoUrl?: string;

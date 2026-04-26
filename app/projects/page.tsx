@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MediaImage } from "@/components/media";
+import { MediaCover } from "@/components/media";
 import { getProjects } from "@/lib/content";
 
 export const metadata = {
@@ -23,26 +23,23 @@ export default async function ProjectsPage() {
 
         {leadProject ? (
           <>
-            <article
-              className={`feature-panel feature-panel--project ${
-                leadProject.coverImage ? "feature-panel--with-media" : ""
-              }`}
-            >
-              {leadProject.coverImage ? (
-                <figure className="feature-panel__media">
-                  <MediaImage
-                    asset={leadProject.coverImage}
-                    priority
-                    sizes="(max-width: 900px) 100vw, 28vw"
-                    transformation={[
-                      {
-                        width: 900,
-                        quality: 84
-                      }
-                    ]}
-                  />
-                </figure>
-              ) : null}
+            <article className="feature-panel feature-panel--project feature-panel--with-media">
+              <figure className="feature-panel__media">
+                <MediaCover
+                  asset={leadProject.coverImage}
+                  title={leadProject.title}
+                  label="Selected project"
+                  description={leadProject.summary}
+                  priority
+                  sizes="(max-width: 900px) 100vw, 28vw"
+                  transformation={[
+                    {
+                      width: 900,
+                      quality: 84
+                    }
+                  ]}
+                />
+              </figure>
               <div className="feature-panel__meta">
                 <p className="project-card__status">{leadProject.status}</p>
                 <span className="feature-panel__label">Selected project</span>
@@ -65,20 +62,22 @@ export default async function ProjectsPage() {
             <div className="projects-grid">
               {otherProjects.map((project) => (
                 <article key={project.slug} className="project-card project-card--grid">
-                  {project.coverImage ? (
-                    <figure className="project-card__media">
-                      <MediaImage
-                        asset={project.coverImage}
-                        sizes="(max-width: 900px) 100vw, 50vw"
-                        transformation={[
-                          {
-                            width: 780,
-                            quality: 82
-                          }
-                        ]}
-                      />
-                    </figure>
-                  ) : null}
+                  <figure className="project-card__media">
+                    <MediaCover
+                      asset={project.coverImage}
+                      title={project.title}
+                      label="Project"
+                      description={project.summary}
+                      compact
+                      sizes="(max-width: 900px) 100vw, 50vw"
+                      transformation={[
+                        {
+                          width: 780,
+                          quality: 82
+                        }
+                      ]}
+                    />
+                  </figure>
                   <p className="project-card__status">{project.status}</p>
                   <h2>
                     <Link href={`/projects/${project.slug}`}>{project.title}</Link>

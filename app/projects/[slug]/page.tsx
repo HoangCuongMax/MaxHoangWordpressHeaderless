@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MediaGallery, MediaImage, MediaVideo } from "@/components/media";
-import { getProjectBySlug } from "@/lib/content";
+import {
+  InlineRelatedCard,
+  RelatedContentSection,
+  TableOfContents
+} from "@/components/article-extras";
+import { MediaCover, MediaGallery, MediaVideo } from "@/components/media";
+import { splitArticleHtml } from "@/lib/article";
+import { getProjectBySlug, getRelatedProjects } from "@/lib/content";
 
 type ProjectPageProps = {
   params: Promise<{
@@ -36,6 +42,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
+  const [inlineRelatedProject, ...relatedProjects] = await getRelatedProjects(
+    project.slug,
+    4
+  );
+  const articleSections = splitArticleHtml(project.contentHtml);
+
   return (
     <section className="article article--editorial">
       <div className="container">
@@ -65,21 +77,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </aside>
         </div>
 
-        {project.coverImage ? (
-          <figure className="article-cover">
-            <MediaImage
-              asset={project.coverImage}
-              priority
-              sizes="(max-width: 900px) 100vw, 1140px"
-              transformation={[
-                {
-                  width: 1400,
-                  quality: 84
-                }
-              ]}
-            />
-          </figure>
-        ) : null}
+        <figure className="article-cover">
+          <MediaCover
+            asset={project.coverImage}
+            title={project.title}
+            label="Project"
+            description={project.summary}
+            priority
+            sizes="(max-width: 900px) 100vw, 1140px"
+            transformation={[
+              {
+                width: 1400,
+                quality: 84
+              }
+            ]}
+          />
+        </figure>
 
         {project.videoUrl ? (
           <div className="article-video">
@@ -89,9 +102,37 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         <MediaGallery items={project.gallery} title={project.title} />
 
-        <article
-          className="article__inner prose"
-          dangerouslySetInnerHTML={{ __html: project.contentHtml }}
+        <div
+          className={`article-body${
+            project.tableOfContents.length > 0 ? " article-body--with-toc" : ""
+          }`}
+        >
+          <div className="article-body__main">
+            <article
+              className="article__inner prose"
+              dangerouslySetInnerHTML={{ __html: articleSections.before }}
+            />
+
+            {inlineRelatedProject ? (
+              <InlineRelatedCard item={inlineRelatedProject} />
+            ) : null}
+
+            {articleSections.after ? (
+              <article
+                className="article__inner prose"
+                dangerouslySetInnerHTML={{ __html: articleSections.after }}
+              />
+            ) : null}
+          </div>
+
+          <aside className="article-support">
+            <TableOfContents items={project.tableOfContents} />
+          </aside>
+        </div>
+
+        <RelatedContentSection
+          title="Related projects"
+          items={relatedProjects}
         />
       </div>
     </section>

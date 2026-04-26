@@ -830,6 +830,16 @@ async function mapPost(page: NotionPage): Promise<Sortable<Post>> {
     contentHtml,
     publishedAt: formatDate(sortDate),
     readingTime: getReadingTime(contentHtml),
+    tags: propertyTags(
+      getPropertyByName(page.properties, [
+        "Tags",
+        "Categories",
+        "Category",
+        "Topics",
+        "Topic"
+      ])
+    ),
+    tableOfContents: [],
     coverImage: getCoverImage(page, title),
     gallery: getGallery(page, title),
     videoUrl: getVideoUrl(page),
@@ -867,6 +877,7 @@ async function mapProject(page: NotionPage): Promise<Sortable<Project>> {
       ])
     ),
     publishedAt: formatDate(sortDate),
+    tableOfContents: [],
     coverImage: getCoverImage(page, title),
     gallery: getGallery(page, title),
     videoUrl: getVideoUrl(page),

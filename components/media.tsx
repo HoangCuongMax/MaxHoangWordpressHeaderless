@@ -10,6 +10,18 @@ type MediaImageProps = {
   transformation?: Transformation[];
 };
 
+type MediaCoverProps = {
+  asset?: MediaAsset;
+  title: string;
+  label: string;
+  description?: string;
+  className?: string;
+  priority?: boolean;
+  sizes: string;
+  transformation?: Transformation[];
+  compact?: boolean;
+};
+
 type MediaVideoProps = {
   src: string;
   className?: string;
@@ -40,6 +52,34 @@ function canRenderMedia(value: string) {
   return isAbsoluteUrl(value) || Boolean(imageKitUrlEndpoint);
 }
 
+export function MediaPlaceholder({
+  title,
+  label,
+  description,
+  compact = false,
+  className
+}: {
+  title: string;
+  label: string;
+  description?: string;
+  compact?: boolean;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`media-placeholder${
+        compact ? " media-placeholder--compact" : ""
+      }${className ? ` ${className}` : ""}`}
+      role="img"
+      aria-label={`${label}: ${title}`}
+    >
+      <span className="media-placeholder__label">{label}</span>
+      <strong>{title}</strong>
+      {!compact && description ? <p>{description}</p> : null}
+    </div>
+  );
+}
+
 export function MediaImage({
   asset,
   className,
@@ -65,6 +105,44 @@ export function MediaImage({
       sizes={sizes}
       className={className}
       transformation={transformation}
+    />
+  );
+}
+
+export function MediaCover({
+  asset,
+  title,
+  label,
+  description,
+  className,
+  priority = false,
+  sizes,
+  transformation = [
+    {
+      quality: 82
+    }
+  ],
+  compact = false
+}: MediaCoverProps) {
+  if (asset) {
+    return (
+      <MediaImage
+        asset={asset}
+        className={className}
+        priority={priority}
+        sizes={sizes}
+        transformation={transformation}
+      />
+    );
+  }
+
+  return (
+    <MediaPlaceholder
+      title={title}
+      label={label}
+      description={description}
+      compact={compact}
+      className={className}
     />
   );
 }

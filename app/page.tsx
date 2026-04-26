@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MediaImage } from "@/components/media";
+import { MediaCover, MediaImage } from "@/components/media";
 import { getFeaturedPosts, getFeaturedProjects } from "@/lib/content";
 import { heroSliderImages } from "@/lib/hero-slider-images";
 
@@ -81,20 +81,22 @@ export default async function HomePage() {
             {posts.length > 0 ? (
               posts.map((post) => (
                 <article key={post.slug} className="entry-card">
-                  {post.coverImage ? (
-                    <figure className="entry-card__media">
-                      <MediaImage
-                        asset={post.coverImage}
-                        sizes="(max-width: 900px) 100vw, 50vw"
-                        transformation={[
-                          {
-                            width: 760,
-                            quality: 82
-                          }
-                        ]}
-                      />
-                    </figure>
-                  ) : null}
+                  <figure className="entry-card__media">
+                    <MediaCover
+                      asset={post.coverImage}
+                      title={post.title}
+                      label="Blog post"
+                      description={post.excerpt}
+                      compact
+                      sizes="(max-width: 900px) 100vw, 50vw"
+                      transformation={[
+                        {
+                          width: 760,
+                          quality: 82
+                        }
+                      ]}
+                    />
+                  </figure>
                   <p className="entry-card__meta">
                     {post.publishedAt} · {post.readingTime}
                   </p>
@@ -132,20 +134,22 @@ export default async function HomePage() {
             {projects.length > 0 ? (
               projects.map((project) => (
                 <article key={project.slug} className="project-card">
-                  {project.coverImage ? (
-                    <figure className="project-card__media">
-                      <MediaImage
-                        asset={project.coverImage}
-                        sizes="(max-width: 900px) 100vw, 33vw"
-                        transformation={[
-                          {
-                            width: 720,
-                            quality: 82
-                          }
-                        ]}
-                      />
-                    </figure>
-                  ) : null}
+                  <figure className="project-card__media">
+                    <MediaCover
+                      asset={project.coverImage}
+                      title={project.title}
+                      label="Project"
+                      description={project.summary}
+                      compact
+                      sizes="(max-width: 900px) 100vw, 33vw"
+                      transformation={[
+                        {
+                          width: 720,
+                          quality: 82
+                        }
+                      ]}
+                    />
+                  </figure>
                   <p className="project-card__status">{project.status}</p>
                   <h3>
                     <Link href={`/projects/${project.slug}`}>{project.title}</Link>

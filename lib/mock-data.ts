@@ -8,7 +8,9 @@ export const fallbackPosts: Post[] = [
       "Why a custom frontend matters when you want your writing and your work to share the same visual language.",
     publishedAt: "April 13, 2026",
     readingTime: "5 min read",
+    tags: ["Design", "Frontend", "Personal brand"],
     featured: true,
+    tableOfContents: [],
     gallery: [],
     contentHtml: `
       <p>A personal website should not feel like two unrelated products stitched together. The blog, the case studies, and the future experiments all need a shared surface.</p>
@@ -26,7 +28,9 @@ export const fallbackPosts: Post[] = [
       "A portfolio should show outcomes, constraints, and decisions instead of acting like a gallery of thumbnails.",
     publishedAt: "April 6, 2026",
     readingTime: "4 min read",
+    tags: ["Portfolio", "Content strategy", "Case studies"],
     featured: true,
+    tableOfContents: [],
     gallery: [],
     contentHtml: `
       <p>Projects deserve their own information architecture. They are not blog posts with different cover images.</p>
@@ -40,6 +44,8 @@ export const fallbackPosts: Post[] = [
       "Small, consistent publishing habits compound better than occasional polished announcements.",
     publishedAt: "March 28, 2026",
     readingTime: "3 min read",
+    tags: ["Writing", "Publishing", "Workflow"],
+    tableOfContents: [],
     gallery: [],
     contentHtml: `
       <p>Publishing in public does not need to mean publishing everything. It means making your work legible often enough that people can follow the arc.</p>
@@ -56,6 +62,7 @@ export const fallbackProjects: Project[] = [
     status: "In progress",
     tags: ["Next.js", "Notion API", "TypeScript"],
     featured: true,
+    tableOfContents: [],
     gallery: [],
     contentHtml: `
       <p>This project creates a deliberate home for writing and project documentation. Notion handles structured content, while Next.js handles rendering, routing, and visual direction.</p>
@@ -73,6 +80,7 @@ export const fallbackProjects: Project[] = [
     status: "Planned",
     tags: ["Design system", "Content modeling", "Portfolio"],
     featured: true,
+    tableOfContents: [],
     gallery: [],
     contentHtml: `
       <p>This is a content model and presentation system rather than a single artifact. The goal is to make future projects easy to publish without flattening them into the same shape.</p>
@@ -85,6 +93,7 @@ export const fallbackProjects: Project[] = [
       "An editorial pipeline for outlining, drafting, publishing, and surfacing articles from Notion into the custom site.",
     status: "Active",
     tags: ["Notion", "Editorial", "Publishing"],
+    tableOfContents: [],
     gallery: [],
     contentHtml: `
       <p>The writing workflow depends on using Notion for what it is good at: planning, structured fields, and lightweight collaboration. The frontend simply consumes the content once it is ready.</p>
