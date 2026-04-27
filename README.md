@@ -10,6 +10,7 @@ Custom personal website built with Next.js and Notion-backed content for blog po
 - projects index and project detail pages
 - tools section with interactive utilities
 - Notion API integration for blog posts, projects, and awards
+- contact page and monthly mailing list popup
 
 ## Stack
 
@@ -40,6 +41,14 @@ NOTION_BLOG_DATA_SOURCE_ID=your_blog_data_source_id
 NOTION_PROJECTS_DATA_SOURCE_ID=your_projects_data_source_id
 NOTION_AWARDS_DATA_SOURCE_ID=your_awards_data_source_id
 NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_imagekit_id
+CONTACT_TO_EMAIL=hoangngoccuong1414@gmail.com
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_smtp_username
+SMTP_PASSWORD=your_smtp_password
+SMTP_FROM_NAME=Max Hoang Website
+SMTP_FROM_EMAIL=your_verified_from_email
 ```
 
 Current Notion data sources:
@@ -127,6 +136,13 @@ This project is configured for the ImageKit endpoint
 The route `/api/imagekit-auth` is ready for a future upload UI. It requires
 `IMAGEKIT_PUBLIC_KEY` and `IMAGEKIT_PRIVATE_KEY`, and those keys should only be
 stored in local or deployment secrets.
+
+## Contact and newsletter
+
+- `/contact` posts to `/api/contact`
+- the corner mailing list popup posts to `/api/subscribe`
+- both routes send notifications to `CONTACT_TO_EMAIL`
+- for Gmail SMTP, use an app password for `SMTP_PASSWORD`
 
 ## Hosting
 

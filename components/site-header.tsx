@@ -4,7 +4,8 @@ const links = [
   { href: "/services", label: "Services" },
   { href: "/tools", label: "Tools" },
   { href: "/blog", label: "Blog" },
-  { href: "/projects", label: "Projects" }
+  { href: "/projects", label: "Projects" },
+  { href: "/contact", label: "Contact" }
 ];
 
 export function SiteHeader() {

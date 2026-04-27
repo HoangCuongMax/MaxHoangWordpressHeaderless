@@ -3,6 +3,7 @@ import { Space_Grotesk, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { NewsletterPopup } from "@/components/newsletter-popup";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -45,6 +46,7 @@ export default function RootLayout({
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />
+          <NewsletterPopup />
         </div>
       </body>
     </html>
