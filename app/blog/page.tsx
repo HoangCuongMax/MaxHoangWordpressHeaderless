@@ -1,104 +1,89 @@
 import Link from "next/link";
-import { MediaCover } from "@/components/media";
 import { getPosts } from "@/lib/content";
 
 export const metadata = {
   title: "Blog"
 };
 
-export default async function BlogIndexPage() {
+type BlogPageProps = {
+  searchParams?: Promise<{
+    tag?: string;
+  }>;
+};
+
+export default async function BlogIndexPage({ searchParams }: BlogPageProps) {
   const posts = await getPosts();
-  const featuredPost = posts[0];
-  const archivePosts = posts.slice(1);
+  const params = (await searchParams) ?? {};
+  const activeTag = params.tag?.toLowerCase();
+  const tags = Array.from(
+    new Set(posts.flatMap((post) => post.tags).map((tag) => tag.trim()).filter(Boolean))
+  ).sort((first, second) => first.localeCompare(second));
+
+  const filteredPosts = activeTag
+    ? posts.filter((post) =>
+        post.tags.some((tag) => tag.toLowerCase() === activeTag)
+      )
+    : posts;
 
   return (
-    <section className="section page-intro page-intro--blog">
-      <div className="container editorial-shell">
-        <p className="eyebrow">Blog</p>
-        <h1>Writing on product, systems, and the work behind the work.</h1>
-        <p className="page-intro__lede">
-          Posts are intended to be published from Notion and rendered here in
-          a custom reading experience.
+    <div className="notion-page">
+      <header className="notion-page__header">
+        <p className="notion-page__eyebrow">Blog</p>
+        <h1>Writing, notes, and simple updates.</h1>
+        <p className="notion-page__lede">
+          A clean reading list with clear categories, no extra noise, and a layout
+          that stays easy to scan.
         </p>
+        <div className="notion-chip-bar" aria-label="Categories">
+          <Link
+            href="/blog"
+            className={`workspace-chip${!activeTag ? " is-active" : ""}`}
+          >
+            All
+          </Link>
+          {tags.map((tag) => {
+            const slug = tag.toLowerCase();
 
-        {featuredPost ? (
-          <>
-            <article className="feature-panel feature-panel--with-media">
-              <figure className="feature-panel__media">
-                <MediaCover
-                  asset={featuredPost.coverImage}
-                  title={featuredPost.title}
-                  label="Latest essay"
-                  description={featuredPost.excerpt}
-                  priority
-                  sizes="(max-width: 900px) 100vw, 28vw"
-                  transformation={[
-                    {
-                      width: 900,
-                      quality: 84
-                    }
-                  ]}
-                />
-              </figure>
-              <div className="feature-panel__meta">
-                <p className="archive-item__meta">
-                  {featuredPost.publishedAt} · {featuredPost.readingTime}
-                </p>
-                <span className="feature-panel__label">Latest essay</span>
-              </div>
-              <div className="feature-panel__body">
-                <h2>
-                  <Link href={`/blog/${featuredPost.slug}`}>{featuredPost.title}</Link>
-                </h2>
-                <p>{featuredPost.excerpt}</p>
-                <Link href={`/blog/${featuredPost.slug}`} className="text-link">
-                  Read article
-                </Link>
-              </div>
-            </article>
+            return (
+              <Link
+                key={tag}
+                href={`/blog?tag=${encodeURIComponent(slug)}`}
+                className={`workspace-chip${activeTag === slug ? " is-active" : ""}`}
+              >
+                {tag}
+              </Link>
+            );
+          })}
+        </div>
+      </header>
 
-            <div className="archive-list archive-list--cards">
-              {archivePosts.map((post) => (
-                <article key={post.slug} className="archive-card">
-                  <figure className="archive-card__media">
-                    <MediaCover
-                      asset={post.coverImage}
-                      title={post.title}
-                      label="Blog post"
-                      description={post.excerpt}
-                      compact
-                      sizes="(max-width: 900px) 100vw, 50vw"
-                      transformation={[
-                        {
-                          width: 780,
-                          quality: 82
-                        }
-                      ]}
-                    />
-                  </figure>
-                  <p className="archive-item__meta">
-                    {post.publishedAt} · {post.readingTime}
-                  </p>
-                  <h2>
-                    <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-                  </h2>
-                  <p>{post.excerpt}</p>
-                </article>
-              ))}
+      <section className="notion-section">
+        <div className="notion-list">
+          {filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => (
+              <article key={post.slug} className="notion-row notion-row--article">
+                <div className="notion-row__stack">
+                  <Link href={`/blog/${post.slug}`} className="notion-row__title">
+                    {post.title}
+                  </Link>
+                  <p className="notion-row__summary">{post.excerpt}</p>
+                </div>
+                <div className="notion-row__meta">
+                  <span>{post.publishedAt}</span>
+                  <span>{post.readingTime}</span>
+                </div>
+              </article>
+            ))
+          ) : (
+            <div className="notion-row notion-row--static">
+              <span className="notion-row__title">No posts in this category</span>
+              <span className="notion-row__summary">
+                Try a different category or publish a new post in WordPress.
+              </span>
             </div>
-          </>
-        ) : (
-          <article className="archive-item">
-            <div>
-              <p className="archive-item__meta">Notion posts</p>
-              <h2>No posts published yet.</h2>
-              <p>
-                Create a published post in Notion and it will appear in this archive.
-              </p>
-            </div>
-          </article>
-        )}
-      </div>
-    </section>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }

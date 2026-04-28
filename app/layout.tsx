@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Instrument_Serif } from "next/font/google";
 import "./globals.css";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { NewsletterPopup } from "@/components/newsletter-popup";
+import { WorkspaceSidebar } from "@/components/workspace-sidebar";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -42,11 +40,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${sans.variable} ${serif.variable}`}>
-        <div className="site-shell">
-          <SiteHeader />
-          <main>{children}</main>
-          <SiteFooter />
-          <NewsletterPopup />
+        <div className="workspace-shell">
+          <WorkspaceSidebar />
+          <main className="workspace-content">
+            <div className="workspace-content__inner">{children}</div>
+          </main>
         </div>
       </body>
     </html>
