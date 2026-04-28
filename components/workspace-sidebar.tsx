@@ -1,7 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+const siteTagline =
+  "AI Visionary - mapping practical intelligence, better services, and data-powered ideas.";
 
 const professionalHeadline =
   "Service Improvement Analyst | NEC Australia | AI & Data Analytics | Service Now Implementer | ITIL 4 Certified | Power BI Certified | Salesforce Certified | Multi-Award Winner (GovHack, RIMPA, CDU Code Fair x5, NT Digital Excellence)";
@@ -27,9 +31,15 @@ export function WorkspaceSidebar() {
   return (
     <aside className="workspace-sidebar" aria-label="Workspace navigation">
       <div className="workspace-sidebar__brand">
-        <div className="workspace-sidebar__avatar" aria-hidden="true">
-          MH
-        </div>
+        <Link href="/" className="workspace-sidebar__avatar" aria-label="Max Hoang Journal home">
+          <Image
+            src="/max-hoang-portrait.jpg"
+            alt=""
+            width={88}
+            height={88}
+            priority
+          />
+        </Link>
         <div>
           <a
             href="https://www.linkedin.com/in/maxhoangau/"
@@ -37,9 +47,9 @@ export function WorkspaceSidebar() {
             target="_blank"
             rel="noreferrer"
           >
-            Max Hoang
+            Max Hoang Journal
           </a>
-          <p className="workspace-sidebar__tag">{professionalHeadline}</p>
+          <p className="workspace-sidebar__tag">{siteTagline}</p>
         </div>
       </div>
 
@@ -95,6 +105,14 @@ export function WorkspaceSidebar() {
       </div>
 
       <div className="workspace-sidebar__footer">
+        <a
+          href="https://www.linkedin.com/in/maxhoangau/"
+          className="workspace-sidebar__footer-link"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Max Hoang
+        </a>
         <p>{professionalHeadline}</p>
       </div>
     </aside>

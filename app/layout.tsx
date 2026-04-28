@@ -21,16 +21,31 @@ const serif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Max Hoang",
-    template: "%s | Max Hoang"
+    default: "Max Hoang Journal",
+    template: "%s | Max Hoang Journal"
   },
   description:
-    "Custom Notion based website for publishing essays, documenting projects, and presenting a focused body of work.",
+    "AI Visionary - mapping practical intelligence, better services, and data-powered ideas.",
+  icons: {
+    icon: [
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" }
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }]
+  },
   openGraph: {
-    title: "Max Hoang",
+    title: "Max Hoang Journal",
     description:
-      "Custom Notion based website for publishing essays, documenting projects, and presenting a focused body of work.",
-    type: "website"
+      "AI Visionary - mapping practical intelligence, better services, and data-powered ideas.",
+    type: "website",
+    images: [
+      {
+        url: "/max-hoang-portrait.jpg",
+        width: 1024,
+        height: 1024,
+        alt: "Max Hoang"
+      }
+    ]
   }
 };
 

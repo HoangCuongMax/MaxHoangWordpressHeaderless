@@ -9,15 +9,15 @@ export function SiteFooter() {
             target="_blank"
             rel="noreferrer"
           >
-            Max Hoang
+            Max Hoang Journal
           </a>
           <span className="brand-lockup__tag">
-            Service Improvement Analyst | NEC Australia | AI & Data Analytics | Service Now Implementer | ITIL 4 Certified | Power BI Certified | Salesforce Certified | Multi-Award Winner (GovHack, RIMPA, CDU Code Fair x5, NT Digital Excellence)
+            AI Visionary - mapping practical intelligence, better services, and data-powered ideas.
           </span>
         </div>
         <p>
-          Notion handles structured content. The frontend handles presentation,
-          performance, and how the work is experienced.
+          Max Hoang links service improvement, AI, analytics, and public-sector
+          innovation into a practical journal of ideas, projects, and tools.
         </p>
       </div>
     </footer>

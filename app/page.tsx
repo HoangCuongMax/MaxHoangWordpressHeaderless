@@ -20,9 +20,9 @@ export default async function HomePage() {
         <div className="hero__mesh" aria-hidden="true" />
         <div className="container hero__inner">
           <div className="hero__copy">
-            <div className="eyebrow">AI Enthusiast / Web Developer / Storyteller</div>
-            <p className="hero__brand">Max Hoang</p>
-            <h1>Hi, I&apos;m Max Hoang.</h1>
+            <div className="eyebrow">AI Visionary / Data Analytics / Service Improvement</div>
+            <p className="hero__brand">Max Hoang Journal</p>
+            <h1>Ideas that turn data into better services.</h1>
             <p className="hero__lede">
               I build AI, web, and app solutions that connect people, ideas, and
               technology - from computer vision and translation tools to
