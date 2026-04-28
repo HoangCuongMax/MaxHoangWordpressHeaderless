@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,12 +12,12 @@ const professionalHeadline =
   "Service Improvement Analyst | NEC Australia | AI & Data Analytics | Service Now Implementer | ITIL 4 Certified | Power BI Certified | Salesforce Certified | Multi-Award Winner (GovHack, RIMPA, CDU Code Fair x5, NT Digital Excellence)";
 
 const pageLinks = [
-  { href: "/", label: "Home" },
-  { href: "/blog", label: "Blog" },
-  { href: "/projects", label: "Projects" },
-  { href: "/services", label: "Services" },
-  { href: "/tools", label: "Tools" },
-  { href: "/contact", label: "Contact" }
+  { href: "/", label: "Home", icon: "home" },
+  { href: "/blog", label: "Blog", icon: "blog" },
+  { href: "/projects", label: "Projects", icon: "projects" },
+  { href: "/services", label: "Services", icon: "services" },
+  { href: "/tools", label: "Tools", icon: "tools" },
+  { href: "/contact", label: "Contact", icon: "contact" }
 ];
 
 const categoryLinks = [
@@ -25,12 +26,72 @@ const categoryLinks = [
   { href: "/tools", label: "Utilities" }
 ];
 
-export function WorkspaceSidebar() {
-  const pathname = usePathname();
+function NavIcon({ name }: { name: string }) {
+  const paths: Record<string, string> = {
+    home: "M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-9.5Z",
+    blog: "M6 4h12a1 1 0 0 1 1 1v14l-3-2H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm3 5h6M9 13h4",
+    projects: "M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z",
+    services: "M12 3l2.2 5.1 5.5.5-4.2 3.6 1.3 5.3L12 14.7 7.2 17.5l1.3-5.3-4.2-3.6 5.5-.5L12 3Z",
+    tools: "M14.7 5.3a4 4 0 0 0 4.9 4.9l-7.8 7.8a3 3 0 1 1-4.2-4.2l7.1-8.5Z",
+    contact: "M5 6h14v12H5V6Zm1.5 1.5L12 12l5.5-4.5"
+  };
 
   return (
-    <>
-      <aside className="workspace-sidebar" aria-label="Workspace navigation">
+    <svg
+      className="workspace-sidebar__icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d={paths[name]} />
+    </svg>
+  );
+}
+
+export function WorkspaceSidebar() {
+  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isHeaderHidden, setIsHeaderHidden] = useState(false);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      document.body.style.overflow = "";
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    function handleScroll() {
+      const currentScrollY = window.scrollY;
+      const isScrollingDown = currentScrollY > lastScrollY;
+      setIsHeaderHidden(isScrollingDown && currentScrollY > 80 && !isMenuOpen);
+      lastScrollY = currentScrollY;
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isMenuOpen]);
+
+  return (
+      <aside
+        className={`workspace-sidebar${isMenuOpen ? " is-open" : ""}${
+          isHeaderHidden ? " is-hidden" : ""
+        }`}
+        aria-label="Workspace navigation"
+      >
         <div className="workspace-sidebar__brand">
           <Link href="/" className="workspace-sidebar__avatar" aria-label="Max Hoang Journal home">
             <Image
@@ -52,6 +113,17 @@ export function WorkspaceSidebar() {
             </a>
             <p className="workspace-sidebar__tag">{siteTagline}</p>
           </div>
+          <button
+            type="button"
+            className="mobile-menu-toggle"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen((open) => !open)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
 
         <nav className="workspace-sidebar__nav" aria-label="Pages">
@@ -69,6 +141,7 @@ export function WorkspaceSidebar() {
                 className={`workspace-sidebar__link${isActive ? " is-active" : ""}`}
                 aria-current={isActive ? "page" : undefined}
               >
+                <NavIcon name={link.icon} />
                 <span>{link.label}</span>
               </Link>
             );
@@ -118,27 +191,5 @@ export function WorkspaceSidebar() {
           <p>{professionalHeadline}</p>
         </div>
       </aside>
-
-      <nav className="mobile-bottom-nav" aria-label="Mobile pages">
-        {pageLinks.map((link) => {
-          const isActive =
-            link.href === "/"
-              ? pathname === "/"
-              : pathname === link.href || pathname.startsWith(`${link.href}/`);
-
-          return (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`mobile-bottom-nav__link${isActive ? " is-active" : ""}`}
-              aria-current={isActive ? "page" : undefined}
-            >
-              <span className="mobile-bottom-nav__dot" aria-hidden="true" />
-              <span>{link.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
-    </>
   );
 }
