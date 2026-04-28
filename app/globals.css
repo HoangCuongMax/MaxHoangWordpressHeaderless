@@ -125,6 +125,8 @@ main {
 }
 
 .workspace-sidebar__name {
+  display: inline-flex;
+  width: fit-content;
   font-size: 0.95rem;
   font-weight: 800;
 }
@@ -132,7 +134,7 @@ main {
 .workspace-sidebar__tag,
 .workspace-sidebar__footer {
   color: var(--muted);
-  font-size: 0.86rem;
+  font-size: 0.78rem;
   line-height: 1.5;
 }
 
@@ -783,17 +785,16 @@ main {
 
 .awards-rail {
   position: relative;
-  left: 50%;
-  width: calc(100vw - 1.5rem);
-  margin-left: calc(-50vw + 0.75rem);
+  width: 100%;
+  max-width: 100%;
 }
 
 .awards-carousel {
   overflow-x: auto;
-  padding: 0.3rem 4.3rem 0.55rem;
+  padding: 0.3rem 4.3rem 0.55rem 0;
   scrollbar-width: thin;
   scrollbar-color: rgba(15, 118, 110, 0.35) transparent;
-  scroll-padding-inline: 4.3rem;
+  scroll-padding-inline: 0 4.3rem;
   scroll-snap-type: x proximity;
 }
 
@@ -2181,13 +2182,13 @@ main {
   }
 
   .awards-rail {
-    width: calc(100vw - 0.75rem);
-    margin-left: calc(-50vw + 0.375rem);
+    width: 100%;
+    margin-left: 0;
   }
 
   .awards-carousel {
-    padding-inline: 3.5rem;
-    scroll-padding-inline: 3.5rem;
+    padding-inline: 0 3.5rem;
+    scroll-padding-inline: 0 3.5rem;
   }
 
   .icon-button--carousel {

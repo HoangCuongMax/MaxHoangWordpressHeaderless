@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const professionalHeadline =
+  "Service Improvement Analyst | NEC Australia | AI & Data Analytics | Service Now Implementer | ITIL 4 Certified | Power BI Certified | Salesforce Certified | Multi-Award Winner (GovHack, RIMPA, CDU Code Fair x5, NT Digital Excellence)";
+
 const pageLinks = [
   { href: "/", label: "Home" },
   { href: "/blog", label: "Blog" },
@@ -28,8 +31,15 @@ export function WorkspaceSidebar() {
           MH
         </div>
         <div>
-          <p className="workspace-sidebar__name">Max Hoang</p>
-          <p className="workspace-sidebar__tag">Custom Notion based website</p>
+          <a
+            href="https://www.linkedin.com/in/maxhoangau/"
+            className="workspace-sidebar__name"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Max Hoang
+          </a>
+          <p className="workspace-sidebar__tag">{professionalHeadline}</p>
         </div>
       </div>
 
@@ -85,7 +95,7 @@ export function WorkspaceSidebar() {
       </div>
 
       <div className="workspace-sidebar__footer">
-        <p>Custom Notion based website</p>
+        <p>{professionalHeadline}</p>
       </div>
     </aside>
   );
