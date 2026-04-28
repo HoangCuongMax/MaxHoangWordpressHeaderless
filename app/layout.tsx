@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import { NewsletterPopup } from "@/components/newsletter-popup";
+import { SiteFooter } from "@/components/site-footer";
 import { WorkspaceSidebar } from "@/components/workspace-sidebar";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -23,11 +25,11 @@ export const metadata: Metadata = {
     template: "%s | Max Hoang"
   },
   description:
-    "Personal website for publishing essays, documenting projects, and presenting a focused body of work.",
+    "Custom Notion based website for publishing essays, documenting projects, and presenting a focused body of work.",
   openGraph: {
     title: "Max Hoang",
     description:
-      "Personal website for publishing essays, documenting projects, and presenting a focused body of work.",
+      "Custom Notion based website for publishing essays, documenting projects, and presenting a focused body of work.",
     type: "website"
   }
 };
@@ -42,9 +44,13 @@ export default function RootLayout({
       <body className={`${sans.variable} ${serif.variable}`}>
         <div className="workspace-shell">
           <WorkspaceSidebar />
-          <main className="workspace-content">
-            <div className="workspace-content__inner">{children}</div>
-          </main>
+          <div className="workspace-main">
+            <main className="workspace-content">
+              <div className="workspace-content__inner">{children}</div>
+            </main>
+            <SiteFooter />
+          </div>
+          <NewsletterPopup />
         </div>
       </body>
     </html>

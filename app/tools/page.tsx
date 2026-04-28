@@ -5,13 +5,13 @@ const tools = [
     name: "Business Hours Calculation",
     slug: "business-hours-calculation",
     summary:
-      "Estimate daily, weekly, and monthly business hours from your schedule."
+      "A simple calculator for estimating daily, weekly, and monthly business hours from your working schedule."
   },
   {
     name: "Email Signature Generator",
     slug: "email-signature-generator",
     summary:
-      "Create a polished email signature and copy the generated HTML."
+      "Create a polished email signature from a photo URL, contact details, and personal links, then copy the final HTML."
   }
 ];
 
@@ -21,32 +21,28 @@ export const metadata = {
 
 export default function ToolsPage() {
   return (
-    <div className="notion-page">
-      <header className="notion-page__header">
-        <p className="notion-page__eyebrow">Tools</p>
-        <h1>Useful utilities and small product ideas.</h1>
-        <p className="notion-page__lede">
-          Practical tools presented as a simple list, so the page stays easy to scan.
+    <section className="section page-intro page-intro--tools">
+      <div className="container editorial-shell">
+        <p className="eyebrow">Tools</p>
+        <h1>Useful online tools built as part of the product stack.</h1>
+        <p className="page-intro__lede">
+          This section is where I publish focused utilities, calculators, and small
+          digital products that solve practical problems.
         </p>
-      </header>
 
-      <section className="notion-section">
-        <div className="notion-list">
+        <div className="tools-grid">
           {tools.map((tool) => (
-            <Link
-              key={tool.slug}
-              href={`/tools/${tool.slug}`}
-              className="notion-row notion-row--article"
-            >
-              <div className="notion-row__stack">
-                <span className="notion-row__title">{tool.name}</span>
-                <span className="notion-row__summary">{tool.summary}</span>
-              </div>
-              <span className="notion-row__meta">Open tool</span>
-            </Link>
+            <article key={tool.slug} className="tool-card">
+              <p className="tool-card__label">Online tool</p>
+              <h2>{tool.name}</h2>
+              <p>{tool.summary}</p>
+              <Link href={`/tools/${tool.slug}`} className="text-link">
+                Open tool
+              </Link>
+            </article>
           ))}
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }

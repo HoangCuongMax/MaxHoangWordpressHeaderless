@@ -5,7 +5,7 @@ export function SiteFooter() {
         <div className="brand-lockup">
           <span className="brand-lockup__name">Max Hoang</span>
           <span className="brand-lockup__tag">
-            Publishing essays and shipping products.
+            Custom Notion based website.
           </span>
         </div>
         <p>

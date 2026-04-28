@@ -21,36 +21,52 @@ const contactPoints = [
 
 export default function ContactPage() {
   return (
-    <div className="notion-page">
-      <header className="notion-page__header">
-        <p className="notion-page__eyebrow">Contact</p>
-        <h1>Tell me what you are building.</h1>
-        <p className="notion-page__lede">
-          The form below is a direct way to start a conversation about a site,
-          product, or automation.
-        </p>
-      </header>
+    <section className="section page-intro page-intro--contact">
+      <div className="container contact-layout">
+        <div className="contact-panel contact-panel--intro">
+          <p className="eyebrow">Contact</p>
+          <h1>Tell me what you are building and where the bottleneck is.</h1>
+          <p className="page-intro__lede">
+            Use the form for project enquiries, collaborations, product work, or
+            speaking requests. If the brief is clear, I can usually reply with
+            next steps quickly.
+          </p>
 
-      <section className="notion-section">
-        <div className="notion-section__head">
-          <h2>Quick notes</h2>
-        </div>
-        <div className="notion-list">
-          {contactPoints.map((point) => (
-            <div key={point.label} className="notion-row">
-              <span className="notion-row__title">{point.label}</span>
-              <span className="notion-row__summary">{point.value}</span>
+          <dl className="contact-facts">
+            {contactPoints.map((point) => (
+              <div key={point.label}>
+                <dt>{point.label}</dt>
+                <dd>{point.value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="contact-panel__notes">
+            <div className="contact-note">
+              <h2>What helps me reply faster</h2>
+              <p>
+                Include the project scope, any launch deadline, the main decision
+                you are trying to make, and links to anything already live.
+              </p>
             </div>
-          ))}
+            <div className="contact-note">
+              <h2>Prefer direct email?</h2>
+              <p>
+                You can also write to{" "}
+                <a className="text-link" href="mailto:hoangngoccuong1414@gmail.com">
+                  hoangngoccuong1414@gmail.com
+                </a>
+                .
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
 
-      <section className="notion-section">
-        <div className="notion-section__head">
-          <h2>Send a message</h2>
+        <div className="contact-panel contact-panel--form">
+          <p className="contact-panel__label">Send a message</p>
+          <ContactForm />
         </div>
-        <ContactForm />
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }

@@ -29,7 +29,7 @@ export function WorkspaceSidebar() {
         </div>
         <div>
           <p className="workspace-sidebar__name">Max Hoang</p>
-          <p className="workspace-sidebar__tag">Notion-style workspace</p>
+          <p className="workspace-sidebar__tag">Custom Notion based website</p>
         </div>
       </div>
 
@@ -85,7 +85,7 @@ export function WorkspaceSidebar() {
       </div>
 
       <div className="workspace-sidebar__footer">
-        <p>Headless WordPress + Vercel</p>
+        <p>Custom Notion based website</p>
       </div>
     </aside>
   );
