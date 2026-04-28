@@ -16,10 +16,7 @@ export function AwardsCarousel({ items }: { items: Award[] }) {
       return;
     }
 
-    const maxScrollLeft = Math.max(
-      0,
-      viewport.scrollWidth - viewport.clientWidth - 2
-    );
+    const maxScrollLeft = Math.max(0, viewport.scrollWidth - viewport.clientWidth - 2);
 
     setCanScrollPrev(viewport.scrollLeft > 4);
     setCanScrollNext(viewport.scrollLeft < maxScrollLeft);
@@ -54,7 +51,9 @@ export function AwardsCarousel({ items }: { items: Award[] }) {
       return;
     }
 
-    const scrollAmount = Math.max(viewport.clientWidth * 0.78, 320);
+    const card = viewport.querySelector<HTMLElement>(".award-card");
+    const cardWidth = card?.offsetWidth ?? 360;
+    const scrollAmount = cardWidth + 20;
 
     viewport.scrollBy({
       left: scrollAmount * direction,
@@ -64,83 +63,92 @@ export function AwardsCarousel({ items }: { items: Award[] }) {
 
   return (
     <div className="awards-rail">
-      <button
-        type="button"
-        className="icon-button icon-button--carousel icon-button--carousel-prev"
-        aria-label="Scroll awards left"
-        onClick={() => scrollByCard(-1)}
-        disabled={!canScrollPrev}
-      >
-        <span aria-hidden="true">←</span>
-      </button>
-
-      <div
-        className="awards-carousel"
-        aria-label="Awards and recognition"
-        ref={viewportRef}
-      >
-        <div className="awards-carousel__track">
-          {items.map((award) => (
-            <article className="award-card" key={award.slug}>
-              <figure className="award-card__media">
-                <MediaCover
-                  asset={award.coverImage}
-                  title={award.title}
-                  label={String(award.year)}
-                  description={award.summary}
-                  compact
-                  sizes="(max-width: 900px) 86vw, 380px"
-                  transformation={[
-                    {
-                      width: 760,
-                      quality: 82
-                    }
-                  ]}
-                />
-              </figure>
-
-              <div className="award-card__body">
-                <p className="award-card__event">{award.event}</p>
-                <h3>{award.title}</h3>
-                <p className="award-card__result">{award.result}</p>
-                {award.project ? (
-                  <p className="award-card__project">Project: {award.project}</p>
-                ) : null}
-                <p>{award.summary}</p>
-
-                {award.tags.length > 0 ? (
-                  <ul className="tag-list" aria-label={`${award.title} tags`}>
-                    {award.tags.slice(0, 4).map((tag) => (
-                      <li key={tag}>{tag}</li>
-                    ))}
-                  </ul>
-                ) : null}
-
-                {award.referenceUrl ? (
-                  <a
-                    className="text-link"
-                    href={award.referenceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    View reference
-                  </a>
-                ) : null}
-              </div>
-            </article>
-          ))}
+      <div className="awards-rail__topbar">
+        <p>{items.length} milestones</p>
+        <div className="awards-rail__controls" aria-label="Award carousel controls">
+          <button
+            type="button"
+            className="icon-button icon-button--carousel"
+            aria-label="Scroll awards left"
+            onClick={() => scrollByCard(-1)}
+            disabled={!canScrollPrev}
+          >
+            <span aria-hidden="true">&larr;</span>
+          </button>
+          <button
+            type="button"
+            className="icon-button icon-button--carousel"
+            aria-label="Scroll awards right"
+            onClick={() => scrollByCard(1)}
+            disabled={!canScrollNext}
+          >
+            <span aria-hidden="true">&rarr;</span>
+          </button>
         </div>
       </div>
 
-      <button
-        type="button"
-        className="icon-button icon-button--carousel icon-button--carousel-next"
-        aria-label="Scroll awards right"
-        onClick={() => scrollByCard(1)}
-        disabled={!canScrollNext}
-      >
-        <span aria-hidden="true">→</span>
-      </button>
+      <div className="awards-carousel-shell">
+        <div
+          className="awards-carousel"
+          aria-label="Awards and recognition"
+          ref={viewportRef}
+        >
+          <div className="awards-carousel__track">
+            {items.map((award) => (
+              <article className="award-card" key={award.slug}>
+                <figure className="award-card__media">
+                  <MediaCover
+                    asset={award.coverImage}
+                    title={award.title}
+                    label={String(award.year)}
+                    description={award.summary}
+                    compact
+                    sizes="(max-width: 900px) 82vw, 360px"
+                    transformation={[
+                      {
+                        width: 720,
+                        quality: 84
+                      }
+                    ]}
+                  />
+                </figure>
+
+                <div className="award-card__body">
+                  <div className="award-card__meta">
+                    <p className="award-card__event">{award.event}</p>
+                    <span>{award.year}</span>
+                  </div>
+                  <h3>{award.title}</h3>
+                  <p className="award-card__result">{award.result}</p>
+                  {award.project ? (
+                    <p className="award-card__project">Project: {award.project}</p>
+                  ) : null}
+                  <p>{award.summary}</p>
+
+                  {award.tags.length > 0 ? (
+                    <ul className="tag-list" aria-label={`${award.title} tags`}>
+                      {award.tags.slice(0, 4).map((tag) => (
+                        <li key={tag}>{tag}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+
+                  {award.referenceUrl ? (
+                    <a
+                      className="text-link"
+                      href={award.referenceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View reference
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
