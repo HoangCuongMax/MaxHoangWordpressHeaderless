@@ -3178,7 +3178,9 @@ main {
 }
 
 .hero__inner {
-  gap: 3.5rem;
+  width: min(calc(100% - 3rem), 1480px);
+  grid-template-columns: minmax(360px, 0.78fr) minmax(0, 1.35fr);
+  gap: clamp(2rem, 4vw, 5rem);
 }
 
 .hero h1 {
@@ -3257,6 +3259,30 @@ main {
 .events-strip {
   border-bottom: 0;
   background: #ffffff;
+}
+
+.events-strip__inner,
+.about-reels,
+.awards-section {
+  width: min(calc(100% - 3rem), 1480px);
+}
+
+.about-reels .reel-card {
+  flex-basis: clamp(220px, 16vw, 280px);
+  width: clamp(220px, 16vw, 280px);
+}
+
+.awards-section .award-card {
+  flex-basis: clamp(320px, 27vw, 420px);
+  width: clamp(320px, 27vw, 420px);
+}
+
+.hero-shot {
+  width: clamp(220px, 17vw, 310px);
+}
+
+.hero-shot--small {
+  width: clamp(180px, 14vw, 250px);
 }
 
 .event-card--current {
