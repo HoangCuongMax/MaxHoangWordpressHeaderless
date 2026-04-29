@@ -40,10 +40,13 @@ export type ShortVideo = {
   title: string;
   url: string;
   youtubeId: string;
+  displayLocations: VideoDisplayLocation[];
   summary?: string;
   publishedAt?: string;
   featured?: boolean;
 };
+
+export type VideoDisplayLocation = "aboutReels";
 
 export type PhotoDisplayLocation = "hero" | "logo";
 

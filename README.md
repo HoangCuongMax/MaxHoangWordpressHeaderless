@@ -58,7 +58,7 @@ Current Notion data sources:
 - Blog: `bb9e4516-594b-489c-91e5-75de95deafa4`
 - Projects: `53ac54ef-d1dc-47f4-aeb9-c570b40d87de`
 - Awards: `40500125-f31c-4e3f-b3c8-cdd670582dd0`
-- Short videos: set `NOTION_SHORT_VIDEOS_DATA_SOURCE_ID` when the database is ready
+- Short videos: `c9ecba7a-e135-4b02-8279-93e4049610f7`
 - Photos: set `NOTION_PHOTOS_DATA_SOURCE_ID` when the database is ready
 
 You can also use `NOTION_BLOG_DATABASE_ID`, `NOTION_PROJECTS_DATABASE_ID`, `NOTION_AWARDS_DATABASE_ID`, `NOTION_SHORT_VIDEOS_DATABASE_ID`, and `NOTION_PHOTOS_DATABASE_ID`. If database IDs are provided, the app retrieves the first data source inside each database before querying content.
@@ -122,6 +122,8 @@ Create three Notion data sources: one for blog posts, one for projects, and one 
 
 - `Name` or `Title`: title property
 - `YouTube URL`, `Shorts URL`, `Video URL`, `URL`, or `Link`: YouTube Shorts URL
+- `Display`, `Placement`, `Show On`, or `Use As`: multi-select/tags containing `About Reels`
+- `About Reels`: optional checkbox to show the video under the homepage About section
 - `Published`: date or checkbox
 - `Status` or `Publish Status`: select/status, where draft/private/hidden values are not shown
 - `Featured`: checkbox for homepage priority

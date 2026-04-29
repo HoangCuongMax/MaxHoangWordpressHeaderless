@@ -19,6 +19,7 @@ export const fallbackShortVideos: ShortVideo[] = [
     title: "YouTube Short",
     url: "https://www.youtube.com/shorts/IowxyLGJc3Y",
     youtubeId: "IowxyLGJc3Y",
+    displayLocations: ["aboutReels"],
     featured: true
   },
   {
@@ -26,6 +27,7 @@ export const fallbackShortVideos: ShortVideo[] = [
     title: "YouTube Short",
     url: "https://www.youtube.com/shorts/tmVE2nsdWsE",
     youtubeId: "tmVE2nsdWsE",
+    displayLocations: ["aboutReels"],
     featured: true
   },
   {
@@ -33,6 +35,7 @@ export const fallbackShortVideos: ShortVideo[] = [
     title: "YouTube Short",
     url: "https://www.youtube.com/shorts/etuKhe77Alo",
     youtubeId: "etuKhe77Alo",
+    displayLocations: ["aboutReels"],
     featured: true
   },
   {
@@ -40,6 +43,7 @@ export const fallbackShortVideos: ShortVideo[] = [
     title: "YouTube Short",
     url: "https://www.youtube.com/shorts/ap1F-ToP994",
     youtubeId: "ap1F-ToP994",
+    displayLocations: ["aboutReels"],
     featured: true
   },
   {
@@ -47,6 +51,7 @@ export const fallbackShortVideos: ShortVideo[] = [
     title: "YouTube Short",
     url: "https://www.youtube.com/shorts/IV32guLriBc",
     youtubeId: "IV32guLriBc",
+    displayLocations: ["aboutReels"],
     featured: true
   },
   {
@@ -54,6 +59,7 @@ export const fallbackShortVideos: ShortVideo[] = [
     title: "YouTube Short",
     url: "https://www.youtube.com/shorts/pUm0wjkb4jw",
     youtubeId: "pUm0wjkb4jw",
+    displayLocations: ["aboutReels"],
     featured: true
   },
   {
@@ -61,6 +67,7 @@ export const fallbackShortVideos: ShortVideo[] = [
     title: "YouTube Short",
     url: "https://www.youtube.com/shorts/glvaxkIH9L8",
     youtubeId: "glvaxkIH9L8",
+    displayLocations: ["aboutReels"],
     featured: true
   },
   {
@@ -68,6 +75,7 @@ export const fallbackShortVideos: ShortVideo[] = [
     title: "YouTube Short",
     url: "https://www.youtube.com/shorts/bEcUgBwDVCk",
     youtubeId: "bEcUgBwDVCk",
+    displayLocations: ["aboutReels"],
     featured: true
   },
   {
@@ -75,6 +83,7 @@ export const fallbackShortVideos: ShortVideo[] = [
     title: "YouTube Short",
     url: "https://www.youtube.com/shorts/ENKhmA9nn70",
     youtubeId: "ENKhmA9nn70",
+    displayLocations: ["aboutReels"],
     featured: true
   },
   {
@@ -82,6 +91,7 @@ export const fallbackShortVideos: ShortVideo[] = [
     title: "YouTube Short",
     url: "https://www.youtube.com/shorts/0OZc67TVplk",
     youtubeId: "0OZc67TVplk",
+    displayLocations: ["aboutReels"],
     featured: true
   },
   {
@@ -89,6 +99,7 @@ export const fallbackShortVideos: ShortVideo[] = [
     title: "YouTube Short",
     url: "https://www.youtube.com/shorts/m6xEGEppzHg",
     youtubeId: "m6xEGEppzHg",
+    displayLocations: ["aboutReels"],
     featured: true
   }
 ];

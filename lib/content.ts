@@ -172,9 +172,15 @@ export async function getAwards(): Promise<Award[]> {
 export async function getShortVideos(): Promise<ShortVideo[]> {
   const videos = await fetchNotionShortVideos();
 
-  return videos.length > 0 || hasNotionConfig("shortVideos")
+  const source = videos.length > 0 || hasNotionConfig("shortVideos")
     ? videos
     : fallbackShortVideos;
+
+  const aboutReels = source.filter((video) =>
+    video.displayLocations.includes("aboutReels")
+  );
+
+  return aboutReels.length > 0 ? aboutReels : fallbackShortVideos;
 }
 
 export async function getSitePhotos() {

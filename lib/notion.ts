@@ -5,7 +5,8 @@ import {
   Post,
   Project,
   ShortVideo,
-  SitePhoto
+  SitePhoto,
+  VideoDisplayLocation
 } from "@/lib/types";
 
 const NOTION_API_BASE = "https://api.notion.com/v1";
@@ -1047,12 +1048,48 @@ type SortableShortVideo = ShortVideo & {
   featuredRank: number;
 };
 
+function getVideoDisplayLocations(page: NotionPage): VideoDisplayLocation[] {
+  const values = propertyTags(
+    getPropertyByName(page.properties, [
+      "Display",
+      "Displays",
+      "Display Location",
+      "Placement",
+      "Placements",
+      "Show On",
+      "Use As"
+    ])
+  ).map((value) => value.toLowerCase().trim());
+  const locations = new Set<VideoDisplayLocation>();
+
+  if (
+    values.some((value) =>
+      [
+        "about reels",
+        "about",
+        "reels",
+        "shorts",
+        "short videos",
+        "homepage reels"
+      ].includes(value)
+    ) ||
+    propertyCheckbox(
+      getPropertyByName(page.properties, ["About Reels", "Reels", "Shorts"])
+    )
+  ) {
+    locations.add("aboutReels");
+  }
+
+  return [...locations];
+}
+
 function mapShortVideo(page: NotionPage): SortableShortVideo | undefined {
   const title = getTitle(page);
   const url = getShortVideoUrl(page);
   const youtubeId = getYouTubeId(url);
+  const displayLocations = getVideoDisplayLocations(page);
 
-  if (!url || !youtubeId) {
+  if (!url || !youtubeId || displayLocations.length === 0) {
     return undefined;
   }
 
@@ -1066,6 +1103,7 @@ function mapShortVideo(page: NotionPage): SortableShortVideo | undefined {
     title,
     url,
     youtubeId,
+    displayLocations,
     summary: propertyText(
       getPropertyByName(page.properties, [
         "Summary",
