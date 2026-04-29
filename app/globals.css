@@ -2832,7 +2832,7 @@ main {
 }
 
 .workspace-sidebar {
-  gap: 1rem;
+  gap: 0.75rem;
   padding: 1rem;
 }
 
@@ -2863,12 +2863,12 @@ main {
 .workspace-sidebar__nav,
 .workspace-sidebar__section,
 .workspace-sidebar__buttons {
-  gap: 0.45rem;
+  gap: 0.38rem;
 }
 
 .workspace-sidebar__label {
-  padding: 0 0.65rem;
-  font-size: 0.72rem;
+  padding: 0 0.35rem;
+  font-size: 0.68rem;
 }
 
 .workspace-sidebar__link,
@@ -2914,19 +2914,33 @@ main {
 
 .workspace-sidebar__chips,
 .workspace-sidebar__buttons {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.45rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
 }
 
 .workspace-chip,
 .workspace-button {
-  min-height: 2.55rem;
-  width: 100%;
+  min-height: 2.15rem;
+  width: auto;
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.52);
-  font-size: 0.92rem;
+  font-size: 0.84rem;
   font-weight: 750;
+}
+
+.workspace-chip {
+  flex: 1 1 calc(50% - 0.35rem);
+  padding: 0 0.55rem;
+}
+
+.workspace-button {
+  flex: 1 1 calc(50% - 0.35rem);
+  padding: 0 0.65rem;
+}
+
+.workspace-button--primary {
+  flex-basis: 100%;
 }
 
 .workspace-button--primary {
