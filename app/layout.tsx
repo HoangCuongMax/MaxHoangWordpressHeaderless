@@ -4,6 +4,7 @@ import "./globals.css";
 import { NewsletterPopup } from "@/components/newsletter-popup";
 import { SiteFooter } from "@/components/site-footer";
 import { WorkspaceSidebar } from "@/components/workspace-sidebar";
+import { getSiteLogo } from "@/lib/content";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -49,16 +50,18 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteLogo = await getSiteLogo();
+
   return (
     <html lang="en">
       <body className={`${sans.variable} ${serif.variable}`}>
         <div className="workspace-shell">
-          <WorkspaceSidebar />
+          <WorkspaceSidebar logo={siteLogo} />
           <div className="workspace-main">
             <main className="workspace-content">
               <div className="workspace-content__inner">{children}</div>

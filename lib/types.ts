@@ -45,6 +45,16 @@ export type ShortVideo = {
   featured?: boolean;
 };
 
+export type PhotoDisplayLocation = "hero" | "logo";
+
+export type SitePhoto = MediaAsset & {
+  slug: string;
+  title: string;
+  displayLocations: PhotoDisplayLocation[];
+  sortOrder: number;
+  featured?: boolean;
+};
+
 export type Post = {
   slug: string;
   title: string;

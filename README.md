@@ -1,6 +1,6 @@
 # Max Hoang Frontend
 
-Custom personal website built with Next.js and Notion-backed content for blog posts, projects, awards, and short videos.
+Custom personal website built with Next.js and Notion-backed content for blog posts, projects, awards, short videos, and shared photos.
 
 ## What is included
 
@@ -9,7 +9,7 @@ Custom personal website built with Next.js and Notion-backed content for blog po
 - blog index and blog detail pages
 - projects index and project detail pages
 - tools section with interactive utilities
-- Notion API integration for blog posts, projects, awards, and short videos
+- Notion API integration for blog posts, projects, awards, short videos, and shared photos
 - contact page and monthly mailing list popup
 
 ## Stack
@@ -41,6 +41,7 @@ NOTION_BLOG_DATA_SOURCE_ID=your_blog_data_source_id
 NOTION_PROJECTS_DATA_SOURCE_ID=your_projects_data_source_id
 NOTION_AWARDS_DATA_SOURCE_ID=your_awards_data_source_id
 NOTION_SHORT_VIDEOS_DATA_SOURCE_ID=your_short_videos_data_source_id
+NOTION_PHOTOS_DATA_SOURCE_ID=your_photos_data_source_id
 NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_imagekit_id
 CONTACT_TO_EMAIL=hoangngoccuong1414@gmail.com
 SMTP_HOST=smtp.gmail.com
@@ -58,8 +59,9 @@ Current Notion data sources:
 - Projects: `53ac54ef-d1dc-47f4-aeb9-c570b40d87de`
 - Awards: `40500125-f31c-4e3f-b3c8-cdd670582dd0`
 - Short videos: set `NOTION_SHORT_VIDEOS_DATA_SOURCE_ID` when the database is ready
+- Photos: set `NOTION_PHOTOS_DATA_SOURCE_ID` when the database is ready
 
-You can also use `NOTION_BLOG_DATABASE_ID`, `NOTION_PROJECTS_DATABASE_ID`, `NOTION_AWARDS_DATABASE_ID`, and `NOTION_SHORT_VIDEOS_DATABASE_ID`. If database IDs are provided, the app retrieves the first data source inside each database before querying content.
+You can also use `NOTION_BLOG_DATABASE_ID`, `NOTION_PROJECTS_DATABASE_ID`, `NOTION_AWARDS_DATABASE_ID`, `NOTION_SHORT_VIDEOS_DATABASE_ID`, and `NOTION_PHOTOS_DATABASE_ID`. If database IDs are provided, the app retrieves the first data source inside each database before querying content.
 
 4. Share each Notion database with your integration from the database menu under `Add connections`.
 
@@ -125,6 +127,19 @@ Create three Notion data sources: one for blog posts, one for projects, and one 
 - `Featured`: checkbox for homepage priority
 - `Sort Order`: number for manual homepage ordering
 - `Summary`, `Description`, or `Caption`: optional text for future display
+
+### Photos
+
+- `Name` or `Title`: title property
+- `Photo`, `Photo URL`, `Image`, `Image URL`, `Media`, `File`, `URL`, or `Link`: public image URL or Notion file
+- `Display`, `Placement`, `Show On`, or `Use As`: multi-select/tags containing `Hero` or `Logo`
+- `Hero`: optional checkbox to show the photo in the homepage hero slider
+- `Logo`: optional checkbox to use the photo as the site/sidebar logo
+- `Sort Order`: number for manual hero slider ordering
+- `Published`: checkbox
+- `Status` or `Publish Status`: select/status, where draft/private/hidden values are not shown
+- `Media Alt Text` or `Alt Text`: accessible text for the photo
+- `Caption`: optional caption
 
 Page body blocks are rendered into article HTML for detail pages. Supported blocks include paragraphs, headings, lists, quotes, callouts, code blocks, dividers, images, embeds, bookmarks, and link previews.
 

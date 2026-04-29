@@ -1,15 +1,24 @@
 import { addHeadingAnchors } from "@/lib/article";
-import { Award, Post, Project, RelatedContentItem, ShortVideo } from "@/lib/types";
+import {
+  Award,
+  MediaAsset,
+  Post,
+  Project,
+  RelatedContentItem,
+  ShortVideo
+} from "@/lib/types";
 import {
   fallbackAwards,
   fallbackPosts,
   fallbackProjects,
+  fallbackSitePhotos,
   fallbackShortVideos
 } from "@/lib/mock-data";
 import {
   fetchNotionAwards,
   fetchNotionPosts,
   fetchNotionProjects,
+  fetchNotionSitePhotos,
   fetchNotionShortVideos,
   hasNotionConfig
 } from "@/lib/notion";
@@ -166,6 +175,48 @@ export async function getShortVideos(): Promise<ShortVideo[]> {
   return videos.length > 0 || hasNotionConfig("shortVideos")
     ? videos
     : fallbackShortVideos;
+}
+
+export async function getSitePhotos() {
+  const photos = await fetchNotionSitePhotos();
+
+  return photos.length > 0 || hasNotionConfig("photos")
+    ? photos
+    : fallbackSitePhotos;
+}
+
+export async function getHeroSliderImages(): Promise<MediaAsset[]> {
+  const photos = await getSitePhotos();
+  const heroPhotos = photos
+    .filter((photo) => photo.displayLocations.includes("hero"))
+    .map(({ url, alt, caption }) => ({
+      url,
+      alt,
+      ...(caption ? { caption } : {})
+    }));
+
+  return heroPhotos.length > 0
+    ? heroPhotos
+    : fallbackSitePhotos.map(({ url, alt, caption }) => ({
+        url,
+        alt,
+        ...(caption ? { caption } : {})
+      }));
+}
+
+export async function getSiteLogo(): Promise<MediaAsset | undefined> {
+  const photos = await getSitePhotos();
+  const logo = photos
+    .filter((photo) => photo.displayLocations.includes("logo"))
+    .sort((first, second) => first.sortOrder - second.sortOrder)[0];
+
+  return logo
+    ? {
+        url: logo.url,
+        alt: logo.alt,
+        ...(logo.caption ? { caption: logo.caption } : {})
+      }
+    : undefined;
 }
 
 export async function getRelatedPosts(

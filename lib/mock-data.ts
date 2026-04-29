@@ -1,4 +1,17 @@
-import { Award, Post, Project, ShortVideo } from "@/lib/types";
+import { Award, Post, Project, ShortVideo, SitePhoto } from "@/lib/types";
+import { heroSliderImages } from "@/lib/hero-slider-images";
+
+export const fallbackSitePhotos: SitePhoto[] = heroSliderImages.map(
+  (url, index) => ({
+    slug: `hero-photo-${index + 1}`,
+    title: `Hero photo ${index + 1}`,
+    url,
+    alt: `Max Hoang hero photo ${index + 1}`,
+    displayLocations: ["hero"],
+    sortOrder: index + 1,
+    featured: true
+  })
+);
 
 export const fallbackShortVideos: ShortVideo[] = [
   {

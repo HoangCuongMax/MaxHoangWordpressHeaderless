@@ -1,11 +1,19 @@
-import { Award, MediaAsset, Post, Project, ShortVideo } from "@/lib/types";
+import {
+  Award,
+  MediaAsset,
+  PhotoDisplayLocation,
+  Post,
+  Project,
+  ShortVideo,
+  SitePhoto
+} from "@/lib/types";
 
 const NOTION_API_BASE = "https://api.notion.com/v1";
 const DEFAULT_NOTION_VERSION = "2026-03-11";
 const DEFAULT_REVALIDATE_SECONDS = 300;
 const DEFAULT_IMAGEKIT_URL_ENDPOINT = "https://ik.imagekit.io/maxhoang";
 
-type ContentSource = "blog" | "projects" | "awards" | "shortVideos";
+type ContentSource = "blog" | "projects" | "awards" | "shortVideos" | "photos";
 
 type NotionRichText = {
   plain_text?: string;
@@ -148,6 +156,21 @@ function getDataSourceConfig(source: ContentSource): DataSourceConfig {
         "NOTION_SHORT_VIDEOS_DATABASE_ID",
         "NOTION_REELS_DATABASE_ID",
         "NOTION_SHORTS_DATABASE_ID"
+      ])
+    };
+  }
+
+  if (source === "photos") {
+    return {
+      dataSourceId: readEnv([
+        "NOTION_PHOTOS_DATA_SOURCE_ID",
+        "NOTION_MEDIA_DATA_SOURCE_ID",
+        "NOTION_IMAGES_DATA_SOURCE_ID"
+      ]),
+      databaseId: readEnv([
+        "NOTION_PHOTOS_DATABASE_ID",
+        "NOTION_MEDIA_DATABASE_ID",
+        "NOTION_IMAGES_DATABASE_ID"
       ])
     };
   }
@@ -792,6 +815,25 @@ function getGallery(page: NotionPage, title: string) {
     .filter((asset): asset is MediaAsset => Boolean(asset));
 }
 
+function getPhotoUrl(page: NotionPage) {
+  const photoProperty = getPropertyByName(page.properties, [
+    "Photo",
+    "Photo URL",
+    "Image",
+    "Image URL",
+    "Media",
+    "Media URL",
+    "File",
+    "Files",
+    "URL",
+    "Link"
+  ]);
+  const [photoUrl] = propertyMediaUrls(photoProperty);
+  const pageCover = getFileUrl(page.cover);
+
+  return photoUrl ?? pageCover;
+}
+
 function getVideoUrl(page: NotionPage) {
   const videoProperty = getPropertyByName(page.properties, [
     "Video URL",
@@ -1043,6 +1085,76 @@ function mapShortVideo(page: NotionPage): SortableShortVideo | undefined {
   };
 }
 
+function getPhotoDisplayLocations(page: NotionPage): PhotoDisplayLocation[] {
+  const values = propertyTags(
+    getPropertyByName(page.properties, [
+      "Display",
+      "Displays",
+      "Display Location",
+      "Placement",
+      "Placements",
+      "Show On",
+      "Use As"
+    ])
+  ).map((value) => value.toLowerCase().trim());
+  const locations = new Set<PhotoDisplayLocation>();
+
+  if (
+    values.some((value) =>
+      ["hero", "hero slider", "home hero", "homepage hero", "slider"].includes(
+        value
+      )
+    ) ||
+    propertyCheckbox(getPropertyByName(page.properties, ["Hero", "Hero Slider"]))
+  ) {
+    locations.add("hero");
+  }
+
+  if (
+    values.some((value) =>
+      ["logo", "site logo", "avatar", "profile", "brand"].includes(value)
+    ) ||
+    propertyCheckbox(getPropertyByName(page.properties, ["Logo", "Site Logo"]))
+  ) {
+    locations.add("logo");
+  }
+
+  return [...locations];
+}
+
+type SortableSitePhoto = SitePhoto & {
+  sortDate: string;
+};
+
+function mapSitePhoto(page: NotionPage): SortableSitePhoto | undefined {
+  const title = getTitle(page);
+  const url = getPhotoUrl(page);
+  const displayLocations = getPhotoDisplayLocations(page);
+  const caption = propertyText(
+    getPropertyByName(page.properties, ["Caption", "Description", "Summary"])
+  );
+  const asset = toMediaAsset(url, getMediaAltText(page, title), caption);
+
+  if (!asset || displayLocations.length === 0) {
+    return undefined;
+  }
+
+  return {
+    ...asset,
+    slug: getSlug(page, title),
+    title,
+    displayLocations,
+    sortOrder:
+      propertyNumber(
+        getPropertyByName(page.properties, ["Sort Order", "Order", "Rank"])
+      ) ?? 999,
+    featured: propertyCheckbox(
+      getPropertyByName(page.properties, ["Featured", "Homepage", "Pinned"])
+    ),
+    sortDate: getDateValue(page)
+  };
+}
+
 function mapAward(page: NotionPage): Award & {
   sortOrder: number;
   featuredRank: number;
@@ -1165,5 +1277,24 @@ export async function fetchNotionShortVideos(): Promise<ShortVideo[]> {
       void sortOrder;
       void featuredRank;
       return video;
+    });
+}
+
+export async function fetchNotionSitePhotos(): Promise<SitePhoto[]> {
+  const pages = await queryDataSource("photos", 100);
+  const photos = pages
+    .filter(isVisiblePage)
+    .map(mapSitePhoto)
+    .filter((photo): photo is SortableSitePhoto => Boolean(photo));
+
+  return photos
+    .sort(
+      (first, second) =>
+        first.sortOrder - second.sortOrder ||
+        new Date(second.sortDate).getTime() - new Date(first.sortDate).getTime()
+    )
+    .map(({ sortDate, ...photo }) => {
+      void sortDate;
+      return photo;
     });
 }

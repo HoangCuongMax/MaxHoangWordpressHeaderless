@@ -6,20 +6,21 @@ import {
   getAwards,
   getFeaturedPosts,
   getFeaturedProjects,
+  getHeroSliderImages,
   getShortVideos
 } from "@/lib/content";
-import { heroSliderImages } from "@/lib/hero-slider-images";
 
 export default async function HomePage() {
-  const [posts, projects, awards, shortVideos] = await Promise.all([
+  const [posts, projects, awards, shortVideos, heroImages] = await Promise.all([
     getFeaturedPosts(),
     getFeaturedProjects(),
     getAwards(),
-    getShortVideos()
+    getShortVideos(),
+    getHeroSliderImages()
   ]);
-  const midpoint = Math.ceil(heroSliderImages.length / 2);
-  const firstRow = heroSliderImages.slice(0, midpoint);
-  const secondRow = heroSliderImages.slice(midpoint);
+  const midpoint = Math.ceil(heroImages.length / 2);
+  const firstRow = heroImages.slice(0, midpoint);
+  const secondRow = heroImages.slice(midpoint);
 
   return (
     <>
@@ -27,7 +28,9 @@ export default async function HomePage() {
         <div className="hero__mesh" aria-hidden="true" />
         <div className="container hero__inner">
           <div className="hero__copy">
-            <div className="eyebrow">AI Visionary / Data Analytics / Service Improvement</div>
+            <div className="eyebrow">
+              AI Visionary / Data Analytics / Service Improvement
+            </div>
             <p className="hero__brand">Max Hoang Journal</p>
             <h1>Ideas that turn data into better services.</h1>
             <p className="hero__lede">
@@ -48,10 +51,10 @@ export default async function HomePage() {
           <div className="hero__visual" aria-label="Featured photo slider">
             <div className="hero-marquee">
               <div className="hero-marquee__track">
-                {[...firstRow, ...firstRow].map((src, index) => (
+                {[...firstRow, ...firstRow].map((asset, index) => (
                   <figure className="hero-shot" key={`row-one-${index}`}>
                     <MediaImage
-                      asset={{ url: src, alt: "" }}
+                      asset={asset}
                       sizes="(max-width: 900px) 180px, 240px"
                       priority={index < 2}
                     />
@@ -61,10 +64,13 @@ export default async function HomePage() {
             </div>
             <div className="hero-marquee hero-marquee--reverse">
               <div className="hero-marquee__track">
-                {[...secondRow, ...secondRow].map((src, index) => (
-                  <figure className="hero-shot hero-shot--small" key={`row-two-${index}`}>
+                {[...secondRow, ...secondRow].map((asset, index) => (
+                  <figure
+                    className="hero-shot hero-shot--small"
+                    key={`row-two-${index}`}
+                  >
                     <MediaImage
-                      asset={{ url: src, alt: "" }}
+                      asset={asset}
                       sizes="(max-width: 900px) 150px, 198px"
                     />
                   </figure>

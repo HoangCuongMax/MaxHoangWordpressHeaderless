@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { MediaAsset } from "@/lib/types";
 
 const siteTagline =
   "AI Visionary - mapping practical intelligence, better services, and data-powered ideas.";
@@ -48,7 +49,7 @@ function NavIcon({ name }: { name: string }) {
   );
 }
 
-export function WorkspaceSidebar() {
+export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
@@ -86,21 +87,36 @@ export function WorkspaceSidebar() {
   }, [isMenuOpen]);
 
   return (
-      <aside
-        className={`workspace-sidebar${isMenuOpen ? " is-open" : ""}${
-          isHeaderHidden ? " is-hidden" : ""
-        }`}
-        aria-label="Workspace navigation"
-      >
+    <aside
+      className={`workspace-sidebar${isMenuOpen ? " is-open" : ""}${
+        isHeaderHidden ? " is-hidden" : ""
+      }`}
+      aria-label="Workspace navigation"
+    >
         <div className="workspace-sidebar__brand">
-          <Link href="/" className="workspace-sidebar__avatar" aria-label="Max Hoang Journal home">
-            <Image
-              src="/max-hoang-portrait.jpg"
-              alt=""
-              width={88}
-              height={88}
-              priority
-            />
+          <Link
+            href="/"
+            className="workspace-sidebar__avatar"
+            aria-label="Max Hoang Journal home"
+          >
+            {logo ? (
+              <Image
+                src={logo.url}
+                alt={logo.alt}
+                width={88}
+                height={88}
+                priority
+                unoptimized
+              />
+            ) : (
+              <Image
+                src="/max-hoang-portrait.jpg"
+                alt=""
+                width={88}
+                height={88}
+                priority
+              />
+            )}
           </Link>
           <div className="workspace-sidebar__brand-copy">
             <a
@@ -190,6 +206,6 @@ export function WorkspaceSidebar() {
           </a>
           <p>{professionalHeadline}</p>
         </div>
-      </aside>
+    </aside>
   );
 }
