@@ -1397,6 +1397,7 @@ function mapEvent(page: NotionPage): EventItem & {
       ])
     ),
     eventUrl: getReferenceUrl(page),
+    coverImage: getCoverImage(page, title),
     featured,
     sortDate: startsAt,
     sortOrder:

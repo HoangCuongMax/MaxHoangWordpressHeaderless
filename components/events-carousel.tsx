@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { MediaCover } from "@/components/media";
 import type { EventItem } from "@/lib/types";
 
 function getStartOfWeek(date: Date) {
@@ -151,6 +152,24 @@ export function EventsCarousel({ items }: { items: EventItem[] }) {
                     <a href={event.eventUrl} target="_blank" rel="noreferrer">
                       View event
                     </a>
+                  ) : null}
+                  {event.coverImage ? (
+                    <figure className="event-card__media">
+                      <MediaCover
+                        asset={event.coverImage}
+                        title={event.title}
+                        label="Event"
+                        description={event.description}
+                        compact
+                        sizes="(max-width: 900px) 78vw, 360px"
+                        transformation={[
+                          {
+                            width: 640,
+                            quality: 82
+                          }
+                        ]}
+                      />
+                    </figure>
                   ) : null}
                 </article>
               );

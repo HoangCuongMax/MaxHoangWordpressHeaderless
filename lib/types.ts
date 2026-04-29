@@ -67,6 +67,7 @@ export type EventItem = {
   location?: string;
   description?: string;
   eventUrl?: string;
+  coverImage?: MediaAsset;
   featured?: boolean;
 };
 

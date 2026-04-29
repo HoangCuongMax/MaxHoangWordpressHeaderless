@@ -128,6 +128,8 @@ Create three Notion data sources: one for blog posts, one for projects, and one 
 - `Location`: rich text
 - `Description`: rich text
 - `Event URL`: optional URL
+- `Cover Photo`: optional image URL shown under the event content
+- `Media Alt Text`: accessible text for the event cover photo
 - `Published`: checkbox
 - `Status`: select/status, where draft/private/hidden values are not shown
 - `Featured`: checkbox for homepage priority

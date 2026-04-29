@@ -544,11 +544,13 @@ main {
   flex: 0 0 clamp(260px, 30vw, 360px);
   width: clamp(260px, 30vw, 360px);
   min-height: 9.25rem;
+  max-height: 13.5rem;
   padding: 0.95rem;
   border-radius: var(--radius);
   background: #eef5f1;
   color: var(--surface-strong);
   scroll-snap-align: start;
+  overflow: hidden;
 }
 
 .event-card--current {
@@ -607,6 +609,19 @@ main {
   font-weight: 800;
   text-decoration: underline;
   text-underline-offset: 0.22em;
+}
+
+.event-card__media {
+  position: relative;
+  margin: 0.35rem 0 0;
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--surface-muted);
+  aspect-ratio: 16 / 7;
+}
+
+.event-card__media img {
+  object-fit: cover;
 }
 
 .button {
