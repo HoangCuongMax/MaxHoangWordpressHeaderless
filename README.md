@@ -75,7 +75,7 @@ npm run dev
 
 ## Notion content model
 
-Create three Notion data sources: one for blog posts, one for projects, and one for awards. The code is flexible about property names, but these fields are recommended.
+For day-to-day editing, use `CONTENT_GUIDE.md`. The code is flexible about property names, but these fields are recommended.
 
 ### Blog posts
 

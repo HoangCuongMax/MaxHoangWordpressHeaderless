@@ -1,14 +1,6 @@
 import Link from "next/link";
+import { pageLinks } from "@/lib/site-config";
 import type { EventItem, Post } from "@/lib/types";
-
-const sitemapLinks = [
-  { href: "/", label: "Home" },
-  { href: "/blog", label: "Blog" },
-  { href: "/projects", label: "Projects" },
-  { href: "/services", label: "Services" },
-  { href: "/tools", label: "Tools" },
-  { href: "/contact", label: "Contact" }
-];
 
 export function SiteFooter({
   latestPosts,
@@ -45,7 +37,7 @@ export function SiteFooter({
         <nav className="site-footer__group" aria-label="Footer sitemap">
           <h2>Site Map</h2>
           <ul>
-            {sitemapLinks.map((link) => (
+            {pageLinks.map((link) => (
               <li key={link.href}>
                 <Link href={link.href}>{link.label}</Link>
               </li>

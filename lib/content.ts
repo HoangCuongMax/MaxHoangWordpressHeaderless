@@ -23,11 +23,20 @@ import {
   fetchNotionProjects,
   fetchNotionSitePhotos,
   fetchNotionShortVideos,
-  hasNotionConfig
+  hasNotionConfig,
+  type ContentSource
 } from "@/lib/notion";
 
 function normalizeTags(tags: string[] | undefined) {
   return [...new Set((tags ?? []).map((tag) => tag.trim()).filter(Boolean))];
+}
+
+function withConfiguredFallback<T>(
+  items: T[],
+  source: ContentSource,
+  fallback: T[]
+) {
+  return items.length > 0 || hasNotionConfig(source) ? items : fallback;
 }
 
 function enhancePost(post: Post): Post {
@@ -97,7 +106,7 @@ function postToRelatedItem(post: Post): RelatedContentItem {
     title: post.title,
     summary: post.excerpt,
     kindLabel: "Blog post",
-    meta: `${post.publishedAt} · ${post.readingTime}`,
+    meta: `${post.publishedAt} / ${post.readingTime}`,
     tags: post.tags,
     coverImage: post.coverImage
   };
@@ -111,7 +120,7 @@ function projectToRelatedItem(project: Project): RelatedContentItem {
     summary: project.summary,
     kindLabel: "Project",
     meta: project.publishedAt
-      ? `${project.status} · ${project.publishedAt}`
+      ? `${project.status} / ${project.publishedAt}`
       : project.status,
     tags: project.tags,
     coverImage: project.coverImage
@@ -120,8 +129,7 @@ function projectToRelatedItem(project: Project): RelatedContentItem {
 
 export async function getPosts(): Promise<Post[]> {
   const posts = await fetchNotionPosts();
-  const source =
-    posts.length > 0 || hasNotionConfig("blog") ? posts : fallbackPosts;
+  const source = withConfiguredFallback(posts, "blog", fallbackPosts);
 
   return source.map(enhancePost);
 }
@@ -138,10 +146,7 @@ export async function getFeaturedPosts(): Promise<Post[]> {
 
 export async function getProjects(): Promise<Project[]> {
   const projects = await fetchNotionProjects();
-  const source =
-    projects.length > 0 || hasNotionConfig("projects")
-      ? projects
-      : fallbackProjects;
+  const source = withConfiguredFallback(projects, "projects", fallbackProjects);
 
   return source.map(enhanceProject);
 }
@@ -167,17 +172,17 @@ export async function getFeaturedProjects(): Promise<Project[]> {
 export async function getAwards(): Promise<Award[]> {
   const awards = await fetchNotionAwards();
 
-  return awards.length > 0 || hasNotionConfig("awards")
-    ? awards
-    : fallbackAwards;
+  return withConfiguredFallback(awards, "awards", fallbackAwards);
 }
 
 export async function getShortVideos(): Promise<ShortVideo[]> {
   const videos = await fetchNotionShortVideos();
 
-  const source = videos.length > 0 || hasNotionConfig("shortVideos")
-    ? videos
-    : fallbackShortVideos;
+  const source = withConfiguredFallback(
+    videos,
+    "shortVideos",
+    fallbackShortVideos
+  );
 
   const aboutReels = source.filter((video) =>
     video.displayLocations.includes("aboutReels")
@@ -189,9 +194,7 @@ export async function getShortVideos(): Promise<ShortVideo[]> {
 export async function getSitePhotos() {
   const photos = await fetchNotionSitePhotos();
 
-  return photos.length > 0 || hasNotionConfig("photos")
-    ? photos
-    : fallbackSitePhotos;
+  return withConfiguredFallback(photos, "photos", fallbackSitePhotos);
 }
 
 export async function getHeroSliderImages(): Promise<MediaAsset[]> {
@@ -231,9 +234,7 @@ export async function getSiteLogo(): Promise<MediaAsset | undefined> {
 export async function getEvents(): Promise<EventItem[]> {
   const events = await fetchNotionEvents();
 
-  return events.length > 0 || hasNotionConfig("events")
-    ? events
-    : fallbackEvents;
+  return withConfiguredFallback(events, "events", fallbackEvents);
 }
 
 export async function getRelatedPosts(

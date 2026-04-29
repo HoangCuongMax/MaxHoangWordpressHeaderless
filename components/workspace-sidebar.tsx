@@ -4,28 +4,13 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import {
+  categoryLinks,
+  pageLinks,
+  professionalHeadline,
+  siteTagline
+} from "@/lib/site-config";
 import type { MediaAsset } from "@/lib/types";
-
-const siteTagline =
-  "AI Visionary - mapping practical intelligence, better services, and data-powered ideas.";
-
-const professionalHeadline =
-  "Service Improvement Analyst | NEC Australia | AI & Data Analytics | Service Now Implementer | ITIL 4 Certified | Power BI Certified | Salesforce Certified | Multi-Award Winner (GovHack, RIMPA, CDU Code Fair x5, NT Digital Excellence)";
-
-const pageLinks = [
-  { href: "/", label: "Home", icon: "home" },
-  { href: "/blog", label: "Blog", icon: "blog" },
-  { href: "/projects", label: "Projects", icon: "projects" },
-  { href: "/services", label: "Services", icon: "services" },
-  { href: "/tools", label: "Tools", icon: "tools" },
-  { href: "/contact", label: "Contact", icon: "contact" }
-];
-
-const categoryLinks = [
-  { href: "/blog", label: "Writing" },
-  { href: "/projects", label: "Projects" },
-  { href: "/tools", label: "Utilities" }
-];
 
 function NavIcon({ name }: { name: string }) {
   const paths: Record<string, string> = {

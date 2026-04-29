@@ -15,7 +15,7 @@ const DEFAULT_NOTION_VERSION = "2026-03-11";
 const DEFAULT_REVALIDATE_SECONDS = 300;
 const DEFAULT_IMAGEKIT_URL_ENDPOINT = "https://ik.imagekit.io/maxhoang";
 
-type ContentSource =
+export type ContentSource =
   | "blog"
   | "projects"
   | "awards"
@@ -68,6 +68,11 @@ type DataSourceConfig = {
   databaseId?: string;
 };
 
+type DataSourceEnvConfig = {
+  dataSourceEnv: string[];
+  databaseEnv: string[];
+};
+
 type NotionQueryResponse = {
   results?: NotionPage[];
   has_more?: boolean;
@@ -91,6 +96,61 @@ type Sortable<T> = T & {
 };
 
 const dataSourceIdCache = new Map<ContentSource, string>();
+
+const DATA_SOURCE_ENV: Record<ContentSource, DataSourceEnvConfig> = {
+  blog: {
+    dataSourceEnv: ["NOTION_BLOG_DATA_SOURCE_ID", "NOTION_POSTS_DATA_SOURCE_ID"],
+    databaseEnv: ["NOTION_BLOG_DATABASE_ID", "NOTION_POSTS_DATABASE_ID"]
+  },
+  projects: {
+    dataSourceEnv: [
+      "NOTION_PROJECTS_DATA_SOURCE_ID",
+      "NOTION_PROJECT_DATA_SOURCE_ID"
+    ],
+    databaseEnv: [
+      "NOTION_PROJECTS_DATABASE_ID",
+      "NOTION_PROJECT_DATABASE_ID"
+    ]
+  },
+  awards: {
+    dataSourceEnv: [
+      "NOTION_AWARDS_DATA_SOURCE_ID",
+      "NOTION_AWARD_DATA_SOURCE_ID"
+    ],
+    databaseEnv: ["NOTION_AWARDS_DATABASE_ID", "NOTION_AWARD_DATABASE_ID"]
+  },
+  shortVideos: {
+    dataSourceEnv: [
+      "NOTION_SHORT_VIDEOS_DATA_SOURCE_ID",
+      "NOTION_REELS_DATA_SOURCE_ID",
+      "NOTION_SHORTS_DATA_SOURCE_ID"
+    ],
+    databaseEnv: [
+      "NOTION_SHORT_VIDEOS_DATABASE_ID",
+      "NOTION_REELS_DATABASE_ID",
+      "NOTION_SHORTS_DATABASE_ID"
+    ]
+  },
+  photos: {
+    dataSourceEnv: [
+      "NOTION_PHOTOS_DATA_SOURCE_ID",
+      "NOTION_MEDIA_DATA_SOURCE_ID",
+      "NOTION_IMAGES_DATA_SOURCE_ID"
+    ],
+    databaseEnv: [
+      "NOTION_PHOTOS_DATABASE_ID",
+      "NOTION_MEDIA_DATABASE_ID",
+      "NOTION_IMAGES_DATABASE_ID"
+    ]
+  },
+  events: {
+    dataSourceEnv: [
+      "NOTION_EVENTS_DATA_SOURCE_ID",
+      "NOTION_EVENT_DATA_SOURCE_ID"
+    ],
+    databaseEnv: ["NOTION_EVENTS_DATABASE_ID", "NOTION_EVENT_DATABASE_ID"]
+  }
+};
 
 function readEnv(names: string[]) {
   for (const name of names) {
@@ -127,84 +187,10 @@ function getImageKitUrlEndpoint() {
 }
 
 function getDataSourceConfig(source: ContentSource): DataSourceConfig {
-  if (source === "blog") {
-    return {
-      dataSourceId: readEnv([
-        "NOTION_BLOG_DATA_SOURCE_ID",
-        "NOTION_POSTS_DATA_SOURCE_ID"
-      ]),
-      databaseId: readEnv([
-        "NOTION_BLOG_DATABASE_ID",
-        "NOTION_POSTS_DATABASE_ID"
-      ])
-    };
-  }
-
-  if (source === "awards") {
-    return {
-      dataSourceId: readEnv([
-        "NOTION_AWARDS_DATA_SOURCE_ID",
-        "NOTION_AWARD_DATA_SOURCE_ID"
-      ]),
-      databaseId: readEnv([
-        "NOTION_AWARDS_DATABASE_ID",
-        "NOTION_AWARD_DATABASE_ID"
-      ])
-    };
-  }
-
-  if (source === "shortVideos") {
-    return {
-      dataSourceId: readEnv([
-        "NOTION_SHORT_VIDEOS_DATA_SOURCE_ID",
-        "NOTION_REELS_DATA_SOURCE_ID",
-        "NOTION_SHORTS_DATA_SOURCE_ID"
-      ]),
-      databaseId: readEnv([
-        "NOTION_SHORT_VIDEOS_DATABASE_ID",
-        "NOTION_REELS_DATABASE_ID",
-        "NOTION_SHORTS_DATABASE_ID"
-      ])
-    };
-  }
-
-  if (source === "photos") {
-    return {
-      dataSourceId: readEnv([
-        "NOTION_PHOTOS_DATA_SOURCE_ID",
-        "NOTION_MEDIA_DATA_SOURCE_ID",
-        "NOTION_IMAGES_DATA_SOURCE_ID"
-      ]),
-      databaseId: readEnv([
-        "NOTION_PHOTOS_DATABASE_ID",
-        "NOTION_MEDIA_DATABASE_ID",
-        "NOTION_IMAGES_DATABASE_ID"
-      ])
-    };
-  }
-
-  if (source === "events") {
-    return {
-      dataSourceId: readEnv([
-        "NOTION_EVENTS_DATA_SOURCE_ID",
-        "NOTION_EVENT_DATA_SOURCE_ID"
-      ]),
-      databaseId: readEnv([
-        "NOTION_EVENTS_DATABASE_ID",
-        "NOTION_EVENT_DATABASE_ID"
-      ])
-    };
-  }
-
+  const config = DATA_SOURCE_ENV[source];
   return {
-    dataSourceId: readEnv([
-      "NOTION_PROJECTS_DATA_SOURCE_ID",
-      "NOTION_PROJECT_DATA_SOURCE_ID"
-    ]),
-    databaseId: readEnv([
-      "NOTION_PROJECTS_DATABASE_ID",
-      "NOTION_PROJECT_DATABASE_ID"
-    ])
+    dataSourceId: readEnv(config.dataSourceEnv),
+    databaseId: readEnv(config.databaseEnv)
   };
 }
 
