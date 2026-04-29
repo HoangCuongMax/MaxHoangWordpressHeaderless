@@ -58,6 +58,18 @@ export type SitePhoto = MediaAsset & {
   featured?: boolean;
 };
 
+export type EventItem = {
+  slug: string;
+  title: string;
+  startsAt: string;
+  endsAt?: string;
+  displayDate: string;
+  location?: string;
+  description?: string;
+  eventUrl?: string;
+  featured?: boolean;
+};
+
 export type Post = {
   slug: string;
   title: string;

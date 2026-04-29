@@ -1,4 +1,11 @@
-import { Award, Post, Project, ShortVideo, SitePhoto } from "@/lib/types";
+import {
+  Award,
+  EventItem,
+  Post,
+  Project,
+  ShortVideo,
+  SitePhoto
+} from "@/lib/types";
 import { heroSliderImages } from "@/lib/hero-slider-images";
 
 export const fallbackSitePhotos: SitePhoto[] = heroSliderImages.map(
@@ -103,6 +110,8 @@ export const fallbackShortVideos: ShortVideo[] = [
     featured: true
   }
 ];
+
+export const fallbackEvents: EventItem[] = [];
 
 export const fallbackPosts: Post[] = [
   {

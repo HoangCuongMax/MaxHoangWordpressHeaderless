@@ -1,9 +1,11 @@
 import { AwardsCarousel } from "@/components/awards-carousel";
+import { EventsCarousel } from "@/components/events-carousel";
 import { ReelsVideoCarousel } from "@/components/reels-video-carousel";
 import Link from "next/link";
 import { MediaCover, MediaImage } from "@/components/media";
 import {
   getAwards,
+  getEvents,
   getFeaturedPosts,
   getFeaturedProjects,
   getHeroSliderImages,
@@ -11,13 +13,15 @@ import {
 } from "@/lib/content";
 
 export default async function HomePage() {
-  const [posts, projects, awards, shortVideos, heroImages] = await Promise.all([
-    getFeaturedPosts(),
-    getFeaturedProjects(),
-    getAwards(),
-    getShortVideos(),
-    getHeroSliderImages()
-  ]);
+  const [posts, projects, awards, shortVideos, heroImages, events] =
+    await Promise.all([
+      getFeaturedPosts(),
+      getFeaturedProjects(),
+      getAwards(),
+      getShortVideos(),
+      getHeroSliderImages(),
+      getEvents()
+    ]);
   const midpoint = Math.ceil(heroImages.length / 2);
   const firstRow = heroImages.slice(0, midpoint);
   const secondRow = heroImages.slice(midpoint);
@@ -80,6 +84,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <EventsCarousel items={events} />
 
       <section className="section section--contrast">
         <div className="container about-intro">

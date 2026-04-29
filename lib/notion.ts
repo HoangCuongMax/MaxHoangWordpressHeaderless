@@ -1,5 +1,6 @@
 import {
   Award,
+  EventItem,
   MediaAsset,
   PhotoDisplayLocation,
   Post,
@@ -14,7 +15,13 @@ const DEFAULT_NOTION_VERSION = "2026-03-11";
 const DEFAULT_REVALIDATE_SECONDS = 300;
 const DEFAULT_IMAGEKIT_URL_ENDPOINT = "https://ik.imagekit.io/maxhoang";
 
-type ContentSource = "blog" | "projects" | "awards" | "shortVideos" | "photos";
+type ContentSource =
+  | "blog"
+  | "projects"
+  | "awards"
+  | "shortVideos"
+  | "photos"
+  | "events";
 
 type NotionRichText = {
   plain_text?: string;
@@ -172,6 +179,19 @@ function getDataSourceConfig(source: ContentSource): DataSourceConfig {
         "NOTION_PHOTOS_DATABASE_ID",
         "NOTION_MEDIA_DATABASE_ID",
         "NOTION_IMAGES_DATABASE_ID"
+      ])
+    };
+  }
+
+  if (source === "events") {
+    return {
+      dataSourceId: readEnv([
+        "NOTION_EVENTS_DATA_SOURCE_ID",
+        "NOTION_EVENT_DATA_SOURCE_ID"
+      ]),
+      databaseId: readEnv([
+        "NOTION_EVENTS_DATABASE_ID",
+        "NOTION_EVENT_DATABASE_ID"
       ])
     };
   }
@@ -817,6 +837,24 @@ function getGallery(page: NotionPage, title: string) {
     .filter((asset): asset is MediaAsset => Boolean(asset));
 }
 
+function propertyDateEnd(property: NotionProperty | undefined) {
+  if (!property?.type) {
+    return undefined;
+  }
+
+  if (property.type === "date") {
+    return asString(asObject(property.date)?.end);
+  }
+
+  if (property.type === "formula") {
+    const formula = asObject(property.formula);
+    const formulaDate = asObject(formula?.date);
+    return asString(formulaDate?.end);
+  }
+
+  return undefined;
+}
+
 function getPhotoUrl(page: NotionPage) {
   const photoProperty = getPropertyByName(page.properties, [
     "Photo",
@@ -985,11 +1023,12 @@ async function mapProject(page: NotionPage): Promise<Sortable<Project>> {
 
 function getReferenceUrl(page: NotionPage) {
   const url = propertyText(
-    getPropertyByName(page.properties, [
-      "Reference URL",
-      "Link",
-      "Project URL",
-      "URL"
+      getPropertyByName(page.properties, [
+        "Reference URL",
+        "Event URL",
+        "Link",
+        "Project URL",
+        "URL"
     ])
   );
 
@@ -1297,6 +1336,77 @@ export async function fetchNotionAwards(): Promise<Award[]> {
     });
 }
 
+function formatEventDate(start: string, end?: string) {
+  const formatter = new Intl.DateTimeFormat("en-AU", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
+  const startLabel = formatter.format(new Date(start));
+
+  if (!end || end === start) {
+    return startLabel;
+  }
+
+  return `${startLabel} - ${formatter.format(new Date(end))}`;
+}
+
+function mapEvent(page: NotionPage): EventItem & {
+  sortDate: string;
+  sortOrder: number;
+  featuredRank: number;
+} {
+  const title = getTitle(page);
+  const eventDateProperty = getPropertyByName(page.properties, [
+    "Event Date",
+    "Date",
+    "Start Date",
+    "Starts At",
+    "Start"
+  ]);
+  const endDateProperty = getPropertyByName(page.properties, [
+    "End Date",
+    "Ends At",
+    "End"
+  ]);
+  const startsAt =
+    propertyDate(eventDateProperty) ??
+    page.created_time ??
+    new Date().toISOString();
+  const endsAt =
+    propertyDate(endDateProperty) ?? propertyDateEnd(eventDateProperty);
+  const featured = propertyCheckbox(
+    getPropertyByName(page.properties, ["Featured", "Homepage", "Pinned"])
+  );
+
+  return {
+    slug: getSlug(page, title),
+    title,
+    startsAt,
+    endsAt,
+    displayDate: formatEventDate(startsAt, endsAt),
+    location: propertyText(
+      getPropertyByName(page.properties, ["Location", "Venue", "Place"])
+    ),
+    description: propertyText(
+      getPropertyByName(page.properties, [
+        "Description",
+        "Summary",
+        "Excerpt",
+        "Caption"
+      ])
+    ),
+    eventUrl: getReferenceUrl(page),
+    featured,
+    sortDate: startsAt,
+    sortOrder:
+      propertyNumber(
+        getPropertyByName(page.properties, ["Sort Order", "Order", "Rank"])
+      ) ?? 999,
+    featuredRank: featured ? 0 : 1
+  };
+}
+
 export async function fetchNotionShortVideos(): Promise<ShortVideo[]> {
   const pages = await queryDataSource("shortVideos", 50);
   const videos = pages
@@ -1335,5 +1445,24 @@ export async function fetchNotionSitePhotos(): Promise<SitePhoto[]> {
     .map(({ sortDate, ...photo }) => {
       void sortDate;
       return photo;
+    });
+}
+
+export async function fetchNotionEvents(): Promise<EventItem[]> {
+  const pages = await queryDataSource("events", 50);
+  const events = pages.filter(isVisiblePage).map(mapEvent);
+
+  return events
+    .sort(
+      (first, second) =>
+        first.featuredRank - second.featuredRank ||
+        first.sortOrder - second.sortOrder ||
+        new Date(first.sortDate).getTime() - new Date(second.sortDate).getTime()
+    )
+    .map(({ sortDate, sortOrder, featuredRank, ...event }) => {
+      void sortDate;
+      void sortOrder;
+      void featuredRank;
+      return event;
     });
 }

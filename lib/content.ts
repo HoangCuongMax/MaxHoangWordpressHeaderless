@@ -1,6 +1,7 @@
 import { addHeadingAnchors } from "@/lib/article";
 import {
   Award,
+  EventItem,
   MediaAsset,
   Post,
   Project,
@@ -9,6 +10,7 @@ import {
 } from "@/lib/types";
 import {
   fallbackAwards,
+  fallbackEvents,
   fallbackPosts,
   fallbackProjects,
   fallbackSitePhotos,
@@ -16,6 +18,7 @@ import {
 } from "@/lib/mock-data";
 import {
   fetchNotionAwards,
+  fetchNotionEvents,
   fetchNotionPosts,
   fetchNotionProjects,
   fetchNotionSitePhotos,
@@ -223,6 +226,14 @@ export async function getSiteLogo(): Promise<MediaAsset | undefined> {
         ...(logo.caption ? { caption: logo.caption } : {})
       }
     : undefined;
+}
+
+export async function getEvents(): Promise<EventItem[]> {
+  const events = await fetchNotionEvents();
+
+  return events.length > 0 || hasNotionConfig("events")
+    ? events
+    : fallbackEvents;
 }
 
 export async function getRelatedPosts(
