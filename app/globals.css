@@ -240,8 +240,8 @@ main {
 }
 
 .workspace-sidebar__footer {
-  margin-top: auto;
-  padding-top: 1rem;
+  margin-top: 0;
+  padding-top: 0;
   border-top: 1px solid var(--line);
 }
 
@@ -2911,6 +2911,13 @@ main {
   gap: 0.38rem;
 }
 
+.workspace-sidebar__bottom {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: auto;
+  padding-top: 0.25rem;
+}
+
 .workspace-sidebar__label {
   padding: 0 0.35rem;
   font-size: 0.68rem;
@@ -2939,13 +2946,13 @@ main {
 
 .workspace-sidebar__link {
   position: relative;
-  min-height: 2.65rem;
+  min-height: 2.9rem;
   justify-content: flex-start;
   gap: 0.7rem;
-  padding: 0 0.75rem 0 1rem;
+  padding: 0 0.8rem 0 1.05rem;
   background: transparent;
-  font-size: 0.94rem;
-  font-weight: 750;
+  font-size: 0.96rem;
+  font-weight: 700;
 }
 
 .workspace-sidebar__link:hover,
@@ -2972,6 +2979,15 @@ main {
   background: rgba(255, 255, 255, 0.52);
   font-size: 0.84rem;
   font-weight: 750;
+}
+
+.workspace-sidebar__footer {
+  margin-top: 0.15rem;
+  padding: 0.35rem 0.35rem 0;
+}
+
+.workspace-sidebar__footer p {
+  line-height: 1.45;
 }
 
 .workspace-chip {

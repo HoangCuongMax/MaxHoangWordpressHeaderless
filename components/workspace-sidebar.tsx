@@ -188,60 +188,62 @@ export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
         })}
       </nav>
 
-      <div className="workspace-sidebar__section workspace-sidebar__section--categories">
-        <p className="workspace-sidebar__label">Categories</p>
-        <div className="workspace-sidebar__chips">
-          {categoryLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="workspace-chip">
-              {link.label}
-            </Link>
-          ))}
+      <div className="workspace-sidebar__bottom">
+        <div className="workspace-sidebar__section workspace-sidebar__section--categories">
+          <p className="workspace-sidebar__label">Categories</p>
+          <div className="workspace-sidebar__chips">
+            {categoryLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="workspace-chip">
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="workspace-sidebar__section workspace-sidebar__section--actions">
-        <p className="workspace-sidebar__label">Connect</p>
-        <div className="workspace-sidebar__buttons">
-          <button
-            type="button"
-            className="workspace-button workspace-button--primary"
-            onClick={handlePushContent}
-            disabled={pushStatus === "pushing"}
-          >
-            {pushStatus === "pushing" ? "Pushing..." : "Push content"}
-          </button>
-          <Link href="/contact" className="workspace-button">
-            Contact
-          </Link>
+        <div className="workspace-sidebar__section workspace-sidebar__section--actions">
+          <p className="workspace-sidebar__label">Connect</p>
+          <div className="workspace-sidebar__buttons">
+            <button
+              type="button"
+              className="workspace-button workspace-button--primary"
+              onClick={handlePushContent}
+              disabled={pushStatus === "pushing"}
+            >
+              {pushStatus === "pushing" ? "Pushing..." : "Push content"}
+            </button>
+            <Link href="/contact" className="workspace-button">
+              Contact
+            </Link>
+            <a
+              href="https://www.linkedin.com/in/maxhoangau/"
+              className="workspace-button"
+              target="_blank"
+              rel="noreferrer"
+            >
+              LinkedIn
+            </a>
+          </div>
+          {pushStatus === "success" ? (
+            <p className="workspace-sidebar__status">Content pushed.</p>
+          ) : null}
+          {pushStatus === "error" ? (
+            <p className="workspace-sidebar__status workspace-sidebar__status--error">
+              Could not push content.
+            </p>
+          ) : null}
+        </div>
+
+        <div className="workspace-sidebar__footer">
           <a
             href="https://www.linkedin.com/in/maxhoangau/"
-            className="workspace-button"
+            className="workspace-sidebar__footer-link"
             target="_blank"
             rel="noreferrer"
           >
-            LinkedIn
+            Max Hoang
           </a>
+          <p>{professionalHeadline}</p>
         </div>
-        {pushStatus === "success" ? (
-          <p className="workspace-sidebar__status">Content pushed.</p>
-        ) : null}
-        {pushStatus === "error" ? (
-          <p className="workspace-sidebar__status workspace-sidebar__status--error">
-            Could not push content.
-          </p>
-        ) : null}
-      </div>
-
-      <div className="workspace-sidebar__footer">
-        <a
-          href="https://www.linkedin.com/in/maxhoangau/"
-          className="workspace-sidebar__footer-link"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Max Hoang
-        </a>
-        <p>{professionalHeadline}</p>
       </div>
     </aside>
   );
