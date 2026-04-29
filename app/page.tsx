@@ -1,14 +1,21 @@
 import { AwardsCarousel } from "@/components/awards-carousel";
+import { ReelsVideoCarousel } from "@/components/reels-video-carousel";
 import Link from "next/link";
 import { MediaCover, MediaImage } from "@/components/media";
-import { getAwards, getFeaturedPosts, getFeaturedProjects } from "@/lib/content";
+import {
+  getAwards,
+  getFeaturedPosts,
+  getFeaturedProjects,
+  getShortVideos
+} from "@/lib/content";
 import { heroSliderImages } from "@/lib/hero-slider-images";
 
 export default async function HomePage() {
-  const [posts, projects, awards] = await Promise.all([
+  const [posts, projects, awards, shortVideos] = await Promise.all([
     getFeaturedPosts(),
     getFeaturedProjects(),
-    getAwards()
+    getAwards(),
+    getShortVideos()
   ]);
   const midpoint = Math.ceil(heroSliderImages.length / 2);
   const firstRow = heroSliderImages.slice(0, midpoint);
@@ -114,6 +121,9 @@ export default async function HomePage() {
               />
             </div>
           </div>
+        </div>
+        <div className="container about-reels">
+          <ReelsVideoCarousel items={shortVideos} />
         </div>
       </section>
 

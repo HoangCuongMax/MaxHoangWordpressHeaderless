@@ -1,10 +1,16 @@
 import { addHeadingAnchors } from "@/lib/article";
-import { Award, Post, Project, RelatedContentItem } from "@/lib/types";
-import { fallbackAwards, fallbackPosts, fallbackProjects } from "@/lib/mock-data";
+import { Award, Post, Project, RelatedContentItem, ShortVideo } from "@/lib/types";
+import {
+  fallbackAwards,
+  fallbackPosts,
+  fallbackProjects,
+  fallbackShortVideos
+} from "@/lib/mock-data";
 import {
   fetchNotionAwards,
   fetchNotionPosts,
   fetchNotionProjects,
+  fetchNotionShortVideos,
   hasNotionConfig
 } from "@/lib/notion";
 
@@ -152,6 +158,14 @@ export async function getAwards(): Promise<Award[]> {
   return awards.length > 0 || hasNotionConfig("awards")
     ? awards
     : fallbackAwards;
+}
+
+export async function getShortVideos(): Promise<ShortVideo[]> {
+  const videos = await fetchNotionShortVideos();
+
+  return videos.length > 0 || hasNotionConfig("shortVideos")
+    ? videos
+    : fallbackShortVideos;
 }
 
 export async function getRelatedPosts(

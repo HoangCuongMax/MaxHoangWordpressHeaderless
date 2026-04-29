@@ -1,6 +1,6 @@
 # Max Hoang Frontend
 
-Custom personal website built with Next.js and Notion-backed content for blog posts, projects, and awards.
+Custom personal website built with Next.js and Notion-backed content for blog posts, projects, awards, and short videos.
 
 ## What is included
 
@@ -9,7 +9,7 @@ Custom personal website built with Next.js and Notion-backed content for blog po
 - blog index and blog detail pages
 - projects index and project detail pages
 - tools section with interactive utilities
-- Notion API integration for blog posts, projects, and awards
+- Notion API integration for blog posts, projects, awards, and short videos
 - contact page and monthly mailing list popup
 
 ## Stack
@@ -40,6 +40,7 @@ NOTION_API_KEY=secret_your_notion_integration_token
 NOTION_BLOG_DATA_SOURCE_ID=your_blog_data_source_id
 NOTION_PROJECTS_DATA_SOURCE_ID=your_projects_data_source_id
 NOTION_AWARDS_DATA_SOURCE_ID=your_awards_data_source_id
+NOTION_SHORT_VIDEOS_DATA_SOURCE_ID=your_short_videos_data_source_id
 NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_imagekit_id
 CONTACT_TO_EMAIL=hoangngoccuong1414@gmail.com
 SMTP_HOST=smtp.gmail.com
@@ -56,8 +57,9 @@ Current Notion data sources:
 - Blog: `bb9e4516-594b-489c-91e5-75de95deafa4`
 - Projects: `53ac54ef-d1dc-47f4-aeb9-c570b40d87de`
 - Awards: `40500125-f31c-4e3f-b3c8-cdd670582dd0`
+- Short videos: set `NOTION_SHORT_VIDEOS_DATA_SOURCE_ID` when the database is ready
 
-You can also use `NOTION_BLOG_DATABASE_ID`, `NOTION_PROJECTS_DATABASE_ID`, and `NOTION_AWARDS_DATABASE_ID`. If database IDs are provided, the app retrieves the first data source inside each database before querying content.
+You can also use `NOTION_BLOG_DATABASE_ID`, `NOTION_PROJECTS_DATABASE_ID`, `NOTION_AWARDS_DATABASE_ID`, and `NOTION_SHORT_VIDEOS_DATABASE_ID`. If database IDs are provided, the app retrieves the first data source inside each database before querying content.
 
 4. Share each Notion database with your integration from the database menu under `Add connections`.
 
@@ -113,6 +115,16 @@ Create three Notion data sources: one for blog posts, one for projects, and one 
 - `Cover Image`: ImageKit URL or path
 - `Media Alt Text`: accessible text for the cover image
 - `Reference URL`: optional link to the source page or project reference
+
+### Short videos
+
+- `Name` or `Title`: title property
+- `YouTube URL`, `Shorts URL`, `Video URL`, `URL`, or `Link`: YouTube Shorts URL
+- `Published`: date or checkbox
+- `Status` or `Publish Status`: select/status, where draft/private/hidden values are not shown
+- `Featured`: checkbox for homepage priority
+- `Sort Order`: number for manual homepage ordering
+- `Summary`, `Description`, or `Caption`: optional text for future display
 
 Page body blocks are rendered into article HTML for detail pages. Supported blocks include paragraphs, headings, lists, quotes, callouts, code blocks, dividers, images, embeds, bookmarks, and link previews.
 

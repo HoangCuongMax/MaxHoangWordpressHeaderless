@@ -35,6 +35,16 @@ export type Award = {
   featured?: boolean;
 };
 
+export type ShortVideo = {
+  slug: string;
+  title: string;
+  url: string;
+  youtubeId: string;
+  summary?: string;
+  publishedAt?: string;
+  featured?: boolean;
+};
+
 export type Post = {
   slug: string;
   title: string;

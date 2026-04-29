@@ -1,11 +1,11 @@
-import { Award, MediaAsset, Post, Project } from "@/lib/types";
+import { Award, MediaAsset, Post, Project, ShortVideo } from "@/lib/types";
 
 const NOTION_API_BASE = "https://api.notion.com/v1";
 const DEFAULT_NOTION_VERSION = "2026-03-11";
 const DEFAULT_REVALIDATE_SECONDS = 300;
 const DEFAULT_IMAGEKIT_URL_ENDPOINT = "https://ik.imagekit.io/maxhoang";
 
-type ContentSource = "blog" | "projects" | "awards";
+type ContentSource = "blog" | "projects" | "awards" | "shortVideos";
 
 type NotionRichText = {
   plain_text?: string;
@@ -133,6 +133,21 @@ function getDataSourceConfig(source: ContentSource): DataSourceConfig {
       databaseId: readEnv([
         "NOTION_AWARDS_DATABASE_ID",
         "NOTION_AWARD_DATABASE_ID"
+      ])
+    };
+  }
+
+  if (source === "shortVideos") {
+    return {
+      dataSourceId: readEnv([
+        "NOTION_SHORT_VIDEOS_DATA_SOURCE_ID",
+        "NOTION_REELS_DATA_SOURCE_ID",
+        "NOTION_SHORTS_DATA_SOURCE_ID"
+      ]),
+      databaseId: readEnv([
+        "NOTION_SHORT_VIDEOS_DATABASE_ID",
+        "NOTION_REELS_DATABASE_ID",
+        "NOTION_SHORTS_DATABASE_ID"
       ])
     };
   }
@@ -937,6 +952,97 @@ function getReferenceUrl(page: NotionPage) {
   return url && isSafeUrl(url) ? url : undefined;
 }
 
+function getShortVideoUrl(page: NotionPage) {
+  const url = propertyText(
+    getPropertyByName(page.properties, [
+      "YouTube URL",
+      "Shorts URL",
+      "Short URL",
+      "Video URL",
+      "Video",
+      "URL",
+      "Link"
+    ])
+  );
+
+  return url && isSafeUrl(url) ? url : undefined;
+}
+
+function getYouTubeId(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  try {
+    const url = new URL(value);
+
+    if (url.hostname.includes("youtu.be")) {
+      return url.pathname.split("/").filter(Boolean)[0];
+    }
+
+    if (url.searchParams.has("v")) {
+      return url.searchParams.get("v") ?? undefined;
+    }
+
+    const parts = url.pathname.split("/").filter(Boolean);
+    const marker = parts.findIndex((part) =>
+      ["shorts", "embed", "live"].includes(part)
+    );
+
+    if (marker >= 0) {
+      return parts[marker + 1];
+    }
+  } catch {
+    return undefined;
+  }
+
+  return undefined;
+}
+
+type SortableShortVideo = ShortVideo & {
+  sortDate: string;
+  sortOrder: number;
+  featuredRank: number;
+};
+
+function mapShortVideo(page: NotionPage): SortableShortVideo | undefined {
+  const title = getTitle(page);
+  const url = getShortVideoUrl(page);
+  const youtubeId = getYouTubeId(url);
+
+  if (!url || !youtubeId) {
+    return undefined;
+  }
+
+  const sortDate = getDateValue(page);
+  const featured = propertyCheckbox(
+    getPropertyByName(page.properties, ["Featured", "Homepage", "Pinned"])
+  );
+
+  return {
+    slug: getSlug(page, title),
+    title,
+    url,
+    youtubeId,
+    summary: propertyText(
+      getPropertyByName(page.properties, [
+        "Summary",
+        "Description",
+        "Excerpt",
+        "Caption"
+      ])
+    ),
+    publishedAt: formatDate(sortDate),
+    featured,
+    sortDate,
+    sortOrder:
+      propertyNumber(
+        getPropertyByName(page.properties, ["Sort Order", "Order", "Rank"])
+      ) ?? 999,
+    featuredRank: featured === false ? 1 : 0
+  };
+}
+
 function mapAward(page: NotionPage): Award & {
   sortOrder: number;
   featuredRank: number;
@@ -1037,5 +1143,27 @@ export async function fetchNotionAwards(): Promise<Award[]> {
       void sortOrder;
       void featuredRank;
       return award;
+    });
+}
+
+export async function fetchNotionShortVideos(): Promise<ShortVideo[]> {
+  const pages = await queryDataSource("shortVideos", 50);
+  const videos = pages
+    .filter(isVisiblePage)
+    .map(mapShortVideo)
+    .filter((video): video is SortableShortVideo => Boolean(video));
+
+  return videos
+    .sort(
+      (first, second) =>
+        first.featuredRank - second.featuredRank ||
+        first.sortOrder - second.sortOrder ||
+        new Date(second.sortDate).getTime() - new Date(first.sortDate).getTime()
+    )
+    .map(({ sortDate, sortOrder, featuredRank, ...video }) => {
+      void sortDate;
+      void sortOrder;
+      void featuredRank;
+      return video;
     });
 }

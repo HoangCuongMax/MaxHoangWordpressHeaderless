@@ -1,4 +1,84 @@
-import { Award, Post, Project } from "@/lib/types";
+import { Award, Post, Project, ShortVideo } from "@/lib/types";
+
+export const fallbackShortVideos: ShortVideo[] = [
+  {
+    slug: "short-iowxylgjc3y",
+    title: "YouTube Short",
+    url: "https://www.youtube.com/shorts/IowxyLGJc3Y",
+    youtubeId: "IowxyLGJc3Y",
+    featured: true
+  },
+  {
+    slug: "short-tmve2nsdwse",
+    title: "YouTube Short",
+    url: "https://www.youtube.com/shorts/tmVE2nsdWsE",
+    youtubeId: "tmVE2nsdWsE",
+    featured: true
+  },
+  {
+    slug: "short-etukhe77alo",
+    title: "YouTube Short",
+    url: "https://www.youtube.com/shorts/etuKhe77Alo",
+    youtubeId: "etuKhe77Alo",
+    featured: true
+  },
+  {
+    slug: "short-ap1f-top994",
+    title: "YouTube Short",
+    url: "https://www.youtube.com/shorts/ap1F-ToP994",
+    youtubeId: "ap1F-ToP994",
+    featured: true
+  },
+  {
+    slug: "short-iv32gulribc",
+    title: "YouTube Short",
+    url: "https://www.youtube.com/shorts/IV32guLriBc",
+    youtubeId: "IV32guLriBc",
+    featured: true
+  },
+  {
+    slug: "short-pum0wjkb4jw",
+    title: "YouTube Short",
+    url: "https://www.youtube.com/shorts/pUm0wjkb4jw",
+    youtubeId: "pUm0wjkb4jw",
+    featured: true
+  },
+  {
+    slug: "short-glvaxkih9l8",
+    title: "YouTube Short",
+    url: "https://www.youtube.com/shorts/glvaxkIH9L8",
+    youtubeId: "glvaxkIH9L8",
+    featured: true
+  },
+  {
+    slug: "short-becugbwdvck",
+    title: "YouTube Short",
+    url: "https://www.youtube.com/shorts/bEcUgBwDVCk",
+    youtubeId: "bEcUgBwDVCk",
+    featured: true
+  },
+  {
+    slug: "short-enkhma9nn70",
+    title: "YouTube Short",
+    url: "https://www.youtube.com/shorts/ENKhmA9nn70",
+    youtubeId: "ENKhmA9nn70",
+    featured: true
+  },
+  {
+    slug: "short-0ozc67tvplk",
+    title: "YouTube Short",
+    url: "https://www.youtube.com/shorts/0OZc67TVplk",
+    youtubeId: "0OZc67TVplk",
+    featured: true
+  },
+  {
+    slug: "short-m6xegeppzhg",
+    title: "YouTube Short",
+    url: "https://www.youtube.com/shorts/m6xEGEppzHg",
+    youtubeId: "m6xEGEppzHg",
+    featured: true
+  }
+];
 
 export const fallbackPosts: Post[] = [
   {
