@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import { MouseEffect } from "@/components/mouse-effect";
 import { NewsletterPopup } from "@/components/newsletter-popup";
 import { SiteFooter } from "@/components/site-footer";
 import { WorkspaceSidebar } from "@/components/workspace-sidebar";
@@ -76,6 +77,7 @@ export default async function RootLayout({
             />
           </div>
           <NewsletterPopup />
+          <MouseEffect />
         </div>
       </body>
     </html>

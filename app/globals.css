@@ -10,8 +10,12 @@
   --accent-strong: #004b9b;
   --accent-soft: #e8f1fb;
   --max-width: 1320px;
+  --content-width: 1480px;
+  --reader-width: 980px;
   --radius: 12px;
   --shadow: none;
+  --mouse-x: 50vw;
+  --mouse-y: 50vh;
 }
 
 * {
@@ -64,6 +68,29 @@ main {
   min-height: calc(100vh - 160px);
 }
 
+.mouse-effect {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      520px circle at var(--mouse-x) var(--mouse-y),
+      rgba(0, 113, 227, 0.1),
+      rgba(0, 113, 227, 0.035) 28%,
+      transparent 62%
+    );
+  opacity: 0.85;
+  transition: opacity 180ms ease;
+  mix-blend-mode: multiply;
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .mouse-effect {
+    display: none;
+  }
+}
+
 .site-shell {
   min-height: 100vh;
 }
@@ -90,6 +117,8 @@ main {
 
 .workspace-content__inner {
   min-width: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .workspace-sidebar {
@@ -3153,7 +3182,7 @@ main {
 .container,
 .site-header__inner,
 .site-footer__inner {
-  width: min(calc(100% - 2.5rem), 980px);
+  width: min(calc(100% - 3rem), var(--content-width));
 }
 
 .workspace-main {
@@ -3304,7 +3333,7 @@ main {
 }
 
 .hero__inner {
-  width: min(calc(100% - 3rem), 1480px);
+  width: min(calc(100% - 3rem), var(--content-width));
   grid-template-columns: minmax(360px, 0.78fr) minmax(0, 1.35fr);
   gap: clamp(2rem, 4vw, 5rem);
 }
@@ -3390,7 +3419,7 @@ main {
 .events-strip__inner,
 .about-reels,
 .awards-section {
-  width: min(calc(100% - 3rem), 1480px);
+  width: min(calc(100% - 3rem), var(--content-width));
 }
 
 .about-reels .reel-card {
@@ -3425,7 +3454,7 @@ main {
 }
 
 .notion-page {
-  width: min(calc(100% - 3rem), 980px);
+  width: min(calc(100% - 3rem), var(--content-width));
 }
 
 .notion-page__header,
@@ -3490,6 +3519,44 @@ main {
 .form-field textarea,
 .tool-field input {
   border: 0;
+}
+
+.page-intro,
+.article,
+.notion-page,
+.contact-layout,
+.services-spotlight,
+.services-grid,
+.tools-grid,
+.projects-grid,
+.archive-list--cards,
+.related-section {
+  width: min(calc(100% - 3rem), var(--content-width));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.article__inner,
+.article-body--with-toc {
+  max-width: var(--content-width);
+}
+
+.article-body--with-toc {
+  grid-template-columns: minmax(0, 1fr) 260px;
+}
+
+.article__inner {
+  width: 100%;
+}
+
+.article__excerpt,
+.page-intro__lede,
+.notion-page__lede {
+  max-width: 58rem;
+}
+
+.notion-row--article {
+  grid-template-columns: 220px minmax(0, 1fr) auto;
 }
 
 @media (max-width: 900px) {
