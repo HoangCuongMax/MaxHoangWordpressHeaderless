@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { MediaAsset } from "@/lib/types";
 
 const siteTagline =
@@ -51,8 +51,12 @@ function NavIcon({ name }: { name: string }) {
 
 export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
+  const [pushStatus, setPushStatus] = useState<
+    "idle" | "pushing" | "success" | "error"
+  >("idle");
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -86,6 +90,26 @@ export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isMenuOpen]);
 
+  async function handlePushContent() {
+    setPushStatus("pushing");
+
+    try {
+      const response = await fetch("/api/push-content", {
+        method: "POST"
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to refresh content");
+      }
+
+      router.refresh();
+      setPushStatus("success");
+      window.setTimeout(() => setPushStatus("idle"), 3200);
+    } catch {
+      setPushStatus("error");
+    }
+  }
+
   return (
     <aside
       className={`workspace-sidebar${isMenuOpen ? " is-open" : ""}${
@@ -93,119 +117,132 @@ export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
       }`}
       aria-label="Workspace navigation"
     >
-        <div className="workspace-sidebar__brand">
-          <Link
-            href="/"
-            className="workspace-sidebar__avatar"
-            aria-label="Max Hoang Journal home"
-          >
-            {logo ? (
-              <Image
-                src={logo.url}
-                alt={logo.alt}
-                width={88}
-                height={88}
-                priority
-                unoptimized
-              />
-            ) : (
-              <Image
-                src="/max-hoang-portrait.jpg"
-                alt=""
-                width={88}
-                height={88}
-                priority
-              />
-            )}
-          </Link>
-          <div className="workspace-sidebar__brand-copy">
-            <a
-              href="https://www.linkedin.com/in/maxhoangau/"
-              className="workspace-sidebar__name"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Max Hoang Journal
-            </a>
-            <p className="workspace-sidebar__tag">{siteTagline}</p>
-          </div>
-          <button
-            type="button"
-            className="mobile-menu-toggle"
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isMenuOpen}
-            onClick={() => setIsMenuOpen((open) => !open)}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
-        </div>
-
-        <nav className="workspace-sidebar__nav" aria-label="Pages">
-          <p className="workspace-sidebar__label">Pages</p>
-          {pageLinks.map((link) => {
-            const isActive =
-              link.href === "/"
-                ? pathname === "/"
-                : pathname === link.href || pathname.startsWith(`${link.href}/`);
-
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`workspace-sidebar__link${isActive ? " is-active" : ""}`}
-                aria-current={isActive ? "page" : undefined}
-              >
-                <NavIcon name={link.icon} />
-                <span>{link.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="workspace-sidebar__section workspace-sidebar__section--categories">
-          <p className="workspace-sidebar__label">Categories</p>
-          <div className="workspace-sidebar__chips">
-            {categoryLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="workspace-chip">
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <div className="workspace-sidebar__section workspace-sidebar__section--actions">
-          <p className="workspace-sidebar__label">Connect</p>
-          <div className="workspace-sidebar__buttons">
-            <Link
-              href="/contact"
-              className="workspace-button workspace-button--primary"
-            >
-              Contact
-            </Link>
-            <a
-              href="https://www.linkedin.com/in/maxhoangau/"
-              className="workspace-button"
-              target="_blank"
-              rel="noreferrer"
-            >
-              LinkedIn
-            </a>
-          </div>
-        </div>
-
-        <div className="workspace-sidebar__footer">
+      <div className="workspace-sidebar__brand">
+        <Link
+          href="/"
+          className="workspace-sidebar__avatar"
+          aria-label="Max Hoang Journal home"
+        >
+          {logo ? (
+            <Image
+              src={logo.url}
+              alt={logo.alt}
+              width={88}
+              height={88}
+              priority
+              unoptimized
+            />
+          ) : (
+            <Image
+              src="/max-hoang-portrait.jpg"
+              alt=""
+              width={88}
+              height={88}
+              priority
+            />
+          )}
+        </Link>
+        <div className="workspace-sidebar__brand-copy">
           <a
             href="https://www.linkedin.com/in/maxhoangau/"
-            className="workspace-sidebar__footer-link"
+            className="workspace-sidebar__name"
             target="_blank"
             rel="noreferrer"
           >
-            Max Hoang
+            Max Hoang Journal
           </a>
-          <p>{professionalHeadline}</p>
+          <p className="workspace-sidebar__tag">{siteTagline}</p>
         </div>
+        <button
+          type="button"
+          className="mobile-menu-toggle"
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMenuOpen}
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </div>
+
+      <nav className="workspace-sidebar__nav" aria-label="Pages">
+        <p className="workspace-sidebar__label">Pages</p>
+        {pageLinks.map((link) => {
+          const isActive =
+            link.href === "/"
+              ? pathname === "/"
+              : pathname === link.href || pathname.startsWith(`${link.href}/`);
+
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`workspace-sidebar__link${isActive ? " is-active" : ""}`}
+              aria-current={isActive ? "page" : undefined}
+            >
+              <NavIcon name={link.icon} />
+              <span>{link.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div className="workspace-sidebar__section workspace-sidebar__section--categories">
+        <p className="workspace-sidebar__label">Categories</p>
+        <div className="workspace-sidebar__chips">
+          {categoryLinks.map((link) => (
+            <Link key={link.href} href={link.href} className="workspace-chip">
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      <div className="workspace-sidebar__section workspace-sidebar__section--actions">
+        <p className="workspace-sidebar__label">Connect</p>
+        <div className="workspace-sidebar__buttons">
+          <button
+            type="button"
+            className="workspace-button workspace-button--primary"
+            onClick={handlePushContent}
+            disabled={pushStatus === "pushing"}
+          >
+            {pushStatus === "pushing" ? "Pushing..." : "Push content"}
+          </button>
+          <Link href="/contact" className="workspace-button">
+            Contact
+          </Link>
+          <a
+            href="https://www.linkedin.com/in/maxhoangau/"
+            className="workspace-button"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn
+          </a>
+        </div>
+        {pushStatus === "success" ? (
+          <p className="workspace-sidebar__status">Content pushed.</p>
+        ) : null}
+        {pushStatus === "error" ? (
+          <p className="workspace-sidebar__status workspace-sidebar__status--error">
+            Could not push content.
+          </p>
+        ) : null}
+      </div>
+
+      <div className="workspace-sidebar__footer">
+        <a
+          href="https://www.linkedin.com/in/maxhoangau/"
+          className="workspace-sidebar__footer-link"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Max Hoang
+        </a>
+        <p>{professionalHeadline}</p>
+      </div>
     </aside>
   );
 }

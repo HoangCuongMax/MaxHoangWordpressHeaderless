@@ -213,7 +213,8 @@ async function notionRequest<T>(
         ...init.headers
       },
       next: {
-        revalidate: getRevalidateSeconds()
+        revalidate: getRevalidateSeconds(),
+        tags: ["notion"]
       }
     });
 

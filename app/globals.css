@@ -250,6 +250,17 @@ main {
   text-underline-offset: 0.2em;
 }
 
+.workspace-sidebar__status {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.workspace-sidebar__status--error {
+  color: #9f1239;
+}
+
 .site-header,
 .site-footer {
   position: relative;
