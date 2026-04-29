@@ -538,6 +538,7 @@ main {
 }
 
 .event-card {
+  position: relative;
   display: grid;
   align-content: start;
   gap: 0.28rem;
@@ -551,6 +552,23 @@ main {
   color: var(--surface-strong);
   scroll-snap-align: start;
   overflow: hidden;
+}
+
+.event-card--with-media {
+  align-content: end;
+  min-height: 13.5rem;
+  color: #ffffff;
+  isolation: isolate;
+}
+
+.event-card--with-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(6, 10, 8, 0.18), rgba(6, 10, 8, 0.72)),
+    linear-gradient(90deg, rgba(6, 10, 8, 0.55), transparent 62%);
 }
 
 .event-card--current {
@@ -567,11 +585,19 @@ main {
   color: rgba(17, 24, 21, 0.72);
 }
 
+.event-card__body,
 .event-card__state,
 .event-card__date,
 .event-card__location,
 .event-card__description {
   margin: 0;
+}
+
+.event-card__body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.28rem;
 }
 
 .event-card__state {
@@ -612,16 +638,31 @@ main {
 }
 
 .event-card__media {
-  position: relative;
-  margin: 0.35rem 0 0;
-  overflow: hidden;
-  border-radius: calc(var(--radius) - 2px);
-  background: var(--surface-muted);
-  aspect-ratio: 16 / 7;
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  margin: 0;
+  background: #101613;
 }
 
 .event-card__media img {
   object-fit: cover;
+}
+
+.event-card--with-media .event-card__state,
+.event-card--with-media .event-card__date,
+.event-card--with-media .event-card__location,
+.event-card--with-media .event-card__description,
+.event-card--with-media a {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.event-card--with-media h3 {
+  color: #ffffff;
+}
+
+.event-card--with-media .event-card__state {
+  color: #bff3df;
 }
 
 .button {

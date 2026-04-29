@@ -128,31 +128,11 @@ export function EventsCarousel({ items }: { items: EventItem[] }) {
 
               return (
                 <article
-                  className={`event-card event-card--${eventState}`}
+                  className={`event-card event-card--${eventState}${
+                    event.coverImage ? " event-card--with-media" : ""
+                  }`}
                   key={event.slug}
                 >
-                  <p className="event-card__state">
-                    {eventState === "current"
-                      ? "This week"
-                      : eventState === "upcoming"
-                        ? "Coming up"
-                        : "Passed"}
-                  </p>
-                  <h3>{event.title}</h3>
-                  <p className="event-card__date">{event.displayDate}</p>
-                  {event.location ? (
-                    <p className="event-card__location">{event.location}</p>
-                  ) : null}
-                  {event.description ? (
-                    <p className="event-card__description">
-                      {event.description}
-                    </p>
-                  ) : null}
-                  {event.eventUrl ? (
-                    <a href={event.eventUrl} target="_blank" rel="noreferrer">
-                      View event
-                    </a>
-                  ) : null}
                   {event.coverImage ? (
                     <figure className="event-card__media">
                       <MediaCover
@@ -171,6 +151,30 @@ export function EventsCarousel({ items }: { items: EventItem[] }) {
                       />
                     </figure>
                   ) : null}
+                  <div className="event-card__body">
+                    <p className="event-card__state">
+                      {eventState === "current"
+                        ? "This week"
+                        : eventState === "upcoming"
+                          ? "Coming up"
+                          : "Passed"}
+                    </p>
+                    <h3>{event.title}</h3>
+                    <p className="event-card__date">{event.displayDate}</p>
+                    {event.location ? (
+                      <p className="event-card__location">{event.location}</p>
+                    ) : null}
+                    {event.description ? (
+                      <p className="event-card__description">
+                        {event.description}
+                      </p>
+                    ) : null}
+                    {event.eventUrl ? (
+                      <a href={event.eventUrl} target="_blank" rel="noreferrer">
+                        View event
+                      </a>
+                    ) : null}
+                  </div>
                 </article>
               );
             })}
