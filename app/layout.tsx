@@ -4,7 +4,7 @@ import "./globals.css";
 import { NewsletterPopup } from "@/components/newsletter-popup";
 import { SiteFooter } from "@/components/site-footer";
 import { WorkspaceSidebar } from "@/components/workspace-sidebar";
-import { getSiteLogo } from "@/lib/content";
+import { getEvents, getPosts, getSiteLogo } from "@/lib/content";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -55,7 +55,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const siteLogo = await getSiteLogo();
+  const [siteLogo, latestPosts, latestEvents] = await Promise.all([
+    getSiteLogo(),
+    getPosts(),
+    getEvents()
+  ]);
 
   return (
     <html lang="en">
@@ -66,7 +70,10 @@ export default async function RootLayout({
             <main className="workspace-content">
               <div className="workspace-content__inner">{children}</div>
             </main>
-            <SiteFooter />
+            <SiteFooter
+              latestPosts={latestPosts.slice(0, 3)}
+              latestEvents={latestEvents.slice(0, 3)}
+            />
           </div>
           <NewsletterPopup />
         </div>

@@ -1,24 +1,93 @@
-export function SiteFooter() {
+import Link from "next/link";
+import type { EventItem, Post } from "@/lib/types";
+
+const sitemapLinks = [
+  { href: "/", label: "Home" },
+  { href: "/blog", label: "Blog" },
+  { href: "/projects", label: "Projects" },
+  { href: "/services", label: "Services" },
+  { href: "/tools", label: "Tools" },
+  { href: "/contact", label: "Contact" }
+];
+
+export function SiteFooter({
+  latestPosts,
+  latestEvents
+}: {
+  latestPosts: Post[];
+  latestEvents: EventItem[];
+}) {
   return (
     <footer className="site-footer">
       <div className="site-footer__inner">
-        <div className="brand-lockup">
-          <a
-            className="brand-lockup__name"
-            href="https://www.linkedin.com/in/maxhoangau/"
-            target="_blank"
-            rel="noreferrer"
-          >
+        <div className="site-footer__brand">
+          <Link className="site-footer__brand-name" href="/">
             Max Hoang Journal
-          </a>
-          <span className="brand-lockup__tag">
-            AI Visionary - mapping practical intelligence, better services, and data-powered ideas.
-          </span>
+          </Link>
+          <p>
+            Practical notes on AI, service improvement, data-powered products,
+            and public-sector innovation.
+          </p>
+          <div className="site-footer__actions">
+            <Link href="/contact" className="site-footer__button">
+              Sign up / Contact
+            </Link>
+            <a
+              href="https://www.linkedin.com/in/maxhoangau/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
-        <p>
-          Max Hoang links service improvement, AI, analytics, and public-sector
-          innovation into a practical journal of ideas, projects, and tools.
-        </p>
+
+        <nav className="site-footer__group" aria-label="Footer sitemap">
+          <h2>Site Map</h2>
+          <ul>
+            {sitemapLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href}>{link.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <section className="site-footer__group" aria-label="Latest posts">
+          <h2>Latest Posts</h2>
+          <ul>
+            {latestPosts.slice(0, 3).map((post) => (
+              <li key={post.slug}>
+                <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+              </li>
+            ))}
+            {latestPosts.length === 0 ? <li>No posts yet</li> : null}
+          </ul>
+        </section>
+
+        <section className="site-footer__group" aria-label="Latest events">
+          <h2>Latest Events</h2>
+          <ul>
+            {latestEvents.slice(0, 3).map((event) => (
+              <li key={event.slug}>
+                {event.eventUrl ? (
+                  <a href={event.eventUrl} target="_blank" rel="noreferrer">
+                    {event.title}
+                  </a>
+                ) : (
+                  <span>{event.title}</span>
+                )}
+                <small>{event.displayDate}</small>
+              </li>
+            ))}
+            {latestEvents.length === 0 ? <li>No events yet</li> : null}
+          </ul>
+        </section>
+
+        <div className="site-footer__bottom">
+          <span>Copyright {new Date().getFullYear()} Max Hoang.</span>
+          <span>Built with Notion-backed content.</span>
+        </div>
       </div>
     </footer>
   );
