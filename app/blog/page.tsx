@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getPosts } from "@/lib/content";
+import { MediaCover } from "@/components/media";
 
 export const metadata = {
   title: "Blog"
@@ -62,6 +63,26 @@ export default async function BlogIndexPage({ searchParams }: BlogPageProps) {
           {filteredPosts.length > 0 ? (
             filteredPosts.map((post) => (
               <article key={post.slug} className="notion-row notion-row--article">
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="notion-row__media"
+                  aria-label={`Read ${post.title}`}
+                >
+                  <MediaCover
+                    asset={post.coverImage}
+                    title={post.title}
+                    label="Blog post"
+                    description={post.excerpt}
+                    compact
+                    sizes="(max-width: 900px) 34vw, 180px"
+                    transformation={[
+                      {
+                        width: 420,
+                        quality: 82
+                      }
+                    ]}
+                  />
+                </Link>
                 <div className="notion-row__stack">
                   <Link href={`/blog/${post.slug}`} className="notion-row__title">
                     {post.title}

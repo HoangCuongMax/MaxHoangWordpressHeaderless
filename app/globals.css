@@ -2157,10 +2157,25 @@ main {
   gap: 0.35rem;
 }
 
+.notion-page .notion-chip-bar {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 0.15rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 118, 110, 0.28) transparent;
+}
+
+.notion-page .notion-chip-bar .workspace-chip {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 5.8rem;
+  border-radius: var(--radius);
+}
+
 .notion-row {
   display: grid;
-  gap: 0.25rem;
-  padding: 0.95rem 0;
+  gap: 1.1rem;
+  padding: 1.1rem 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -2169,8 +2184,22 @@ main {
 }
 
 .notion-row--article {
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 160px minmax(0, 1fr) auto;
   gap: 1.5rem;
+  align-items: center;
+}
+
+.notion-row__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+  aspect-ratio: 16 / 10;
+}
+
+.notion-row__media img {
+  object-fit: cover;
 }
 
 .notion-row__stack {
@@ -2222,11 +2251,14 @@ main {
   }
 
   .notion-row--article {
-    grid-template-columns: 1fr;
+    grid-template-columns: 132px minmax(0, 1fr);
   }
 
   .notion-row__meta {
+    grid-column: 2;
     justify-items: start;
+    grid-auto-flow: column;
+    gap: 0.75rem;
   }
 
   .split,
@@ -2364,6 +2396,20 @@ main {
 
   .nav .button {
     width: 100%;
+  }
+
+  .notion-page .notion-chip-bar {
+    margin-inline: -0.15rem;
+  }
+
+  .notion-page .notion-chip-bar .workspace-chip {
+    min-width: max-content;
+    padding-inline: 0.95rem;
+  }
+
+  .notion-row--article {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 0.9rem;
   }
 
   .awards-rail {
