@@ -66,18 +66,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
           </div>
 
-          <aside className="article-aside">
-            <p className="article-aside__label">Reading guide</p>
-            <p className="archive-item__meta">{post.publishedAt}</p>
-            <p>{post.readingTime}</p>
-            {post.tags.length > 0 ? (
-              <ul className="article-aside__tags" aria-label="Post tags">
-                {post.tags.slice(0, 4).map((tag) => (
-                  <li key={tag}>{tag}</li>
-                ))}
-              </ul>
-            ) : null}
-          </aside>
         </div>
 
         <figure className="article-cover">
