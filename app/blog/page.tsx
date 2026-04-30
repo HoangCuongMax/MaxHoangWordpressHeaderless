@@ -25,15 +25,20 @@ export default async function BlogIndexPage({ searchParams }: BlogPageProps) {
         post.tags.some((tag) => tag.toLowerCase() === activeTag)
       )
     : posts;
+  const [featuredPost, ...remainingPosts] = filteredPosts;
 
   return (
-    <div className="notion-page">
+    <div className="notion-page blog-page">
       <header className="notion-page__header">
         <p className="notion-page__eyebrow">Blog</p>
         <h1>Writing, notes, and simple updates.</h1>
         <p className="notion-page__lede">
-          A clean reading list with clear categories, no extra noise, and a layout
-          that stays easy to scan.
+          Practical notes on AI, web, data, and the decisions behind building
+          useful digital products.
+        </p>
+        <p className="blog-index__count">
+          {filteredPosts.length} {filteredPosts.length === 1 ? "post" : "posts"}
+          {activeTag ? " in this category" : " published"}
         </p>
         <div className="notion-chip-bar" aria-label="Categories">
           <Link
@@ -59,10 +64,58 @@ export default async function BlogIndexPage({ searchParams }: BlogPageProps) {
       </header>
 
       <section className="notion-section">
-        <div className="notion-list">
-          {filteredPosts.length > 0 ? (
-            filteredPosts.map((post) => (
-              <article key={post.slug} className="notion-row notion-row--article">
+        {featuredPost ? (
+          <article className="blog-feature">
+            <Link
+              href={`/blog/${featuredPost.slug}`}
+              className="blog-feature__media"
+              aria-label={`Read ${featuredPost.title}`}
+            >
+              <MediaCover
+                asset={featuredPost.coverImage}
+                title={featuredPost.title}
+                label="Featured post"
+                description={featuredPost.excerpt}
+                compact
+                sizes="(max-width: 900px) 100vw, 48vw"
+                transformation={[
+                  {
+                    width: 1100,
+                    quality: 84
+                  }
+                ]}
+              />
+            </Link>
+            <div className="blog-feature__body">
+              <p className="blog-feature__eyebrow">Start here</p>
+              <h2>
+                <Link href={`/blog/${featuredPost.slug}`}>
+                  {featuredPost.title}
+                </Link>
+              </h2>
+              <p>{featuredPost.excerpt}</p>
+              <div className="blog-feature__meta">
+                <span>{featuredPost.publishedAt}</span>
+                <span>{featuredPost.readingTime}</span>
+              </div>
+              {featuredPost.tags.length > 0 ? (
+                <ul className="blog-feature__tags" aria-label="Post tags">
+                  {featuredPost.tags.slice(0, 4).map((tag) => (
+                    <li key={tag}>{tag}</li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+          </article>
+        ) : null}
+
+        <div className="notion-list blog-list">
+          {remainingPosts.length > 0 ? (
+            remainingPosts.map((post) => (
+              <article
+                key={post.slug}
+                className="notion-row notion-row--article blog-row"
+              >
                 <Link
                   href={`/blog/${post.slug}`}
                   className="notion-row__media"
@@ -84,6 +137,9 @@ export default async function BlogIndexPage({ searchParams }: BlogPageProps) {
                   />
                 </Link>
                 <div className="notion-row__stack">
+                  {post.tags[0] ? (
+                    <p className="blog-row__category">{post.tags[0]}</p>
+                  ) : null}
                   <Link href={`/blog/${post.slug}`} className="notion-row__title">
                     {post.title}
                   </Link>
@@ -95,14 +151,14 @@ export default async function BlogIndexPage({ searchParams }: BlogPageProps) {
                 </div>
               </article>
             ))
-          ) : (
+          ) : !featuredPost ? (
             <div className="notion-row notion-row--static">
               <span className="notion-row__title">No posts in this category</span>
               <span className="notion-row__summary">
-                Try a different category or publish a new post in WordPress.
+                Try a different category or publish a new post in Notion.
               </span>
             </div>
-          )}
+          ) : null}
         </div>
       </section>
     </div>

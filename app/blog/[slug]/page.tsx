@@ -57,11 +57,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <p className="eyebrow">Blog</p>
             <h1>{post.title}</h1>
             <p className="article__excerpt">{post.excerpt}</p>
+            <div className="article-meta-strip" aria-label="Post details">
+              <span>{post.publishedAt}</span>
+              <span>{post.readingTime}</span>
+              {post.tags.slice(0, 3).map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
+            </div>
           </div>
 
           <aside className="article-aside">
+            <p className="article-aside__label">Reading guide</p>
             <p className="archive-item__meta">{post.publishedAt}</p>
             <p>{post.readingTime}</p>
+            {post.tags.length > 0 ? (
+              <ul className="article-aside__tags" aria-label="Post tags">
+                {post.tags.slice(0, 4).map((tag) => (
+                  <li key={tag}>{tag}</li>
+                ))}
+              </ul>
+            ) : null}
           </aside>
         </div>
 
