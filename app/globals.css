@@ -4432,6 +4432,97 @@ main {
   background: #ffffff;
 }
 
+.article--editorial .related-section {
+  max-width: 1080px;
+  margin-top: 3rem;
+  padding: 1.35rem;
+}
+
+.article--editorial .related-section .section-heading {
+  margin-bottom: 1rem;
+}
+
+.article--editorial .related-section .section-heading h2 {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+.article--editorial .related-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.article--editorial .related-card {
+  display: grid;
+  gap: 0.55rem;
+  min-height: auto;
+  padding: 0.85rem;
+  border-radius: 18px;
+  background: #f5f5f7;
+}
+
+.article--editorial .related-card__media {
+  aspect-ratio: 16 / 9;
+  margin-bottom: 0.35rem;
+  border-radius: 14px;
+}
+
+.article--editorial .related-card__eyebrow,
+.article--editorial .related-card p:not(.related-card__meta) {
+  display: none;
+}
+
+.article--editorial .related-card__meta {
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.article--editorial .related-card h3 {
+  font-size: 1rem;
+  line-height: 1.16;
+}
+
+.article--editorial .related-card .tag-list {
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.article--editorial .related-card .tag-list li {
+  padding: 0.3rem 0.55rem;
+  font-size: 0.72rem;
+}
+
+.contact-panel--form {
+  gap: 1rem;
+}
+
+.contact-panel--form .contact-form {
+  gap: 1rem;
+}
+
+.contact-panel--form .form-field {
+  gap: 0.5rem;
+}
+
+.contact-panel--form .form-field input,
+.contact-panel--form .form-field select,
+.contact-panel--form .form-field textarea {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  background: #f5f5f7;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.contact-panel--form .form-field input:focus,
+.contact-panel--form .form-field select:focus,
+.contact-panel--form .form-field textarea:focus {
+  border-color: rgba(0, 102, 204, 0.36);
+  background: #ffffff;
+}
+
+.contact-panel--form .form-field textarea {
+  min-height: 9rem;
+}
+
 @media (max-width: 900px) {
   .repo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4449,6 +4540,10 @@ main {
   .blog-feature h2,
   .article--editorial h1 {
     max-width: 100%;
+  }
+
+  .article--editorial .related-grid {
+    grid-template-columns: 1fr;
   }
 }
 
