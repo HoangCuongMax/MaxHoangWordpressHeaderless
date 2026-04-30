@@ -34,8 +34,11 @@ export function SiteFooter({
           </div>
         </div>
 
-        <nav className="site-footer__group" aria-label="Footer sitemap">
-          <h2>Site Map</h2>
+        <nav
+          className="site-footer__group site-footer__group--nav"
+          aria-label="Footer sitemap"
+        >
+          <h2>Explore</h2>
           <ul>
             {pageLinks.map((link) => (
               <li key={link.href}>
@@ -45,10 +48,13 @@ export function SiteFooter({
           </ul>
         </nav>
 
-        <section className="site-footer__group" aria-label="Latest posts">
-          <h2>Latest Posts</h2>
+        <section
+          className="site-footer__group site-footer__group--posts"
+          aria-label="Latest posts"
+        >
+          <h2>Latest writing</h2>
           <ul>
-            {latestPosts.slice(0, 3).map((post) => (
+            {latestPosts.slice(0, 1).map((post) => (
               <li key={post.slug}>
                 <Link href={`/blog/${post.slug}`}>{post.title}</Link>
               </li>
@@ -57,10 +63,13 @@ export function SiteFooter({
           </ul>
         </section>
 
-        <section className="site-footer__group" aria-label="Latest events">
-          <h2>Latest Events</h2>
+        <section
+          className="site-footer__group site-footer__group--events"
+          aria-label="Latest events"
+        >
+          <h2>Events</h2>
           <ul>
-            {latestEvents.slice(0, 3).map((event) => (
+            {latestEvents.slice(0, 1).map((event) => (
               <li key={event.slug}>
                 {event.eventUrl ? (
                   <a href={event.eventUrl} target="_blank" rel="noreferrer">

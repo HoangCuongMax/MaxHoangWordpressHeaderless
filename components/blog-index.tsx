@@ -25,15 +25,15 @@ const blogFocusAreas = [
 const selectionSignals = [
   {
     title: "Data platforms",
-    text: "SQL, database integrity, query performance, and reliable reporting foundations."
+    text: "SQL, data quality, and reporting foundations."
   },
   {
     title: "BI and reporting",
-    text: "Power BI, SSRS-style reporting, dashboards, visualisation, and decision-ready insights."
+    text: "Power BI, dashboards, and decision-ready insights."
   },
   {
     title: "Service delivery",
-    text: "ITIL, ServiceNow thinking, stakeholder communication, documentation, and compliance."
+    text: "ITIL, ServiceNow, documentation, and compliance."
   }
 ];
 
@@ -71,10 +71,10 @@ export async function BlogIndex({
     <div className="notion-page blog-page">
       <header className="notion-page__header">
         <p className="notion-page__eyebrow">Blog</p>
-        <h1>Data, BI, and AI notes.</h1>
+        <h1>Practical data notes.</h1>
         <p className="notion-page__lede">
-          Practical writing on SQL, Power BI, ETL, ITIL, ServiceNow, AI, data
-          quality, compliance, and stakeholder-ready reporting.
+          Clear writing on SQL, Power BI, AI, service improvement, and
+          stakeholder-ready reporting.
         </p>
         <div className="blog-focus" aria-label="Blog focus areas">
           {blogFocusAreas.map((area) => (
