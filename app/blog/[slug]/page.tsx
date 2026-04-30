@@ -48,42 +48,46 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <section className="article article--editorial">
       <div className="container">
-        <Link href="/blog" className="text-link">
-          Back to blog
+        <Link href="/" className="article-backlink">
+          <span aria-hidden="true">&larr;</span>
+          Blog
         </Link>
 
         <div className="article-hero">
-          <div className="article__inner">
-            <p className="eyebrow">Blog</p>
-            <h1>{post.title}</h1>
-            <p className="article__excerpt">{post.excerpt}</p>
-            <div className="article-meta-strip" aria-label="Post details">
-              <span>{post.publishedAt}</span>
-              <span>{post.readingTime}</span>
-              {post.tags.slice(0, 3).map((tag) => (
-                <span key={tag}>{tag}</span>
-              ))}
+          <div className="article__inner article-hero__copy">
+            <div className="article-topline">
+              <p className="eyebrow">Blog</p>
+              <div className="article-meta-strip" aria-label="Post details">
+                <span>{post.publishedAt}</span>
+                <span>{post.readingTime}</span>
+                {post.tags.slice(0, 3).map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
             </div>
+            <h1>{post.title}</h1>
+            {post.excerpt ? (
+              <p className="article__excerpt">{post.excerpt}</p>
+            ) : null}
           </div>
 
+          <figure className="article-cover">
+            <MediaCover
+              asset={post.coverImage}
+              title={post.title}
+              label="Blog post"
+              description={post.excerpt}
+              priority
+              sizes="(max-width: 900px) 100vw, 520px"
+              transformation={[
+                {
+                  width: 1100,
+                  quality: 84
+                }
+              ]}
+            />
+          </figure>
         </div>
-
-        <figure className="article-cover">
-          <MediaCover
-            asset={post.coverImage}
-            title={post.title}
-            label="Blog post"
-            description={post.excerpt}
-            priority
-            sizes="(max-width: 900px) 100vw, 1140px"
-            transformation={[
-              {
-                width: 1400,
-                quality: 84
-              }
-            ]}
-          />
-        </figure>
 
         {post.videoUrl ? (
           <div className="article-video">
