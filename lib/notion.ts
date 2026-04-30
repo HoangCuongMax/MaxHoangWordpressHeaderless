@@ -501,15 +501,33 @@ function toMediaAsset(
   alt: string,
   caption?: string
 ): MediaAsset | undefined {
-  if (!url || !getRenderableMediaUrl(url)) {
+  const mediaUrl = getImageMediaUrl(url);
+
+  if (!mediaUrl || !getRenderableMediaUrl(mediaUrl)) {
     return undefined;
   }
 
   return {
-    url,
+    url: mediaUrl,
     alt,
     ...(caption ? { caption } : {})
   };
+}
+
+function getImageMediaUrl(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  return getYouTubeThumbnailUrl(value) ?? value;
+}
+
+function getYouTubeThumbnailUrl(value: string | undefined) {
+  const youtubeId = getYouTubeId(value);
+
+  return youtubeId
+    ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
+    : undefined;
 }
 
 function renderListItem(block: RenderableBlock) {
