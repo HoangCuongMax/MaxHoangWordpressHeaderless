@@ -11,30 +11,10 @@ type BlogIndexProps = {
 };
 
 const blogFocusAreas = [
-  "Power BI",
   "SQL",
-  "SSIS / ETL",
-  "SSRS",
-  "Data analytics",
-  "ServiceNow",
-  "ITIL",
+  "Power BI",
   "AI",
-  "Compliance"
-];
-
-const selectionSignals = [
-  {
-    title: "Data platforms",
-    text: "SQL, data quality, and reporting foundations."
-  },
-  {
-    title: "BI and reporting",
-    text: "Power BI, dashboards, and decision-ready insights."
-  },
-  {
-    title: "Service delivery",
-    text: "ITIL, ServiceNow, documentation, and compliance."
-  }
+  "Service improvement"
 ];
 
 function getTagHref(basePath: "/" | "/blog", tag?: string) {
@@ -81,39 +61,33 @@ export async function BlogIndex({
             <span key={area}>{area}</span>
           ))}
         </div>
-        <section className="blog-signals" aria-label="Selection criteria signals">
-          {selectionSignals.map((signal) => (
-            <article key={signal.title}>
-              <h2>{signal.title}</h2>
-              <p>{signal.text}</p>
-            </article>
-          ))}
-        </section>
         <p className="blog-index__count">
           {filteredPosts.length} {filteredPosts.length === 1 ? "post" : "posts"}
           {activeTag ? " in this category" : " published"}
         </p>
-        <div className="notion-chip-bar" aria-label="Categories">
-          <Link
-            href={getTagHref(basePath)}
-            className={`workspace-chip${!activeTag ? " is-active" : ""}`}
-          >
-            All
-          </Link>
-          {tags.map((tag) => {
-            const slug = tag.toLowerCase();
+        {tags.length > 0 ? (
+          <div className="notion-chip-bar" aria-label="Categories">
+            <Link
+              href={getTagHref(basePath)}
+              className={`workspace-chip${!activeTag ? " is-active" : ""}`}
+            >
+              All
+            </Link>
+            {tags.map((tag) => {
+              const slug = tag.toLowerCase();
 
-            return (
-              <Link
-                key={tag}
-                href={getTagHref(basePath, slug)}
-                className={`workspace-chip${activeTag === slug ? " is-active" : ""}`}
-              >
-                {tag}
-              </Link>
-            );
-          })}
-        </div>
+              return (
+                <Link
+                  key={tag}
+                  href={getTagHref(basePath, slug)}
+                  className={`workspace-chip${activeTag === slug ? " is-active" : ""}`}
+                >
+                  {tag}
+                </Link>
+              );
+            })}
+          </div>
+        ) : null}
       </header>
 
       <div className="blog-page__events">
