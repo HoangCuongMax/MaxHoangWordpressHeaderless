@@ -32,10 +32,41 @@ function getEventState(event: EventItem) {
   return "upcoming";
 }
 
+const eventStateRank = {
+  current: 0,
+  upcoming: 1,
+  passed: 2
+};
+
+function getEventTimestamp(event: EventItem) {
+  return new Date(event.startsAt).getTime();
+}
+
+function sortEventsByDisplayOrder(items: EventItem[]) {
+  return [...items].sort((first, second) => {
+    const firstState = getEventState(first);
+    const secondState = getEventState(second);
+    const stateDifference =
+      eventStateRank[firstState] - eventStateRank[secondState];
+
+    if (stateDifference !== 0) {
+      return stateDifference;
+    }
+
+    const firstTime = getEventTimestamp(first);
+    const secondTime = getEventTimestamp(second);
+
+    return firstState === "passed"
+      ? secondTime - firstTime
+      : firstTime - secondTime;
+  });
+}
+
 export function EventsCarousel({ items }: { items: EventItem[] }) {
+  const sortedItems = sortEventsByDisplayOrder(items);
   const viewportRef = useRef<HTMLDivElement>(null);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(items.length > 1);
+  const [canScrollNext, setCanScrollNext] = useState(sortedItems.length > 1);
 
   const syncScrollState = useCallback(() => {
     const viewport = viewportRef.current;
@@ -71,7 +102,7 @@ export function EventsCarousel({ items }: { items: EventItem[] }) {
     };
   }, [syncScrollState]);
 
-  if (items.length === 0) {
+  if (sortedItems.length === 0) {
     return null;
   }
 
@@ -123,7 +154,7 @@ export function EventsCarousel({ items }: { items: EventItem[] }) {
 
         <div className="events-carousel" ref={viewportRef}>
           <div className="events-carousel__track">
-            {items.map((event) => {
+            {sortedItems.map((event) => {
               const eventState = getEventState(event);
 
               return (
