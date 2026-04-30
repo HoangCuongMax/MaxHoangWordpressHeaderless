@@ -8,11 +8,12 @@ export const pageLinks = [
   { href: "/", label: "Home", icon: "home" },
   { href: "/blog", label: "Blog", icon: "blog" },
   { href: "/github", label: "GitHub", icon: "github" },
+  { href: "/connect", label: "Connect", icon: "connect" },
   { href: "/contact", label: "Contact", icon: "contact" }
 ];
 
 export const categoryLinks = [
   { href: "/blog", label: "Writing" },
   { href: "/github", label: "Code" },
-  { href: "/contact", label: "Contact" }
+  { href: "/connect", label: "Social" }
 ];

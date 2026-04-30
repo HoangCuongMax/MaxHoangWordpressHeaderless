@@ -4670,6 +4670,96 @@ main {
   min-height: 9rem;
 }
 
+.connect-page .container {
+  display: grid;
+  gap: clamp(1.25rem, 2.4vw, 2rem);
+}
+
+.connect-page__header {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 920px;
+}
+
+.connect-page__header h1 {
+  max-width: 11ch;
+  margin: 0;
+  color: #1d1d1f;
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+}
+
+.connect-page__header p:not(.eyebrow) {
+  max-width: 620px;
+  margin: 0;
+  color: #6e6e73;
+  font-size: 1.1rem;
+  line-height: 1.65;
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.social-card {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+  min-height: 13rem;
+  padding: 1.2rem;
+  border-radius: 22px;
+  background: #ffffff;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.social-card:hover {
+  transform: translateY(-2px);
+  background: #fbfbfd;
+}
+
+.social-card span {
+  color: #0066cc;
+  font-size: 0.78rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.social-card h2,
+.social-card p {
+  margin: 0;
+}
+
+.social-card h2 {
+  color: #1d1d1f;
+  font-size: 1.55rem;
+  line-height: 1.1;
+}
+
+.social-card p {
+  color: #6e6e73;
+  line-height: 1.55;
+}
+
+.connect-reels {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 0.35rem;
+}
+
+.connect-reels .reel-card {
+  flex-basis: clamp(190px, 15vw, 250px);
+  width: clamp(190px, 15vw, 250px);
+}
+
+.connect-reels .reel-card__frame {
+  box-shadow: 0 16px 40px rgba(29, 29, 31, 0.08);
+}
+
 @media (max-width: 900px) {
   .repo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4677,6 +4767,10 @@ main {
 
   .github-page__header {
     grid-template-columns: 1fr;
+  }
+
+  .social-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .blog-feature,
@@ -4706,6 +4800,18 @@ main {
 
   .github-page__header h1 {
     max-width: 100%;
+  }
+
+  .connect-page__header h1 {
+    max-width: 100%;
+  }
+
+  .social-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .social-card {
+    min-height: auto;
   }
 
   .blog-feature {

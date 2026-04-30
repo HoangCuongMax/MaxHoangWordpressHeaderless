@@ -5,6 +5,7 @@ const pathsToRefresh = [
   "/",
   "/blog",
   "/github",
+  "/connect",
   "/contact"
 ];
 

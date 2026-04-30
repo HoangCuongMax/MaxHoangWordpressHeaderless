@@ -1,6 +1,5 @@
 import { AwardsCarousel } from "@/components/awards-carousel";
 import { EventsCarousel } from "@/components/events-carousel";
-import { ReelsVideoCarousel } from "@/components/reels-video-carousel";
 import Link from "next/link";
 import { MediaCover, MediaImage } from "@/components/media";
 import { getGithubRepositories } from "@/lib/github";
@@ -9,16 +8,14 @@ import {
   getEvents,
   getFeaturedPosts,
   getHeroSliderImages,
-  getShortVideos
 } from "@/lib/content";
 
 export default async function HomePage() {
-  const [posts, repositories, awards, shortVideos, heroImages, events] =
+  const [posts, repositories, awards, heroImages, events] =
     await Promise.all([
       getFeaturedPosts(),
       getGithubRepositories(3),
       getAwards(),
-      getShortVideos(),
       getHeroSliderImages(),
       getEvents()
     ]);
@@ -119,9 +116,6 @@ export default async function HomePage() {
               />
             </div>
           </div>
-        </div>
-        <div className="container about-reels">
-          <ReelsVideoCarousel items={shortVideos} />
         </div>
       </section>
 
