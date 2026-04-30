@@ -87,7 +87,7 @@ export default async function HomePage() {
 
       <EventsCarousel items={events} />
 
-      <section className="section section--contrast">
+      <section className="section section--contrast section--about">
         <div className="container about-intro">
           <div className="about-intro__copy">
             <p className="eyebrow">About me</p>
