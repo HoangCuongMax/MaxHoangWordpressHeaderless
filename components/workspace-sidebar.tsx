@@ -61,6 +61,21 @@ export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
   }, [isMenuOpen]);
 
   useEffect(() => {
+    if (!isMenuOpen) {
+      return;
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMenuOpen]);
+
+  useEffect(() => {
     let lastScrollY = window.scrollY;
 
     function handleScroll() {
@@ -94,6 +109,10 @@ export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
     }
   }
 
+  function closeMenu() {
+    setIsMenuOpen(false);
+  }
+
   return (
     <aside
       className={`workspace-sidebar${isMenuOpen ? " is-open" : ""}${
@@ -106,6 +125,7 @@ export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
           href="/"
           className="workspace-sidebar__avatar"
           aria-label="Max Hoang Journal home"
+          onClick={closeMenu}
         >
           {logo ? (
             <Image
@@ -153,10 +173,12 @@ export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
       <nav className="workspace-sidebar__nav" aria-label="Pages">
         <p className="workspace-sidebar__label">Pages</p>
         {pageLinks.map((link) => {
-          const isActive =
-            link.href === "/"
+          const activePaths = link.activePaths ?? [link.href];
+          const isActive = activePaths.some((href) =>
+            href === "/"
               ? pathname === "/"
-              : pathname === link.href || pathname.startsWith(`${link.href}/`);
+              : pathname === href || pathname.startsWith(`${href}/`)
+          );
 
           return (
             <Link
@@ -164,6 +186,7 @@ export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
               href={link.href}
               className={`workspace-sidebar__link${isActive ? " is-active" : ""}`}
               aria-current={isActive ? "page" : undefined}
+              onClick={closeMenu}
             >
               <NavIcon name={link.icon} />
               <span>{link.label}</span>
@@ -177,7 +200,12 @@ export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
           <p className="workspace-sidebar__label">Categories</p>
           <div className="workspace-sidebar__chips">
             {categoryLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="workspace-chip">
+              <Link
+                key={link.href}
+                href={link.href}
+                className="workspace-chip"
+                onClick={closeMenu}
+              >
                 {link.label}
               </Link>
             ))}
@@ -195,7 +223,7 @@ export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
             >
               {pushStatus === "pushing" ? "Pushing..." : "Push content"}
             </button>
-            <Link href="/contact" className="workspace-button">
+            <Link href="/contact" className="workspace-button" onClick={closeMenu}>
               Contact
             </Link>
             <a
@@ -203,6 +231,7 @@ export function WorkspaceSidebar({ logo }: { logo?: MediaAsset }) {
               className="workspace-button"
               target="_blank"
               rel="noreferrer"
+              onClick={closeMenu}
             >
               LinkedIn
             </a>
