@@ -3025,13 +3025,14 @@ main {
 }
 
 .workspace-sidebar {
-  gap: 0.75rem;
-  padding: 1rem;
+  gap: 1.05rem;
+  padding: 1.15rem 0.95rem;
 }
 
 .workspace-sidebar__brand {
   min-width: 0;
-  padding: 0.35rem 0.25rem 0.8rem;
+  padding: 0.35rem 0.35rem 0.15rem;
+  border: 0;
 }
 
 .workspace-sidebar__brand-copy {
@@ -3056,19 +3057,22 @@ main {
 .workspace-sidebar__nav,
 .workspace-sidebar__section,
 .workspace-sidebar__buttons {
-  gap: 0.38rem;
+  gap: 0.45rem;
 }
 
 .workspace-sidebar__bottom {
   display: grid;
-  gap: 0.8rem;
+  gap: 1rem;
   margin-top: auto;
-  padding-top: 0.25rem;
+  padding-top: 0.15rem;
 }
 
 .workspace-sidebar__label {
-  padding: 0 0.35rem;
-  font-size: 0.68rem;
+  padding: 0 0.5rem;
+  color: #86868b;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .workspace-sidebar__link,
@@ -3094,10 +3098,10 @@ main {
 
 .workspace-sidebar__link {
   position: relative;
-  min-height: 2.9rem;
+  min-height: 2.82rem;
   justify-content: flex-start;
   gap: 0.7rem;
-  padding: 0 0.8rem 0 1.05rem;
+  padding: 0 0.95rem;
   background: transparent;
   font-size: 0.96rem;
   font-weight: 700;
@@ -3105,10 +3109,11 @@ main {
 
 .workspace-sidebar__link:hover,
 .workspace-sidebar__link.is-active {
-  background: rgba(228, 241, 236, 0.82);
+  background: rgba(255, 255, 255, 0.78);
 }
 
 .workspace-sidebar__link.is-active {
+  background: #e8f1fb;
   color: var(--accent-strong);
 }
 
@@ -3116,36 +3121,37 @@ main {
 .workspace-sidebar__buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.42rem;
 }
 
 .workspace-chip,
 .workspace-button {
-  min-height: 2.15rem;
+  min-height: 2.18rem;
   width: auto;
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.52);
-  font-size: 0.84rem;
-  font-weight: 750;
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 0.83rem;
+  font-weight: 700;
 }
 
 .workspace-sidebar__footer {
-  margin-top: 0.15rem;
-  padding: 0.35rem 0.35rem 0;
+  margin-top: 0.1rem;
+  padding: 0.25rem 0.5rem 0;
 }
 
 .workspace-sidebar__footer p {
-  line-height: 1.45;
+  color: #6e6e73;
+  line-height: 1.48;
 }
 
 .workspace-chip {
   flex: 1 1 calc(50% - 0.35rem);
-  padding: 0 0.55rem;
+  padding: 0 0.65rem;
 }
 
 .workspace-button {
   flex: 1 1 calc(50% - 0.35rem);
-  padding: 0 0.65rem;
+  padding: 0 0.75rem;
 }
 
 .workspace-button--primary {
@@ -3298,7 +3304,7 @@ main {
 .workspace-chip,
 .workspace-sidebar__link,
 .button--nav {
-  border-radius: 999px;
+  border-radius: 16px;
   box-shadow: none;
 }
 
@@ -3333,6 +3339,69 @@ main {
 .icon-button:hover:not(:disabled) {
   background: rgba(0, 102, 204, 0.08);
   color: #0066cc;
+}
+
+.workspace-sidebar__brand {
+  align-items: flex-start;
+}
+
+.workspace-sidebar__avatar {
+  width: 3rem;
+  height: 3rem;
+  flex-basis: 3rem;
+  border: 0;
+  border-radius: 14px;
+}
+
+.workspace-sidebar__tag {
+  color: #6e6e73;
+  line-height: 1.35;
+}
+
+.workspace-sidebar__nav,
+.workspace-sidebar__section {
+  padding: 0.15rem 0;
+}
+
+.workspace-sidebar__link {
+  color: #1d1d1f;
+}
+
+.workspace-sidebar__link.is-active {
+  background: #e8f1fb;
+  color: #0066cc;
+}
+
+.workspace-sidebar__icon {
+  color: inherit;
+}
+
+.workspace-sidebar__section--categories .workspace-sidebar__chips,
+.workspace-sidebar__section--actions .workspace-sidebar__buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workspace-sidebar__section--categories .workspace-chip:nth-child(3),
+.workspace-sidebar__section--actions .workspace-button--primary {
+  grid-column: 1 / -1;
+}
+
+.workspace-chip,
+.workspace-button {
+  min-width: 0;
+  background: #ffffff;
+}
+
+.workspace-button--primary {
+  min-height: 2.45rem;
+  background: #1d1d1f;
+  color: #ffffff;
+}
+
+.workspace-sidebar__footer-link {
+  color: #0066cc;
+  text-decoration: none;
 }
 
 .hero {
@@ -3777,7 +3846,7 @@ main {
     min-height: 3.35rem;
     justify-content: flex-start;
     padding: 0 1rem;
-    border-radius: var(--radius);
+    border-radius: 16px;
     text-align: left;
     font-size: 1rem;
     white-space: nowrap;
@@ -3796,6 +3865,12 @@ main {
   .workspace-sidebar__buttons {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
+  }
+
+  .workspace-sidebar__section--categories .workspace-sidebar__chips,
+  .workspace-sidebar__section--actions .workspace-sidebar__buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .workspace-button {
