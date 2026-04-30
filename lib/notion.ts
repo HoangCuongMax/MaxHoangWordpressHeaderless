@@ -793,6 +793,8 @@ function getMediaAltText(page: NotionPage, title: string) {
 function getCoverImage(page: NotionPage, title: string) {
   const alt = getMediaAltText(page, title);
   const coverProperty = getPropertyByName(page.properties, [
+    "Cover Photo",
+    "Cover Photo URL",
     "Cover Image",
     "Cover Image URL",
     "Hero Image",
