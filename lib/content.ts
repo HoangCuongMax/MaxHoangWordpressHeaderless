@@ -4,7 +4,6 @@ import {
   EventItem,
   MediaAsset,
   Post,
-  Project,
   RelatedContentItem,
   ShortVideo
 } from "@/lib/types";
@@ -12,7 +11,6 @@ import {
   fallbackAwards,
   fallbackEvents,
   fallbackPosts,
-  fallbackProjects,
   fallbackSitePhotos,
   fallbackShortVideos
 } from "@/lib/mock-data";
@@ -20,7 +18,6 @@ import {
   fetchNotionAwards,
   fetchNotionEvents,
   fetchNotionPosts,
-  fetchNotionProjects,
   fetchNotionSitePhotos,
   fetchNotionShortVideos,
   hasNotionConfig,
@@ -30,7 +27,6 @@ import {
 function normalizeTags(tags: string[] | undefined) {
   return [...new Set((tags ?? []).map((tag) => tag.trim()).filter(Boolean))];
 }
-
 function withConfiguredFallback<T>(
   items: T[],
   source: ContentSource,
@@ -47,17 +43,6 @@ function enhancePost(post: Post): Post {
     contentHtml,
     tableOfContents,
     tags: normalizeTags(post.tags)
-  };
-}
-
-function enhanceProject(project: Project): Project {
-  const { contentHtml, tableOfContents } = addHeadingAnchors(project.contentHtml);
-
-  return {
-    ...project,
-    contentHtml,
-    tableOfContents,
-    tags: normalizeTags(project.tags)
   };
 }
 
@@ -112,21 +97,6 @@ function postToRelatedItem(post: Post): RelatedContentItem {
   };
 }
 
-function projectToRelatedItem(project: Project): RelatedContentItem {
-  return {
-    slug: project.slug,
-    href: `/projects/${project.slug}`,
-    title: project.title,
-    summary: project.summary,
-    kindLabel: "Project",
-    meta: project.publishedAt
-      ? `${project.status} / ${project.publishedAt}`
-      : project.status,
-    tags: project.tags,
-    coverImage: project.coverImage
-  };
-}
-
 export async function getPosts(): Promise<Post[]> {
   const posts = await fetchNotionPosts();
   const source = withConfiguredFallback(posts, "blog", fallbackPosts);
@@ -142,31 +112,6 @@ export async function getPostBySlug(slug: string): Promise<Post | undefined> {
 export async function getFeaturedPosts(): Promise<Post[]> {
   const posts = await getPosts();
   return posts.filter((post) => post.featured ?? true).slice(0, 2);
-}
-
-export async function getProjects(): Promise<Project[]> {
-  const projects = await fetchNotionProjects();
-  const source = withConfiguredFallback(projects, "projects", fallbackProjects);
-
-  return source.map(enhanceProject);
-}
-
-export async function getProjectBySlug(
-  slug: string
-): Promise<Project | undefined> {
-  const projects = await getProjects();
-  return projects.find((project) => project.slug === slug);
-}
-
-export async function getFeaturedProjects(): Promise<Project[]> {
-  const projects = await getProjects();
-  const featuredProjects = projects.filter(
-    (project) => project.featured ?? true
-  );
-  return (featuredProjects.length > 0 ? featuredProjects : projects).slice(
-    0,
-    3
-  );
 }
 
 export async function getAwards(): Promise<Award[]> {
@@ -257,26 +202,4 @@ export async function getRelatedPosts(
     .sort((first, second) => second.score - first.score)
     .slice(0, limit)
     .map(({ item }) => postToRelatedItem(item));
-}
-
-export async function getRelatedProjects(
-  slug: string,
-  limit = 4
-): Promise<RelatedContentItem[]> {
-  const projects = await getProjects();
-  const current = projects.find((project) => project.slug === slug);
-
-  if (!current) {
-    return [];
-  }
-
-  return projects
-    .filter((project) => project.slug !== slug)
-    .map((project) => ({
-      item: project,
-      score: getRelatedScore(current, project)
-    }))
-    .sort((first, second) => second.score - first.score)
-    .slice(0, limit)
-    .map(({ item }) => projectToRelatedItem(item));
 }

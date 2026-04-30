@@ -2,7 +2,6 @@ import {
   Award,
   EventItem,
   Post,
-  Project,
   ShortVideo,
   SitePhoto
 } from "@/lib/types";
@@ -162,54 +161,6 @@ export const fallbackPosts: Post[] = [
     gallery: [],
     contentHtml: `
       <p>Publishing in public does not need to mean publishing everything. It means making your work legible often enough that people can follow the arc.</p>
-    `
-  }
-];
-
-export const fallbackProjects: Project[] = [
-  {
-    slug: "max-hoang-personal-platform",
-    title: "Max Hoang Personal Platform",
-    summary:
-      "A Notion-backed website with a custom Next.js frontend for essays, project case studies, and future product expansion.",
-    status: "In progress",
-    tags: ["Next.js", "Notion API", "TypeScript"],
-    featured: true,
-    tableOfContents: [],
-    gallery: [],
-    contentHtml: `
-      <p>This project creates a deliberate home for writing and project documentation. Notion handles structured content, while Next.js handles rendering, routing, and visual direction.</p>
-      <h2>Scope</h2>
-      <p>The first version focuses on three areas: homepage, blog, and projects. The structure leaves room for future additions such as newsletters, talks, or experiments.</p>
-      <h2>Implementation notes</h2>
-      <p>The data layer is built to work with Notion data sources when configured, but it also includes local fallback content so the frontend can be developed independently.</p>
-    `
-  },
-  {
-    slug: "project-showcase-system",
-    title: "Project Showcase System",
-    summary:
-      "A repeatable template for presenting projects with context, stack tags, and clear narrative instead of generic portfolio cards.",
-    status: "Planned",
-    tags: ["Design system", "Content modeling", "Portfolio"],
-    featured: true,
-    tableOfContents: [],
-    gallery: [],
-    contentHtml: `
-      <p>This is a content model and presentation system rather than a single artifact. The goal is to make future projects easy to publish without flattening them into the same shape.</p>
-    `
-  },
-  {
-    slug: "writing-workflow",
-    title: "Writing Workflow",
-    summary:
-      "An editorial pipeline for outlining, drafting, publishing, and surfacing articles from Notion into the custom site.",
-    status: "Active",
-    tags: ["Notion", "Editorial", "Publishing"],
-    tableOfContents: [],
-    gallery: [],
-    contentHtml: `
-      <p>The writing workflow depends on using Notion for what it is good at: planning, structured fields, and lightweight collaboration. The frontend simply consumes the content once it is ready.</p>
     `
   }
 ];

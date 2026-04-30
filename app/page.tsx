@@ -3,20 +3,20 @@ import { EventsCarousel } from "@/components/events-carousel";
 import { ReelsVideoCarousel } from "@/components/reels-video-carousel";
 import Link from "next/link";
 import { MediaCover, MediaImage } from "@/components/media";
+import { getGithubRepositories } from "@/lib/github";
 import {
   getAwards,
   getEvents,
   getFeaturedPosts,
-  getFeaturedProjects,
   getHeroSliderImages,
   getShortVideos
 } from "@/lib/content";
 
 export default async function HomePage() {
-  const [posts, projects, awards, shortVideos, heroImages, events] =
+  const [posts, repositories, awards, shortVideos, heroImages, events] =
     await Promise.all([
       getFeaturedPosts(),
-      getFeaturedProjects(),
+      getGithubRepositories(3),
       getAwards(),
       getShortVideos(),
       getHeroSliderImages(),
@@ -46,8 +46,8 @@ export default async function HomePage() {
               <Link href="/blog" className="button button--primary">
                 Read the blog
               </Link>
-              <Link href="/projects" className="button button--ghost">
-                View projects
+              <Link href="/github" className="button button--ghost">
+                View GitHub
               </Link>
             </div>
           </div>
@@ -102,7 +102,7 @@ export default async function HomePage() {
               for education, business, and local communities.
             </p>
             <p>
-              Recent projects span translation tools, AI-integrated mapping,
+              Recent work spans translation tools, AI-integrated mapping,
               digital sustainability products, and startup-ready product
               experiments built to solve practical problems.
             </p>
@@ -208,53 +208,43 @@ export default async function HomePage() {
         <div className="container">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">Selected work</p>
-              <h2>Projects with a strong point of view</h2>
+              <p className="eyebrow">GitHub</p>
+              <h2>Repository showcase</h2>
             </div>
-            <Link href="/projects" className="text-link">
-              See all projects
+            <Link href="/github" className="text-link">
+              See all repositories
             </Link>
           </div>
-          <div className="grid grid--three">
-            {projects.length > 0 ? (
-              projects.map((project) => (
-                <article key={project.slug} className="project-card">
-                  <figure className="project-card__media">
-                    <MediaCover
-                      asset={project.coverImage}
-                      title={project.title}
-                      label="Project"
-                      description={project.summary}
-                      compact
-                      sizes="(max-width: 900px) 100vw, 33vw"
-                      transformation={[
-                        {
-                          width: 720,
-                          quality: 82
-                        }
-                      ]}
-                    />
-                  </figure>
-                  <p className="project-card__status">{project.status}</p>
+          <div className="repo-grid repo-grid--compact">
+            {repositories.length > 0 ? (
+              repositories.map((repo) => (
+                <article key={repo.id} className="repo-card">
+                  <div className="repo-card__topline">
+                    <p>{repo.language ?? "Repository"}</p>
+                    <span>Updated {repo.updatedAt}</span>
+                  </div>
                   <h3>
-                    <Link href={`/projects/${project.slug}`}>{project.title}</Link>
+                    <a href={repo.url} target="_blank" rel="noreferrer">
+                      {repo.name}
+                    </a>
                   </h3>
-                  <p>{project.summary}</p>
-                  {project.tags.length > 0 ? (
-                    <ul className="tag-list" aria-label={`${project.title} stack`}>
-                      {project.tags.map((tag) => (
-                        <li key={tag}>{tag}</li>
-                      ))}
-                    </ul>
-                  ) : null}
+                  <p>{repo.description}</p>
+                  <div className="repo-card__footer">
+                    <span>{repo.stars} stars</span>
+                    <span>{repo.forks} forks</span>
+                    <a href={repo.url} target="_blank" rel="noreferrer">
+                      Code
+                    </a>
+                  </div>
                 </article>
               ))
             ) : (
-              <article className="project-card project-card--empty">
-                <p className="project-card__status">Notion projects</p>
-                <h3>No projects published yet.</h3>
+              <article className="repo-card repo-card--empty">
+                <p className="repo-card__empty-label">GitHub</p>
+                <h3>No repositories available right now.</h3>
                 <p>
-                  Add your first visible project in Notion and it will appear here.
+                  Add a public repository on GitHub and it will appear here
+                  automatically.
                 </p>
               </article>
             )}

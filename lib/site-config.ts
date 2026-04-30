@@ -7,14 +7,12 @@ export const professionalHeadline =
 export const pageLinks = [
   { href: "/", label: "Home", icon: "home" },
   { href: "/blog", label: "Blog", icon: "blog" },
-  { href: "/projects", label: "Projects", icon: "projects" },
-  { href: "/services", label: "Services", icon: "services" },
-  { href: "/tools", label: "Tools", icon: "tools" },
+  { href: "/github", label: "GitHub", icon: "github" },
   { href: "/contact", label: "Contact", icon: "contact" }
 ];
 
 export const categoryLinks = [
   { href: "/blog", label: "Writing" },
-  { href: "/projects", label: "Projects" },
-  { href: "/tools", label: "Utilities" }
+  { href: "/github", label: "Code" },
+  { href: "/contact", label: "Contact" }
 ];

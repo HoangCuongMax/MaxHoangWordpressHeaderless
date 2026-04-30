@@ -92,8 +92,8 @@ export function ContactForm() {
 
         <label className="form-field">
           <span>What is this about?</span>
-          <select name="interest" defaultValue="Website project">
-            <option>Website project</option>
+          <select name="interest" defaultValue="Website or GitHub showcase">
+            <option>Website or GitHub showcase</option>
             <option>AI workflow or automation</option>
             <option>App or product build</option>
             <option>Collaboration or speaking</option>

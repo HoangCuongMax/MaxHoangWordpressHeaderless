@@ -1,15 +1,13 @@
 # Max Hoang Frontend
 
-Custom personal website built with Next.js and Notion-backed content for blog posts, projects, awards, events, short videos, and shared photos.
+Custom personal website built with Next.js, Notion-backed writing/media, and a live GitHub repository showcase.
 
 ## What is included
 
 - custom homepage with editorial hero
-- services page
 - blog index and blog detail pages
-- projects index and project detail pages
-- tools section with interactive utilities
-- Notion API integration for blog posts, projects, awards, events, short videos, and shared photos
+- GitHub repository showcase that updates from public repositories
+- Notion API integration for blog posts, awards, events, short videos, and shared photos
 - contact page and monthly mailing list popup
 
 ## Stack
@@ -38,11 +36,11 @@ cp .env.example .env.local
 ```bash
 NOTION_API_KEY=secret_your_notion_integration_token
 NOTION_BLOG_DATA_SOURCE_ID=your_blog_data_source_id
-NOTION_PROJECTS_DATA_SOURCE_ID=your_projects_data_source_id
 NOTION_AWARDS_DATA_SOURCE_ID=your_awards_data_source_id
 NOTION_SHORT_VIDEOS_DATA_SOURCE_ID=your_short_videos_data_source_id
 NOTION_PHOTOS_DATA_SOURCE_ID=your_photos_data_source_id
 NOTION_EVENTS_DATA_SOURCE_ID=your_events_data_source_id
+GITHUB_USERNAME=HoangCuongMax
 NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_imagekit_id
 CONTACT_TO_EMAIL=hoangngoccuong1414@gmail.com
 SMTP_HOST=smtp.gmail.com
@@ -57,13 +55,12 @@ SMTP_FROM_EMAIL=your_verified_from_email
 Current Notion data sources:
 
 - Blog: `bb9e4516-594b-489c-91e5-75de95deafa4`
-- Projects: `53ac54ef-d1dc-47f4-aeb9-c570b40d87de`
 - Awards: `40500125-f31c-4e3f-b3c8-cdd670582dd0`
 - Short videos: `c9ecba7a-e135-4b02-8279-93e4049610f7`
 - Photos: set `NOTION_PHOTOS_DATA_SOURCE_ID` when the database is ready
 - Events: `43444516-1e7a-4289-a8bb-3a589c1acb29`
 
-You can also use `NOTION_BLOG_DATABASE_ID`, `NOTION_PROJECTS_DATABASE_ID`, `NOTION_AWARDS_DATABASE_ID`, `NOTION_SHORT_VIDEOS_DATABASE_ID`, `NOTION_PHOTOS_DATABASE_ID`, and `NOTION_EVENTS_DATABASE_ID`. If database IDs are provided, the app retrieves the first data source inside each database before querying content.
+You can also use `NOTION_BLOG_DATABASE_ID`, `NOTION_AWARDS_DATABASE_ID`, `NOTION_SHORT_VIDEOS_DATABASE_ID`, `NOTION_PHOTOS_DATABASE_ID`, and `NOTION_EVENTS_DATABASE_ID`. If database IDs are provided, the app retrieves the first data source inside each database before querying content.
 
 4. Share each Notion database with your integration from the database menu under `Add connections`.
 
@@ -84,20 +81,6 @@ For day-to-day editing, use `CONTENT_GUIDE.md`. The code is flexible about prope
 - `Excerpt`: rich text
 - `Published`: date or checkbox
 - `Status` or `Publish Status`: select/status, where draft/private/hidden values are not shown
-- `Featured`: checkbox for homepage priority
-- `Cover Image`: ImageKit URL or path for the cover image
-- `Gallery`: one ImageKit URL or path per line
-- `Video URL`: ImageKit video URL or path
-- `Media Alt Text`: accessible text for the cover image and gallery
-
-### Projects
-
-- `Title` or `Name`: title property
-- `Slug`: rich text or formula, used for `/projects/[slug]`
-- `Summary`: rich text
-- `Project Status` or `Status`: select/status
-- `Tags`, `Stack`, or `Technologies`: multi-select or comma-separated text
-- `Published`: date or checkbox
 - `Featured`: checkbox for homepage priority
 - `Cover Image`: ImageKit URL or path for the cover image
 - `Gallery`: one ImageKit URL or path per line

@@ -4,9 +4,7 @@ import { NextResponse } from "next/server";
 const pathsToRefresh = [
   "/",
   "/blog",
-  "/projects",
-  "/services",
-  "/tools",
+  "/github",
   "/contact"
 ];
 

@@ -27,7 +27,7 @@ export default function ContactPage() {
           <p className="eyebrow">Contact</p>
           <h1>Tell me what you are building and where the bottleneck is.</h1>
           <p className="page-intro__lede">
-            Use the form for project enquiries, collaborations, product work, or
+            Use the form for collaborations, product work, AI ideas, or
             speaking requests. If the brief is clear, I can usually reply with
             next steps quickly.
           </p>
@@ -45,7 +45,7 @@ export default function ContactPage() {
             <div className="contact-note">
               <h2>What helps me reply faster</h2>
               <p>
-                Include the project scope, any launch deadline, the main decision
+                Include the scope, any launch deadline, the main decision
                 you are trying to make, and links to anything already live.
               </p>
             </div>

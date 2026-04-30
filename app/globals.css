@@ -4053,6 +4053,122 @@ main {
   }
 }
 
+.github-page .container {
+  display: grid;
+  gap: 2rem;
+}
+
+.github-page__header {
+  display: grid;
+  gap: 1rem;
+  max-width: 900px;
+}
+
+.github-page__header h1 {
+  max-width: 11ch;
+  margin: 0;
+  color: #1d1d1f;
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+}
+
+.github-page__header p {
+  max-width: 680px;
+  margin: 0;
+  color: #6e6e73;
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.repo-grid--compact {
+  align-items: stretch;
+}
+
+.repo-card {
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+  min-height: 17rem;
+  padding: 1.2rem;
+  border-radius: 22px;
+  background: #ffffff;
+}
+
+.repo-card__topline,
+.repo-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.repo-card__topline p,
+.repo-card__topline span,
+.repo-card__footer span,
+.repo-card__footer a,
+.repo-card__empty-label {
+  margin: 0;
+  color: #6e6e73;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.repo-card__topline p,
+.repo-card__footer a,
+.repo-card__empty-label {
+  color: #0066cc;
+}
+
+.repo-card h2,
+.repo-card h3 {
+  margin: 0;
+  color: #1d1d1f;
+  font-size: 1.4rem;
+  line-height: 1.1;
+}
+
+.repo-card > p {
+  margin: 0;
+  color: #6e6e73;
+  line-height: 1.6;
+}
+
+.repo-card__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.repo-card__topics li {
+  padding: 0.42rem 0.65rem;
+  border-radius: 999px;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.repo-card__footer {
+  align-self: end;
+  margin-top: auto;
+  padding-top: 0.35rem;
+}
+
+.repo-card--empty {
+  grid-column: 1 / -1;
+}
+
 .blog-index__count {
   margin: -0.25rem 0 0;
   color: #86868b;
@@ -4323,6 +4439,10 @@ main {
 }
 
 @media (max-width: 900px) {
+  .repo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .blog-feature,
   .article--editorial .article-hero,
   .article--editorial .article-body--with-toc {
@@ -4344,6 +4464,14 @@ main {
 }
 
 @media (max-width: 640px) {
+  .repo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .github-page__header h1 {
+    max-width: 100%;
+  }
+
   .blog-feature {
     border-radius: 18px;
   }

@@ -4,7 +4,6 @@ import {
   MediaAsset,
   PhotoDisplayLocation,
   Post,
-  Project,
   ShortVideo,
   SitePhoto,
   VideoDisplayLocation
@@ -17,7 +16,6 @@ const DEFAULT_IMAGEKIT_URL_ENDPOINT = "https://ik.imagekit.io/maxhoang";
 
 export type ContentSource =
   | "blog"
-  | "projects"
   | "awards"
   | "shortVideos"
   | "photos"
@@ -101,16 +99,6 @@ const DATA_SOURCE_ENV: Record<ContentSource, DataSourceEnvConfig> = {
   blog: {
     dataSourceEnv: ["NOTION_BLOG_DATA_SOURCE_ID", "NOTION_POSTS_DATA_SOURCE_ID"],
     databaseEnv: ["NOTION_BLOG_DATABASE_ID", "NOTION_POSTS_DATABASE_ID"]
-  },
-  projects: {
-    dataSourceEnv: [
-      "NOTION_PROJECTS_DATA_SOURCE_ID",
-      "NOTION_PROJECT_DATA_SOURCE_ID"
-    ],
-    databaseEnv: [
-      "NOTION_PROJECTS_DATABASE_ID",
-      "NOTION_PROJECT_DATABASE_ID"
-    ]
   },
   awards: {
     dataSourceEnv: [
@@ -989,51 +977,12 @@ async function mapPost(page: NotionPage): Promise<Sortable<Post>> {
   };
 }
 
-async function mapProject(page: NotionPage): Promise<Sortable<Project>> {
-  const contentHtml = await fetchPageContentHtml(page.id);
-  const title = getTitle(page);
-  const sortDate = getDateValue(page);
-
-  return {
-    slug: getSlug(page, title),
-    title,
-    summary: getExcerpt(page, contentHtml),
-    contentHtml,
-    status:
-      propertyText(
-        getPropertyByName(page.properties, [
-          "Project Status",
-          "Status",
-          "Stage"
-        ])
-      ) ?? "Published",
-    tags: propertyTags(
-      getPropertyByName(page.properties, [
-        "Tags",
-        "Stack",
-        "Tech",
-        "Technologies"
-      ])
-    ),
-    publishedAt: formatDate(sortDate),
-    tableOfContents: [],
-    coverImage: getCoverImage(page, title),
-    gallery: getGallery(page, title),
-    videoUrl: getVideoUrl(page),
-    featured: propertyCheckbox(
-      getPropertyByName(page.properties, ["Featured", "Homepage", "Pinned"])
-    ),
-    sortDate
-  };
-}
-
 function getReferenceUrl(page: NotionPage) {
   const url = propertyText(
       getPropertyByName(page.properties, [
         "Reference URL",
         "Event URL",
         "Link",
-        "Project URL",
         "URL"
     ])
   );
@@ -1315,12 +1264,6 @@ export async function fetchNotionPosts(): Promise<Post[]> {
   const pages = await queryDataSource("blog", 50);
   const posts = await Promise.all(pages.filter(isVisiblePage).map(mapPost));
   return sortByNewest(posts).map(stripSortDate);
-}
-
-export async function fetchNotionProjects(): Promise<Project[]> {
-  const pages = await queryDataSource("projects", 50);
-  const projects = await Promise.all(pages.filter(isVisiblePage).map(mapProject));
-  return sortByNewest(projects).map(stripSortDate);
 }
 
 export async function fetchNotionAwards(): Promise<Award[]> {

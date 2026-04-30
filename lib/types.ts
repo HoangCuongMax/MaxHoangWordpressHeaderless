@@ -3,7 +3,6 @@ export type MediaAsset = {
   alt: string;
   caption?: string;
 };
-
 export type TableOfContentsItem = {
   id: string;
   text: string;
@@ -79,21 +78,6 @@ export type Post = {
   publishedAt: string;
   readingTime: string;
   tags: string[];
-  tableOfContents: TableOfContentsItem[];
-  coverImage?: MediaAsset;
-  gallery: MediaAsset[];
-  videoUrl?: string;
-  featured?: boolean;
-};
-
-export type Project = {
-  slug: string;
-  title: string;
-  summary: string;
-  contentHtml: string;
-  status: string;
-  tags: string[];
-  publishedAt?: string;
   tableOfContents: TableOfContentsItem[];
   coverImage?: MediaAsset;
   gallery: MediaAsset[];

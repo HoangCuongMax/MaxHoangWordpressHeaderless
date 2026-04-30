@@ -7,7 +7,7 @@ Use Notion as the main editing surface. After changing content, click **Push con
 | Content | Database | What it controls |
 | --- | --- | --- |
 | Blog | MaxHoang Blog | Blog index, blog detail pages, latest footer posts |
-| Projects | MaxHoang Projects | Project index, project detail pages, homepage project cards |
+| GitHub | Public GitHub profile | Repository showcase page and homepage repo cards |
 | Awards | MaxHoang Awards | Homepage awards carousel |
 | Events | MaxHoang Events | Homepage event slider and latest footer events |
 | Videos | MaxHoang Videos | Homepage About reels carousel |
@@ -79,3 +79,7 @@ For Notion database environment variable names, edit:
 For fallback content used when Notion is not configured, edit:
 
 `lib/mock-data.ts`
+
+GitHub repositories are pulled automatically from `lib/github.ts`. Add a new
+public repository to GitHub and it will appear on the website after the next
+refresh.
