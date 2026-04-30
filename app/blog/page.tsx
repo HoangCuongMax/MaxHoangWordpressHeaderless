@@ -3,7 +3,7 @@ import { getPosts } from "@/lib/content";
 import { MediaCover } from "@/components/media";
 
 export const metadata = {
-  title: "Blog"
+  title: "Data & AI Blog"
 };
 
 type BlogPageProps = {
@@ -11,6 +11,33 @@ type BlogPageProps = {
     tag?: string;
   }>;
 };
+
+const blogFocusAreas = [
+  "Power BI",
+  "SQL",
+  "SSIS / ETL",
+  "SSRS",
+  "Data analytics",
+  "ServiceNow",
+  "ITIL",
+  "AI",
+  "Compliance"
+];
+
+const selectionSignals = [
+  {
+    title: "Data platforms",
+    text: "SQL, database integrity, query performance, and reliable reporting foundations."
+  },
+  {
+    title: "BI and reporting",
+    text: "Power BI, SSRS-style reporting, dashboards, visualisation, and decision-ready insights."
+  },
+  {
+    title: "Service delivery",
+    text: "ITIL, ServiceNow thinking, stakeholder communication, documentation, and compliance."
+  }
+];
 
 export default async function BlogIndexPage({ searchParams }: BlogPageProps) {
   const posts = await getPosts();
@@ -31,11 +58,24 @@ export default async function BlogIndexPage({ searchParams }: BlogPageProps) {
     <div className="notion-page blog-page">
       <header className="notion-page__header">
         <p className="notion-page__eyebrow">Blog</p>
-        <h1>Writing, notes, and simple updates.</h1>
+        <h1>Data, BI, and AI notes.</h1>
         <p className="notion-page__lede">
-          Practical notes on AI, web, data, and the decisions behind building
-          useful digital products.
+          Practical writing on SQL, Power BI, ETL, ITIL, ServiceNow, AI, data
+          quality, compliance, and stakeholder-ready reporting.
         </p>
+        <div className="blog-focus" aria-label="Blog focus areas">
+          {blogFocusAreas.map((area) => (
+            <span key={area}>{area}</span>
+          ))}
+        </div>
+        <section className="blog-signals" aria-label="Selection criteria signals">
+          {selectionSignals.map((signal) => (
+            <article key={signal.title}>
+              <h2>{signal.title}</h2>
+              <p>{signal.text}</p>
+            </article>
+          ))}
+        </section>
         <p className="blog-index__count">
           {filteredPosts.length} {filteredPosts.length === 1 ? "post" : "posts"}
           {activeTag ? " in this category" : " published"}

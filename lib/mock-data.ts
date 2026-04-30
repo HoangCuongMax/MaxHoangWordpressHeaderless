@@ -114,53 +114,52 @@ export const fallbackEvents: EventItem[] = [];
 
 export const fallbackPosts: Post[] = [
   {
-    slug: "building-a-site-that-feels-like-me",
-    title: "Building a Site That Feels Like Me",
+    slug: "building-reliable-sql-reporting-foundations",
+    title: "Building Reliable SQL Reporting Foundations",
     excerpt:
-      "Why a custom frontend matters when you want your writing and your work to share the same visual language.",
+      "Notes on database integrity, query clarity, and designing reporting tables that decision makers can trust.",
     publishedAt: "April 13, 2026",
     readingTime: "5 min read",
-    tags: ["Design", "Frontend", "Personal brand"],
+    tags: ["SQL", "Data quality", "Reporting"],
     featured: true,
     tableOfContents: [],
     gallery: [],
     contentHtml: `
-      <p>A personal website should not feel like two unrelated products stitched together. The blog, the case studies, and the future experiments all need a shared surface.</p>
-      <p>That is why this project uses <strong>Notion as a structured publishing system</strong> and a separate frontend as the experience layer. Content stays easy to manage while presentation stays flexible.</p>
-      <h2>Why a structured backend is the right fit</h2>
-      <p>Notion keeps the editorial workflow close to the planning work: drafts, publishing fields, lightweight review, and database views. A custom frontend solves the opposite problem: brand, speed, structure, and control.</p>
-      <blockquote>The CMS should be comfortable. The frontend should be unmistakable.</blockquote>
-      <p>That split becomes even more useful when the site needs to carry both essays and product work.</p>
+      <p>Good reporting starts before the dashboard. It starts with clear table structure, consistent definitions, and queries that can be reviewed without guesswork.</p>
+      <p>My approach is to make data checks visible: source fields, joins, transformations, and final report logic should all be easy to trace.</p>
+      <h2>Why integrity matters</h2>
+      <p>When a report supports service decisions, the smallest data mismatch can affect trust. Validation, documentation, and repeatable SQL patterns help protect that trust.</p>
     `
   },
   {
-    slug: "what-i-want-from-a-project-archive",
-    title: "What I Want From a Project Archive",
+    slug: "power-bi-dashboards-for-service-improvement",
+    title: "Power BI Dashboards for Service Improvement",
     excerpt:
-      "A portfolio should show outcomes, constraints, and decisions instead of acting like a gallery of thumbnails.",
+      "How I think about turning operational data into useful metrics, visuals, and service improvement conversations.",
     publishedAt: "April 6, 2026",
     readingTime: "4 min read",
-    tags: ["Portfolio", "Content strategy", "Case studies"],
+    tags: ["Power BI", "Data analytics", "Stakeholders"],
     featured: true,
     tableOfContents: [],
     gallery: [],
     contentHtml: `
-      <p>Projects deserve their own information architecture. They are not blog posts with different cover images.</p>
-      <p>A useful project archive explains the problem, the solution, the stack, and the tradeoffs. It leaves space for narrative without pretending every build is a launch announcement.</p>
+      <p>A good dashboard does not just display numbers. It helps teams see what changed, why it matters, and what needs attention next.</p>
+      <p>I design Power BI-style reporting around stakeholder questions first, then work backwards into measures, filters, and data quality checks.</p>
     `
   },
   {
-    slug: "notes-on-building-in-public",
-    title: "Notes on Building in Public",
+    slug: "itil-servicenow-and-clean-documentation",
+    title: "ITIL, ServiceNow, and Clean Documentation",
     excerpt:
-      "Small, consistent publishing habits compound better than occasional polished announcements.",
+      "Service improvement depends on accurate records, clear workflows, and documentation that teams can actually use.",
     publishedAt: "March 28, 2026",
     readingTime: "3 min read",
-    tags: ["Writing", "Publishing", "Workflow"],
+    tags: ["ITIL", "ServiceNow", "Compliance"],
     tableOfContents: [],
     gallery: [],
     contentHtml: `
-      <p>Publishing in public does not need to mean publishing everything. It means making your work legible often enough that people can follow the arc.</p>
+      <p>ITIL and ServiceNow practices work best when teams share clean records, common definitions, and a simple understanding of what each workflow is meant to achieve.</p>
+      <p>For compliance and reporting, documentation is not an afterthought. It is part of the control environment.</p>
     `
   }
 ];

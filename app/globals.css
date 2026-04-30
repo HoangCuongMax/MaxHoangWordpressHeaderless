@@ -4297,6 +4297,54 @@ main {
   line-height: 1.65;
 }
 
+.blog-focus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 860px;
+}
+
+.blog-focus span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0 0.75rem;
+  border-radius: 999px;
+  background: #e8f1fb;
+  color: #0066cc;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.blog-signals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  max-width: 1040px;
+}
+
+.blog-signals article {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.blog-signals h2 {
+  margin: 0;
+  color: #1d1d1f;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.blog-signals p {
+  margin: 0;
+  color: #6e6e73;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 .blog-page .notion-chip-bar {
   margin-top: 0.4rem;
 }
@@ -4632,6 +4680,7 @@ main {
   }
 
   .blog-feature,
+  .blog-signals,
   .article--editorial .article-body--with-toc {
     grid-template-columns: 1fr;
   }
