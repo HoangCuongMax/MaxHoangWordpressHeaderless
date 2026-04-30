@@ -214,7 +214,7 @@ export default async function HomePage() {
                       {repo.name}
                     </a>
                   </h3>
-                  <p>{repo.description}</p>
+                  <p>{repo.impact}</p>
                   <div className="repo-card__footer">
                     <span>{repo.stars} stars</span>
                     <span>{repo.forks} forks</span>
