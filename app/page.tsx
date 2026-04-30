@@ -91,20 +91,10 @@ export default async function HomePage() {
         <div className="container about-intro">
           <div className="about-intro__copy">
             <p className="eyebrow">About me</p>
-            <h2>Building AI products with a designer&apos;s eye and a storyteller&apos;s frame.</h2>
+            <h2>Building practical AI and web tools.</h2>
             <p className="about-intro__lede">
-              I&apos;m Max Hoang, an AI enthusiast, web developer, and storyteller
-              from Vietnam, now based in the Northern Territory of Australia.
-            </p>
-            <p>
-              My work sits across AI, web, and app development, shaped by an
-              earlier background in design and marketing and grounded in tools
-              for education, business, and local communities.
-            </p>
-            <p>
-              Recent work spans translation tools, AI-integrated mapping,
-              digital sustainability products, and startup-ready product
-              experiments built to solve practical problems.
+              I&apos;m Max Hoang, based in Darwin, creating AI, web, and data
+              products for education, business, and community services.
             </p>
             <dl className="about-intro__facts">
               <div>
@@ -113,11 +103,7 @@ export default async function HomePage() {
               </div>
               <div>
                 <dt>Focus</dt>
-                <dd>AI, web, and app development</dd>
-              </div>
-              <div>
-                <dt>Current track</dt>
-                <dd>Master of IT (Artificial Intelligence) at CDU</dd>
+                <dd>AI, web, and data products</dd>
               </div>
             </dl>
           </div>
